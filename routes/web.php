@@ -16,3 +16,4 @@ Route::get('/', function () {
 });
 
 Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');
+Route::post('/User/regist', 'UserController@regist');
