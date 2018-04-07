@@ -5,7 +5,6 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
-use App\SmsCodeModel;
 
 class UserModel extends Model
 {
@@ -68,10 +67,7 @@ class UserModel extends Model
      */
     public function checkSmsCode($user_mobile = '', $sms_code = 0)
     {
-        $SmsCodeModel = new SmsCodeModel();
-        
-        return $SmsCodeModel->chenckCode($user_mobile, $sms_code);
-
+        return true;
     }
 
     /**
@@ -108,7 +104,7 @@ class UserModel extends Model
         $data['user_type'] = 1; //用户类型 1-手机号码 2-微信 3-QQ
         $data['device_id'] = $device_id;
         $data['user_platform'] = $user_platform;
-        $data['create_time'] = date("Y-m-d H:i:s");
+        $data['create_time'] = time();
 
         $add = DB::table($this->_tabName)
             ->insert($data);
