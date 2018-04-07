@@ -134,4 +134,26 @@ class SmsCodeModel extends Model
     {
         return true;
     }
+    /**
+     *验证码校验
+     * Author Liuran
+     * Date 2018-04-07
+     * Params [params]
+     * @param  string $mobile [手机号码]
+     * @param  string $code   [短信验证码]
+     */
+    public function chenckCode($mobile,$code){
+        $ret = $this->getSmsCodeInfoByMobile($mobile);
+
+        if($ret['expire_time'] <time())
+        {
+
+        }else{
+            if($code ==$ret['sms_code']){
+                $this-> removeSmsCodeInfoByMobile($mobile);
+            }
+
+
+        }
+    }
 }
