@@ -1,0 +1,72 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+
+use App\UserModel;
+
+class UserController extends Controller
+{   
+    /**
+     * 用户注册 
+     * Author JiaXu
+     * Date 2018-04-07
+     */
+    public function regist(Request $request)
+    {
+        $user_mobile = $request->input("user_mobile");
+        $user_passwd = $request->input("user_passwd");
+
+        $sms_code = $request->input("sms_code");
+
+        $device_id = $request->input("device_id");
+        $user_platform = $request->input("user_platform");
+
+        if(empty($user_mobile) || preg_match("/^1[34578]{1}\d{9}$/",$user_mobile) == FALSE){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "手机号码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        if(empty($user_passwd) || strlen($user_passwd) != 32){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "密码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        if (empty($sms_code) || is_numeric($sms_code) == FALSE) {
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "短信验证码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        $UserModel = new UserModel();
+
+        $ret = $UserModel->regist($user_mobile, $user_passwd, $sms_code, $device_id, $user_platform);
+
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "注册成功"
+        );
+
+        $this->_response($res);
+
+    }
+}
