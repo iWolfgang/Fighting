@@ -13,9 +13,9 @@ class SmsCodeController extends Controller
      * Date 2018-04-04
      * Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');
      */
-    public function sendCode()
+    public function sendCode(Request $request)
     {
-        $mobile = trim($_POST['mobile']);
+        $mobile = $request->input("mobile");
 
         if(preg_match("/^1[34578]{1}\d{9}$/",$mobile) == FALSE){
             $res = array(
@@ -45,6 +45,14 @@ class SmsCodeController extends Controller
         );
 
         $this->_response($res);
+
+    }
+    public function checkCode(Request $request){
+        $mobile = $request->input("mobile");
+        $code = $request->input("code");
+        $SmsCode = new SmsCodeModel();
+        $res = $SmsCode->chenckCode($mobile,$code);
+        var_dump($res);
 
     }
 }

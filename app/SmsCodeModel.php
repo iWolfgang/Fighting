@@ -142,18 +142,17 @@ class SmsCodeModel extends Model
      * @param  string $mobile [手机号码]
      * @param  string $code   [短信验证码]
      */
-    public function chenckCode($mobile,$code){
+    public function chenckCode($mobile = '', $code = ''){
         $ret = $this->getSmsCodeInfoByMobile($mobile);
 
-        if($ret['expire_time'] <time())
+        if(empty($ret) || time() > $ret['expire_time'])
         {
-
-        }else{
-            if($code ==$ret['sms_code']){
-                $this-> removeSmsCodeInfoByMobile($mobile);
-            }
-
-
+            return false;
         }
+        if($code != $ret['sms_code']){
+            return false;
+        }//
+        $this-> removeSmsCodeInfoByMobile($mobile);
+        return true;
     }
 }

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use App\SmsCodeModel;
 
 class UserModel extends Model
 {
@@ -67,7 +68,10 @@ class UserModel extends Model
      */
     public function checkSmsCode($user_mobile = '', $sms_code = 0)
     {
-        return true;
+        $SmsCodeModel = new SmsCodeModel();
+        
+        return $SmsCodeModel->chenckCode($user_mobile, $sms_code);
+
     }
 
     /**
