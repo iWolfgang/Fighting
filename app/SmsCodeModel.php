@@ -151,7 +151,8 @@ class SmsCodeModel extends Model
         }
         if($code != $ret['sms_code']){
             return false;
-        }//
+        }
+        
         $this-> removeSmsCodeInfoByMobile($mobile);
         return true;
     }

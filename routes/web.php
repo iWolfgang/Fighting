@@ -18,3 +18,4 @@ Route::get('/', function () {
 Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');
 Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');
 Route::post('/User/regist', 'UserController@regist');
+Route::post('/User/login', 'UserController@login');

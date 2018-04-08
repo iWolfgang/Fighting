@@ -69,4 +69,72 @@ class UserController extends Controller
         $this->_response($res);
 
     }
+
+    /**
+     * 用户登录
+     * Author Liuran
+     * Date 2018-04-07
+     */
+    public function login(Request $request)
+    {
+        $user_mobile = $request->input('user_mobile');
+
+        $login_type = $request->input('login_type');
+
+        $sms_code = $request->input('sms_code');
+        $user_passwd = $request->input('user_passwd');    
+
+        if(empty($user_mobile) || preg_match("/^1[34578]{1}\d{9}$/",$user_mobile) == FALSE){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "手机号码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        if($login_type == 2 && (empty($user_passwd) || strlen($user_passwd) != 32)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "密码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        if ($login_type == 1 && (empty($sms_code) || is_numeric($sms_code) == FALSE)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "短信验证码格式不正确"
+            );
+            $this->_response($res);
+        }
+
+        if(empty($login_type)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "登录类型错误"
+            );
+            $this->_response($res);
+        }
+
+        $UserModel = new UserModel();
+
+        $ret = $UserModel->login($user_mobile, $login_type, $sms_code, $user_passwd);
+
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "登陆成功"
+        );
+
+        $this->_response($res);
+    }
 }
