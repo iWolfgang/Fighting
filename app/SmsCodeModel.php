@@ -132,8 +132,15 @@ class SmsCodeModel extends Model
      */
     public function sendSmsCodeToAPI($mobile = '', $code = '')
     {
-        return true;
+        $appkey=26988;
+        $sign= 'f44b8678e5e926838ff8af54388a5adf';
+        $url="http://api.k780.com/?app=sms.send&tempid=51358&param=code%3D"
+            .$code."&phone=".$mobile."&appkey=".$appkey."&sign=".$sign."&format=json";
+        $result = file_get_contents($url);
+        
+        return empty($result) ? false : true;
     }
+
     /**
      *验证码校验
      * Author Liuran
