@@ -15,10 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
-    'secret' => env('API_SECRET', '88068e33c78eb72f1b371c7110846085'),
-    'secret' => env('API_SECRET', 'default_val'),
-    // config('app.url', 'default_val')
-    //'API_SECRET' => '88068e33c78eb72f1b371c7110846085';
+    'api_secret' => env('API_SECRET', '88068e33c78eb72f1b371c7110846085'),
+    'api_debug' => env('API_DEBUG', true),
     /*
     |--------------------------------------------------------------------------
     | Application Environment
