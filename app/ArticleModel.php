@@ -75,7 +75,7 @@ class ArticleModel extends Model{
             ->where("article_status", "=", 1)
             ->first();
 
-        return empty($articleInfo) ? fasle : get_object_vars($articleInfo);
+        return empty($articleInfo) ? false : get_object_vars($articleInfo);
     }
 
     /**
