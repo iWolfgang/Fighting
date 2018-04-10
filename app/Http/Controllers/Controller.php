@@ -58,7 +58,7 @@ class Controller extends BaseController
     public function checkSign($params = array(), $sign = '')
     {
         $signStr = '';
-
+        asort($params);
         foreach ($params as $key => $value) {
             $signStr .= $key . $value;
         }

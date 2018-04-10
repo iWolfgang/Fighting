@@ -20,3 +20,8 @@ Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');
 Route::post('/User/regist', 'UserController@regist');
 Route::post('/User/login', 'UserController@login');
 Route::get('/User/apijson', 'UserController@apijson');
+Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');
+Route::post('/CheckCode/search', 'ArticleController@search');
+Route::post('/CheckCode/Article_msg', 'ArticleController@Article_msg');
+
+Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');

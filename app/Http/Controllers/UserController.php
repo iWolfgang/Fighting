@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\UserModel;
+use App\GetPYModel;
 
 class UserController extends Controller
 {   
@@ -167,5 +168,18 @@ class UserController extends Controller
 // $seret = ;
 var_dump(config('secret'));die;
         // $url = "liuran.top&v";
+    }
+
+    public function testPY(Request $request)
+    {
+        $key = $request->input("key");
+
+        $GetPYModel = new GetPYModel();
+
+        $res = $GetPYModel->encode($key, "all");
+
+        var_dump($key,$res);exit;
+
+        $this->_response($res);
     }
 }
