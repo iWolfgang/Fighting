@@ -4,6 +4,8 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Illuminate\Support\Facades\Redis;
+
 class ArticleModel extends Model{
 
     public $_tabName = 't_article';
@@ -58,7 +60,37 @@ class ArticleModel extends Model{
         $res['game_info'] = $gameInfo;
         $res['comment_info'] = array();
 
+        $this->incrArticleReadCnt($article_id);
+
         return $res;
+    }
+
+    /**
+     * 增加文章阅读数 
+     * Author Amber
+     * Date 2018-04-12
+     * Params [params]
+     * @param  integer $article_id [文章id]
+     */
+    public function incrArticleReadCnt($article_id = 0)
+    {
+        $key = sprintf("MYAPI_ARTICLE_READ_CNT_%s", $article_id);
+
+        return Redis::incr($key);
+    }
+
+    /**
+     * 获取文章阅读数 
+     * Author Amber
+     * Date 2018-04-12
+     * Params [params]
+     * @param  integer $article_id [文章id]
+     */
+    public function getArticleReadCnt($article_id = 0)
+    {
+        $key = sprintf("MYAPI_ARTICLE_READ_CNT_%s", $article_id);
+
+        return intval(Redis::get($key));
     }
 
     /**
@@ -109,7 +141,7 @@ class ArticleModel extends Model{
     public function getArticleReadCntInfoById($article_id = 0)
     {
         $res = array(
-            "read_count" => 10000,
+            "read_count" => $this->getArticleReadCnt($article_id),
             "like_count" => "1"
         );
 

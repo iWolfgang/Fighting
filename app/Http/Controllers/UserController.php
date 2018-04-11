@@ -133,7 +133,8 @@ class UserController extends Controller
 
         $res = array(
             "errNo" => 0,
-            "errMsg" => "登陆成功"
+            "errMsg" => "登陆成功",
+            "data" => $ret
         );
 
         $this->_response($res);

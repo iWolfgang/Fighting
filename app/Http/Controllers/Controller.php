@@ -7,16 +7,31 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
+use Illuminate\Support\Facades\Redis;
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     public $startTime;
+    public $user_id;
 
     function __construct(){
         $startTime = microtime(true);
         $debug = config("app.api_debug");
 
+        if(isset($_POST['token']) && empty($_POST['token']) == false){
+            $check = $this->checkUserToken($_POST['token']);
+
+            if($check == false){
+                $res = array(
+                    "errNo" => "0003",
+                    "errMsg" => "用户登录状态失效"
+                );
+                $this->_response($res);
+            }
+        }
+        
         if($debug == false){
             $sign = trim($_POST['sign']);
             unset($_POST['sign']);
@@ -76,5 +91,31 @@ class Controller extends BaseController
         $check = $serSign == $sign;
 
         return $check;
+    }
+
+    /**
+     * 校验用户token 
+     * Author Amber
+     * Date 2018-04-12
+     * Params [params]
+     * @param  string $user_token [用户token]
+     */
+    public function checkUserToken($user_token = '')
+    {
+        $tokenArr = explode("|", $user_token);
+
+        $user_id = $tokenArr[0];
+        $secret = $tokenArr[2];
+
+        $key = sprintf("MYAPI_USER_TOKEN_%s", $user_id);
+
+        $cacheSecret = Redis::get($key);
+
+        if($secret != $cacheSecret){
+            return false;
+        }
+
+        $this->user_id = $user_id;
+        return true;
     }
 }

@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Database\Eloquent\Model;
 
 use DB;
+use Illuminate\Support\Facades\Redis;
 
 class UserModel extends Model
 {
@@ -98,8 +99,39 @@ class UserModel extends Model
             return $res;
         }
 
-        // $res = true;
-        return $userId;
+        $userId = 1;
+        if(isset($userId['errNo'])){
+            return $userId;
+        }
+
+
+        $userToken = $this->createUserToken($userId);
+
+        $res = array(
+            "token" => $userToken
+        );
+        return $res;
+    }
+
+    /**
+     * 创建用户token 
+     * Author Amber
+     * Date 2018-04-11
+     * Params [params]
+     * @param  integer $user_id [用户id]
+     */
+    public function createUserToken($user_id = 0)
+    {
+        $time = time();
+        $secret = md5($user_id . $time . rand(1111,9999));
+
+        $token = sprintf("%s|%s|%s", $user_id, $time, $secret);
+
+        $key = sprintf("MYAPI_USER_TOKEN_%s", $user_id);
+
+        $set = Redis::set($key, $secret);
+
+        return $token;
     }
 
     /**
