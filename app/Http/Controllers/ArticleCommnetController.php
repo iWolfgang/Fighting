@@ -17,7 +17,13 @@ class ArticleCommnetController extends Controller
 		$user_id = $this->user_id;
 
 		$comment_id = intval($request->input("comment_id"));
-
+		if(empty($comment_id)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "评论id格式不正确"
+            );
+            $this->_response($res);
+        }
 		$ArticleCommentModel = new ArticleCommentModel();
 
 		$ret = $ArticleCommentModel->addCommentLike($user_id, $comment_id);

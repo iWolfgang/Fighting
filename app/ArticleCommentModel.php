@@ -98,6 +98,6 @@ class ArticleCommentModel extends Model
 	{
 		$key = sprintf(self::COMMENT_LIKE_REDIS_KEY, $comment_id);
 
-		return Redis::SCARD($key);
+		return intval(Redis::SCARD($key));
 	}
 }

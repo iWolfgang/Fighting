@@ -52,7 +52,7 @@ class SmsCodeController extends Controller
         $code = $request->input("code");
         $SmsCode = new SmsCodeModel();
         $res = $SmsCode->chenckCode($mobile,$code);
-        var_dump($res);
+        // var_dump($res);
 
     }
 }
