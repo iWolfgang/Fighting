@@ -25,3 +25,5 @@ Route::post('/CheckCode/search', 'ArticleController@search');
 Route::post('/CheckCode/Article_msg', 'ArticleController@Article_msg');
 
 Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');
+
+Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');
