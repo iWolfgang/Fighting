@@ -140,36 +140,6 @@ class UserController extends Controller
         $this->_response($res);
     }
 
-    /**
-     * 接口安全
-     */
-    public function apijson()
-    {
-        // echo 1;die;
-        $api = array(
-            'v' => '1.0.1',
-            'os' => 'android',
-            'osv' => '6.0',
-            'token' => '',
-            'timestamp' => time(),
-            'sk' => rand(1111,9999),
-            'device_id' => '447769804451095',
-            'device_name' => 'HUAWEI MT7-TL00',
-            'sign' => ''
-        );
-        arsort($api);
-        $str = '';
-        foreach ($api as $key => $val) {
-            $str.= $key . $val;
-        }
-        // var_dump($api);die;
-        
-        // Secret值 是MD5(amber32)
-        // $sign = md5($str . '88068e33c78eb72f1b371c7110846085');
-// $seret = ;
-var_dump(config('secret'));die;
-        // $url = "liuran.top&v";
-    }
 
     public function testPY(Request $request)
     {

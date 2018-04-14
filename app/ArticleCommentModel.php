@@ -6,9 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Support\Facades\Redis;
 
+use DB;
+
 class ArticleCommentModel extends Model
 {	
 	const COMMENT_LIKE_REDIS_KEY = 'MYAPI_COMMENT_LIKE_%d'; //评论点赞的redis key
+
+	 public $_tabName = 't_article_comment';
 
 	/**
 	 * 评论点赞
@@ -99,5 +103,38 @@ class ArticleCommentModel extends Model
 		$key = sprintf(self::COMMENT_LIKE_REDIS_KEY, $comment_id);
 
 		return intval(Redis::SCARD($key));
+	}
+
+/**
+ * Function 
+ * Author Amber
+ * Date 2018-04-13
+ * Params 
+ * @param string $fk_article_id   [文章id]
+ * @param string $fk_comment_id   [回复id]
+ * @param string $fk_user_id      [用户id]
+ * @param string $comment_content [内容]
+ */
+	public function addComment($fk_article_id = '',$fk_comment_id = '',$fk_user_id = '',$comment_content = '')
+	{
+		$data = array();
+
+		$data['fk_article_id'] = $fk_article_id;
+		$data['fk_comment_id'] = $fk_comment_id;
+		$data['fk_user_id'] = $fk_user_id;
+		$data['comment_content'] = $comment_content;
+		$data['create_time'] = time();
+		$add = DB::table($this->_tabName)
+            ->insert($data);
+
+		if($add == false){
+            $res = array(
+                "errNo" => "1004",
+                "errMsg" => "用户注册失败"
+            );
+
+            return $res;
+        }
+        return $add;
 	}
 }
