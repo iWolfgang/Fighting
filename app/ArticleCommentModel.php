@@ -106,7 +106,7 @@ class ArticleCommentModel extends Model
 	}
 
 /**
- * Function 
+ * 添加评论 
  * Author Amber
  * Date 2018-04-13
  * Params 
@@ -137,4 +137,78 @@ class ArticleCommentModel extends Model
         }
         return $add;
 	}
+
+    /**
+     * 通过文章id列出所有评论 
+     * Author Amber
+     * Date 2018-04-14
+     * Params [params]
+     * @param string $article_id [文章id]
+     */
+    public function articleComment_list($article_id)
+    {
+      
+        $article_1_list = $this->articleComment_list1($article_id);
+        if(empty($article_1_list)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        }
+        // print_r($article_1_list);die;
+        $article_list = $this->articleComment_list2($article_1_list);
+        if(empty($article_list)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        }
+		if(empty($article_list)){
+            $res = array(
+                "errNo" => 0,
+            	"errMsg" => "success",
+            	"data" => $article_list
+            );
+            $this->_response($res);
+        }
+        print_r($article_list);die;
+    }
+
+     public function articleComment_list1($article_id)
+    {
+      // $article_list = DB::table($this->_tabName)->select('fk_article_id','fk_comment_id','comment_content','comment_level','comment_status')->where('fk_article_id', $article_id)->get();
+        $article_list = DB::table($this->_tabName)->select('fk_comment_id','comment_content','comment_level')->where('fk_article_id', $article_id)->where('comment_status', 1)->get(); 
+       
+        return $article_list;
+    }
+    
+
+     public function articleComment_list2($article_1_list)
+    {
+        // $article_list = DB::table($this->_tabName)->where('fk_article_id', $article_id)->get();
+        
+        $arr = array(
+
+        	"head_img" => "baidu.jpg",
+        	"nickname" => "然然然",
+        );
+
+        $data = array();
+        $data = array(
+        	""
+        );
+
+        foreach($article_list as $K => $v){
+
+        	$data[$k] = $v;
+        	$data['fk_comment_id'] = $v['fk_comment_id'];
+        	$data['fk_article_id'] = $v['fk_article_id'];
+        	$data['fk_article_id'] = $v['fk_article_id'];
+
+        }
+        return $article_list;
+    }
+      
 }

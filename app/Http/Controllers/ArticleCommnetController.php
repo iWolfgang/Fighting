@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\ArticleCommentModel;
+use Illuminate\Support\Facades\DB;
 class ArticleCommnetController extends Controller
 {	
 	/**
@@ -100,5 +101,81 @@ class ArticleCommnetController extends Controller
             'errMsg' => "评论成功"
         );
         $this->_response($res);
+    }
+
+    /**
+     * 文章评论列表
+     * Author Liuran
+     * Date 2018-04-10
+     * @param string $id [文章id]
+     */
+    public function ArticleCommnet_list(Request $request)
+    {
+        
+        $article_id = intval($request->input("article_id"));//文章id
+
+        if(empty($article_id)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        }
+
+        
+        $ArticleModel = new ArticleCommentModel();
+
+        $ret = $ArticleModel->articleComment_list($article_id);
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $ret
+        );
+
+        $this->_response($res);
+
+       // return $ret;
+
+    }
+
+    /**
+     * Function 
+     * Author Amber
+     * Date 2018-04-15
+     * int [id]
+     * @param Request $request [获取文章id]
+     */
+    public function ArticleDel(Request $request)
+    {
+        $id = $request['id'];  
+
+        $ret = DB::table('t_article_comment')->where('id', '=', $id)->delete();
+
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "删除失败"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "删除成功",
+        );
+
+        $this->_response($res);
+
+
+
+
+
     }
 }

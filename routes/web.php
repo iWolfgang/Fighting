@@ -28,3 +28,6 @@ Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');
+Route::post('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');
+Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');
+
