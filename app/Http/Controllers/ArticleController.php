@@ -31,7 +31,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * Function 
+     * 文章数据
      * Author Liuran
      * Date 2018-04-10
      * @param string $id [文章id]
@@ -68,7 +68,7 @@ class ArticleController extends Controller
 
         $ret = $ArticleModel->getArticleInfo($article_id);
 
-         if($ret == FALSE){
+        if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "系统错误"

@@ -25,3 +25,11 @@ Route::post('/CheckCode/search', 'ArticleController@search');
 Route::post('/CheckCode/Article_msg', 'ArticleController@Article_msg');
 
 Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');
+
+Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');
+Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');
+Route::post('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');
+Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');
+Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');
+Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');
+
