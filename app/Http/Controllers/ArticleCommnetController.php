@@ -49,7 +49,7 @@ class ArticleCommnetController extends Controller
 	}
 
 /**
- * Function 
+ *添加评论 
  * Author Amber
  * Date 2018-04-13
  * Params [params]
@@ -146,7 +146,7 @@ class ArticleCommnetController extends Controller
     }
 
     /**
-     * Function 
+     * 删除评论
      * Author Amber
      * Date 2018-04-15
      * int [id]
@@ -172,10 +172,46 @@ class ArticleCommnetController extends Controller
         );
 
         $this->_response($res);
-
-
-
-
-
     }
+
+    /**
+     * 评论回复列表
+     * Author Amber
+     * Date 2018-04-16
+     */
+    public function Art_Com_reply(Request $request)
+    {
+        $comment_id = $request['comment_id'];
+        $fk_article_id = $request['fk_article_id'];
+
+        if(empty($comment_id) || empty($fk_article_id)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        }
+
+        $Art_ComModel = new ArticleCommentModel();
+
+        $ret = $Art_ComModel -> art_Com_reply( $comment_id, $fk_article_id );
+
+        // print_r($ret);exit;
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
+
+    
 }

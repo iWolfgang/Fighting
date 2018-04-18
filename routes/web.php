@@ -30,4 +30,6 @@ Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addComme
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');
 Route::post('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');
+Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');
+Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');
 

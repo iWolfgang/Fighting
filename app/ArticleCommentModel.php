@@ -210,5 +210,25 @@ class ArticleCommentModel extends Model
         }
         return $article_list;
     }
+
+/**
+ * 回复评论列表
+ * Author Amber
+ * Date 2018-04-16
+ * Params [params]
+ * @param  integer $comment_id    [评论id]
+ * @param  integer $fk_article_id [文章id]
+ * @return [type]                 [description]
+ */
+    public function art_Com_reply($comment_id = 0 , $fk_article_id = 0)
+    {
+    	  $ArticleComReply_list = DB::table($this->_tabName)
+    	  ->select('comment_content')
+    	  ->where('fk_article_id', $fk_article_id)
+    	  ->where('fk_comment_id', $comment_id )
+    	  ->get(); 
+    
+    	  return empty($ArticleComReply_list) ? false : $ArticleComReply_list;  
+    }
       
 }
