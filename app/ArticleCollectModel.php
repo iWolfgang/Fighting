@@ -121,7 +121,7 @@ class ArticleCollectModel extends Model{
             $collectInfo = DB::select('select article_thumb,article_title,updatetime,article_author from t_article as a 
                                       join t_article_conllect as b on a.id=b.article_id 
                                       where user_id = :user_id',['user_id' => $user_id]);
-            print_r($collectInfo);exit;
-            return empty($collectInfo) ? false : get_object_vars($collectInfo);
+            // print_r($collectInfo);die;get_object_vars()
+            return empty($collectInfo) ? false : $collectInfo;
     }
 }

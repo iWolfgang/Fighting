@@ -20,7 +20,7 @@ class ArticleCollectController extends Controller
 		// $user_id = intval($request->input("token"));
 		$user_id = intval($request->input("user_id"));
         if(empty($article_id)){
-            $res = array(
+            $res = array(-
                 "errNo" => "0002",
                 "errMsg" => "缺少必要的参数"
             );
@@ -65,14 +65,20 @@ class ArticleCollectController extends Controller
         $ArticleModel = new ArticleCollectModel();
 
         $ret = $ArticleModel->Show_collect_reply($user_id);
+        // var_dump($ret);die;
         if($ret == FALSE){
             $res = array(
-                "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errNo" => "3041",
+                "errMsg" => "您还没收藏过,快去收藏吧"
             );
             $this->_response($res);
-        }elseif(isset($ret['errNo'])){
-            $this->_response($ret);
+        }else{
+             $res = array(
+                "errNo" => "0",
+                "errMsg" => "success",
+                "data" => $ret
+            );
+            $this->_response($res);
         }
     }
 }
