@@ -33,4 +33,5 @@ Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel')
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
+Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
 

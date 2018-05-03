@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ArticleModel;
 use App\ArticleCollectModel;
-
+use App\WPModel;
+use Illuminate\Support\Facades\DB;
 class ArticleCollectController extends Controller
 {
 	/**
@@ -20,7 +21,7 @@ class ArticleCollectController extends Controller
 		// $user_id = intval($request->input("token"));
 		$user_id = intval($request->input("user_id"));
         if(empty($article_id)){
-            $res = array(-
+            $res = array(
                 "errNo" => "0002",
                 "errMsg" => "缺少必要的参数"
             );
@@ -80,5 +81,24 @@ class ArticleCollectController extends Controller
             );
             $this->_response($res);
         }
+    }
+    /*
+     * 数据库demo*
+     */
+    public function demo_db(){
+       // $ret = DB::table('send_code')->select();
+         // $ArticleModel = new WPModel();
+        $res = DB::connection('mysql_center');
+        $res1 = $res->select("SELECT * FROM t_sms_code");
+
+
+        // $ret = $ArticleModel->sel();
+        var_dump($res1);die;
+        //         $ArticleModel = new ArticleCollectModel();
+
+        // $ret = $ArticleModel->Show_collect_reply(1);
+        // var_dump($ret);die;
+
+        $this->_response($res);
     }
 }
