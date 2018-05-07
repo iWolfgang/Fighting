@@ -89,7 +89,7 @@ class ArticleCollectController extends Controller
        // $ret = DB::table('send_code')->select();
          // $ArticleModel = new WPModel();
         $res = DB::connection('mysql_center');
-        $res1 = $res->select("SELECT * FROM t_sms_code");
+        $res1 = $res->select("SELECT * FROM t_user_info");
 
 
         // $ret = $ArticleModel->sel();
