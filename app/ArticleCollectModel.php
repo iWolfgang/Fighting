@@ -71,7 +71,12 @@ class ArticleCollectModel extends Model{
 
         return $count > 0 ? true : false;
     }
-
+    /**
+     * 查看文章是否被收藏
+     * Author Amber
+     * Date 2018-04-17
+     * @param  string $article_id [文章id]
+     */
     public function is_conllect($article_id = '',$user_id = '')
     {
         $count = DB::table($this->_tabName)
@@ -100,5 +105,23 @@ class ArticleCollectModel extends Model{
         $bool = DB::table($this->_tabName)->insert($data);
         
         return $bool ? true: false;
+    }
+
+
+    /**
+     * 文章收藏列表展示
+     * Author Amber
+     * Date 2018-04-19
+     * Params [user_id]
+     * @param string $user_id [用户id]
+     */
+    public function Show_collect_reply($user_id='')
+    {
+
+            $collectInfo = DB::select('select article_thumb,article_title,updatetime,article_author from t_article as a 
+                                      join t_article_conllect as b on a.id=b.article_id 
+                                      where user_id = :user_id',['user_id' => $user_id]);
+            // print_r($collectInfo);die;get_object_vars()
+            return empty($collectInfo) ? false : $collectInfo;
     }
 }
