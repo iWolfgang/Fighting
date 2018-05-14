@@ -25,7 +25,7 @@ class HomePageModel extends Model
         }
         $data = DB::table($this->_tabName)
         ->where('type', 1)
-        ->get(['id','slideshow','slideshow_url']);
+        ->get(['slideshow','slideshow_url']);
 
         return $data;
         
@@ -38,13 +38,13 @@ class HomePageModel extends Model
    * @param  string $slideshow      [图片信息]
    * @param  string $slideshow_urll [将要天转的路径]
    */
-    public function slideshow_add($slideshow = '', $slideshow_urll = '')
+    public function slideshow_add($slideshow = '', $slideshow_urll = '', $slideshow_type = '')
     {
-        $url = $this->actionUpload($slideshow);//上传媒体库
+       // $url = $this->actionUpload($slideshow);//上传媒体库
 
-        $data['slideshow'] = $url;
+        $data['slideshow'] = $slideshow;
         $data['slideshow_url'] = $slideshow_urll;
-        $data['type'] = 1;
+        $data['type'] = $slideshow_type;
 
         $into = DB::table($this->_tabName)
             ->insert($data); 

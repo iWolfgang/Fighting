@@ -40,11 +40,12 @@ class HomePageController extends Controller
     public function slideshow_add(Request $request){
 
         $slideshow = $request->input("slideshow");
-        $slideshow_url = $request->input("slideshow_urll");
+        $slideshow_url = $request->input("slideshow_url");
+        $slideshow_type = $request->input("slideshow_type");
 
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->slideshow_add( $slideshow, $slideshow_url);
+        $ret = $HomePageModel->slideshow_add( $slideshow, $slideshow_url, $slideshow_type);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
