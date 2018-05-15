@@ -34,4 +34,6 @@ Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_r
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
 Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
+Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
+Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
 
