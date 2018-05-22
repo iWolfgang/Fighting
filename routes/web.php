@@ -37,3 +37,10 @@ Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同�
 Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
 Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
 
+
+Route::get('/Rbac/index', 'RbacController@index');//管理模块
+Route::post('/Rbac/login', 'RbacController@login');//管理模块
+Route::get('/Rbac/main', 'RbacController@main');//管理模块
+Route::get('/Rbac/regist', 'RbacController@regist');//管理模块
+Route::post('/Rbac/regist_do', 'RbacController@regist_do');//管理模块
+
