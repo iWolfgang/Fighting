@@ -27,10 +27,9 @@ class RbacController extends Controller
         $ret = $RbacModel->UserLogin($name, $pwd);
 
         if($ret == FALSE){
-
-          echo   redirect('/Rbac/index')->with('error','用户名或密码有误');
+            echo "<script>alert('用户名或密码有误');window.location.href = 'index'</script>";
         }else{
-           echo redirect('/Rbac/main')->with('success','登陆成功');
+            echo "<script>alert('登陆成功');window.location.href = 'main';</script>";
         }
     }
     /**
@@ -62,10 +61,11 @@ class RbacController extends Controller
         $ret = $RbacModel->UserRegist($name, $pwd);
 
         if ($ret == FALSE) {
+            echo "<script>alert('系统错误');window.location.href = 'regist'</script>";
 
-            echo redirect('/Rbac/regist')->with('error', '系统错误');
         } else {
-            echo redirect('/Rbac/index')->with('success', '注册成功');
+            echo "<script>alert('注册成功');window.location.href = 'index'</script>";
+
         }
     }
 }
