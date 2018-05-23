@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div class="message warning">
+<div class="message warning" >
     <div class="inset">
         <div class="login-head">
             <h1>用户注册</h1>

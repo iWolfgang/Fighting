@@ -8,6 +8,14 @@
     <title>Document</title>
 </head>
 <body>
+     <?php
+                      if(empty(session('name'))){
+                         echo "<script>alert('请先登录');window.location.href = 'index';</script>";
+                      }
+     ?>
+     
 hello world
+
+
 </body>
 </html>

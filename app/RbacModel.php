@@ -24,7 +24,6 @@ class RbacModel extends Model
             ->where('u_name', $name)
             ->where('u_pwd', $pwd)
             ->first();
-//var_dump( $userInfo);die;
         return empty($userInfo) ? false : get_object_vars($userInfo);
     }
 
@@ -40,7 +39,7 @@ class RbacModel extends Model
         $data = array();
         $data['u_name'] = $name;
         $data['u_pwd'] = $pwd;
-        $data['u_mobile'] = '1234456';
+       // $data['u_mobile'] = '1234456';
         $add = DB::table($this->_tabName)
             ->insert($data);
 
