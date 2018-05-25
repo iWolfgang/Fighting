@@ -24,7 +24,7 @@ class HomePageModel extends Model
             return False;
         }
         $data = DB::table($this->_tabName)
-        ->where('type', 1)
+        ->where('slideshow_type', 1)
         ->get(['slideshow','slideshow_url']);
 
         return $data;
@@ -44,7 +44,7 @@ class HomePageModel extends Model
 
         $data['slideshow'] = $slideshow;
         $data['slideshow_url'] = $slideshow_urll;
-        $data['type'] = $slideshow_type;
+        $data['slideshow_type'] = $slideshow_type;
 
         $into = DB::table($this->_tabName)
             ->insert($data); 
