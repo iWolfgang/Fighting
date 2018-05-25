@@ -37,8 +37,8 @@ class ArticleModel extends Model{
      */
     public function getArticleInfo($article_id = 0)
     {
-        $articleInfo = $this->getArticleInfoById($article_id);
-        $readCntInfo = $this->getArticleReadCntInfoById($article_id);
+        $articleInfo = $this->getArticleInfoById($article_id);//文章信息
+        $readCntInfo = $this->getArticleReadCntInfoById($article_id);//阅读数量
 
         $gameInfo = array();
 
@@ -49,13 +49,15 @@ class ArticleModel extends Model{
             );
             return $res;
         }
-
-        if($articleInfo['fk_game_id'] > 0){
-            $gameInfo = $this->getGameInfoByGameId($articleInfo['fk_game_id']);
+//        print_r($articleInfo);
+//        echo $articleInfo[0]['fk_game_id'] ;die;
+        if($articleInfo[0]['fk_game_id'] > 0){
+            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
         }
+//        print_r($gameInfo);die;
 
         $res = array();
-        $res['article_info'] = $this->formatArticleInfo($articleInfo);
+        $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
         $res['read_info'] = $readCntInfo;
         $res['game_info'] = $gameInfo;
         $res['comment_info'] = array();
@@ -102,12 +104,16 @@ class ArticleModel extends Model{
      */
     public function getArticleInfoById($article_id = 0)
     {
-        $articleInfo = DB::table($this->_tabName)
-            ->where("id" , "=", $article_id)
-            ->where("article_status", "=", 1)
-            ->first();
-
-        return empty($articleInfo) ? false : get_object_vars($articleInfo);
+//        $articleInfo = DB::table($this->_tabName)
+//            ->where("id" , "=", $article_id)
+//            ->where("article_status", "=", 1)
+//            ->first();
+        $articleInfo = DB::select('SELECT * FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
+        $articleInfos = json_decode(json_encode($articleInfo), true);
+//        ->toArray();
+//            print_r($articleInfos);die;
+//        return empty($articleInfo) ? false : get_object_vars($articleInfo);
+        return empty($articleInfo) ? false : $articleInfos;
     }
 
     /**

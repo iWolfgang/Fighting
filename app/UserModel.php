@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 use DB;
 use Illuminate\Support\Facades\Redis;
+//Call to undefined method Illuminate\Database\MySqlConnection::()
+use Illuminate\Database\MySqlConnection\paginate;
 
 class UserModel extends Model
 {
@@ -291,5 +293,24 @@ class UserModel extends Model
         $signStr = "r1zhaox1anglushengz1yan";
 
         return md5($passwd . $signStr);
+    }
+
+
+    /**
+     * 用户列表
+     * Author JiaXu
+     * Date 2018-04-07
+     * Params [params]
+     * @param  string $passwd [密码原串]
+     */
+    public function UserList( )
+    {
+     // $User =  DB::select('select id,user_name,user_mobile,updatetime from t_user_info');
+      //  $User = DB::;
+       // $aa = $User->paginate(5);
+      //  return empty($aa) ? false : json_decode(json_encode($aa), true);
+        $users = DB::table('t_user_info')->paginate(2);
+        var_dump($users);die;
+        return view('user.index', ['users' => $users]);
     }
 }

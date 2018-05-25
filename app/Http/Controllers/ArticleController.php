@@ -36,20 +36,20 @@ class ArticleController extends Controller
      * Date 2018-04-10
      * @param string $id [文章id]
      */
-    public function Article_msg(Request $request)
-    {
-        $id = $request->input("id");
-        $sear = new ArticleModel();
-        $arr = $sear->article_sms($id);
-        // var_dump($arr);die;
-        $res = array(
-            "errNo" => 0,
-            "errMsg" => "success",
-            "data" => $arr
-        );
-
-        $this->_response($res);
-    }
+//    public function Article_msg(Request $request)
+//    {
+//        $id = $request->input("id");
+//        $sear = new ArticleModel();
+//        $arr = $sear->article_sms($id);
+//        // var_dump($arr);die;
+//        $res = array(
+//            "errNo" => 0,
+//            "errMsg" => "success",
+//            "data" => $arr
+//        );
+//
+//        $this->_response($res);
+//    }
 
 
     public function getArticleInfo(Request $request)
