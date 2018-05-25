@@ -4,13 +4,50 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\RbacModel;
-
+use App\UserModel;
+use DB;
+use PDO;
 
 class RbacController extends Controller
 {
     public function index(Request $request)
     {
         return view('rbac/rbac');
+    }
+    public function left(Request $request)
+    {
+        return view('rbac/left');
+    }
+    public function swich(Request $request)
+    {
+        return view('rbac/swich');
+    }
+    public function mains(Request $request)
+    {
+        return view('rbac/mains');
+    }
+    public function top(Request $request)
+    {
+        return view('rbac/top');
+    }
+    public function bottom(Request $request)
+    {
+        return view('rbac/bottom');
+    }
+    /**
+     * 用户列表
+     * Author Amber
+     * Date 2018-05-23
+     */
+    public function userlist(Request $request)
+    {
+       $users = DB::table('t_user_info')->paginate(2);
+       $data = json_decode(json_encode($users), true);
+//       print_r($data);die;
+      return view('rbac/userlist', ['data' => $data]);
+
+
+
     }
     /**
      * 用户登陆
@@ -27,25 +64,7 @@ class RbacController extends Controller
         $ret = $RbacModel->UserLogin($name, $pwd);
        // echo $name;die;
         if($ret == FALSE){
-           
             echo "<script>alert('用户名或密码有误');window.location.href = 'index';</script>";
-            // return redirect('Rbac/index')
-            // ->withErrors(['用户名或密码有误']);
-            //return view('Rbac/index', ['name'=>$name,'用户名或密码有误']);
-// public function index(Request $request)
-//     {
-//         // 车辆品牌
-//         $car_brands = CarModel::select('brand')->groupBy('brand')->get()->toArray();
-//         $this->breadcrumb->addLink('车辆管理');
-//         $breadcrumb=$this->breadcrumb->render();
-//         return view('backend.cars.index', ['car_brands'=>$car_brands,'breadcrumb'=>$breadcrumb]);
-//     }
-
-
-
-            //$this->validate('rbac/index', $name,'用户名或密码有误');
-
-
         }else{
  
             session_start();
