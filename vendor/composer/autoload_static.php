@@ -16,12 +16,17 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
+        '841780ea2e1d6545ea3a253239d59c05' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'p' => 
         array (
             'phpDocumentor\\Reflection\\' => 25,
+        ),
+        'i' => 
+        array (
+            'itbdw\\QiniuStorage\\' => 19,
         ),
         'X' => 
         array (
@@ -56,6 +61,10 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'R' => 
         array (
             'Ramsey\\Uuid\\' => 12,
+        ),
+        'Q' => 
+        array (
+            'Qiniu\\' => 6,
         ),
         'P' => 
         array (
@@ -116,6 +125,10 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
             0 => __DIR__ . '/..' . '/phpdocumentor/reflection-common/src',
             1 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
             2 => __DIR__ . '/..' . '/phpdocumentor/type-resolver/src',
+        ),
+        'itbdw\\QiniuStorage\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src',
         ),
         'XdgBaseDir\\' => 
         array (
@@ -192,6 +205,10 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Ramsey\\Uuid\\' => 
         array (
             0 => __DIR__ . '/..' . '/ramsey/uuid/src',
+        ),
+        'Qiniu\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
         ),
         'Psy\\' => 
         array (
@@ -319,16 +336,23 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
     );
 
     public static $classMap = array (
+        'App\\ArticleCollectModel' => __DIR__ . '/../..' . '/app/ArticleCollectModel.php',
+        'App\\ArticleCommentModel' => __DIR__ . '/../..' . '/app/ArticleCommentModel.php',
         'App\\ArticleModel' => __DIR__ . '/../..' . '/app/ArticleModel.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
         'App\\GetPYModel' => __DIR__ . '/../..' . '/app/GetPYModel.php',
+        'App\\HomePageModel' => __DIR__ . '/../..' . '/app/HomePageModel.php',
+        'App\\Http\\Controllers\\ArticleCollectController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleCollectController.php',
+        'App\\Http\\Controllers\\ArticleCommnetController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleCommnetController.php',
         'App\\Http\\Controllers\\ArticleController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleController.php',
         'App\\Http\\Controllers\\Auth\\ForgotPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ForgotPasswordController.php',
         'App\\Http\\Controllers\\Auth\\LoginController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/LoginController.php',
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\HomePageController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomePageController.php',
+        'App\\Http\\Controllers\\RbacController' => __DIR__ . '/../..' . '/app/Http/Controllers/RbacController.php',
         'App\\Http\\Controllers\\SmsCodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/SmsCodeController.php',
         'App\\Http\\Controllers\\UserController' => __DIR__ . '/../..' . '/app/Http/Controllers/UserController.php',
         'App\\Http\\Kernel' => __DIR__ . '/../..' . '/app/Http/Kernel.php',
@@ -342,9 +366,11 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'App\\Providers\\BroadcastServiceProvider' => __DIR__ . '/../..' . '/app/Providers/BroadcastServiceProvider.php',
         'App\\Providers\\EventServiceProvider' => __DIR__ . '/../..' . '/app/Providers/EventServiceProvider.php',
         'App\\Providers\\RouteServiceProvider' => __DIR__ . '/../..' . '/app/Providers/RouteServiceProvider.php',
+        'App\\RbacModel' => __DIR__ . '/../..' . '/app/RbacModel.php',
         'App\\SmsCodeModel' => __DIR__ . '/../..' . '/app/SmsCodeModel.php',
         'App\\User' => __DIR__ . '/../..' . '/app/User.php',
         'App\\UserModel' => __DIR__ . '/../..' . '/app/UserModel.php',
+        'App\\WPModel' => __DIR__ . '/../..' . '/app/WPModel.php',
         'App\\funsModel' => __DIR__ . '/../..' . '/app/funsModel.php',
         'Carbon\\Carbon' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/Carbon.php',
         'Carbon\\CarbonInterval' => __DIR__ . '/..' . '/nesbot/carbon/src/Carbon/CarbonInterval.php',
@@ -3105,6 +3131,23 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Psy\\VersionUpdater\\GitHubChecker' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VersionUpdater/GitHubChecker.php',
         'Psy\\VersionUpdater\\IntervalChecker' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VersionUpdater/IntervalChecker.php',
         'Psy\\VersionUpdater\\NoopChecker' => __DIR__ . '/..' . '/psy/psysh/src/Psy/VersionUpdater/NoopChecker.php',
+        'Qiniu\\Auth' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Auth.php',
+        'Qiniu\\Cdn\\CdnManager' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Cdn/CdnManager.php',
+        'Qiniu\\Config' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Config.php',
+        'Qiniu\\Etag' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Etag.php',
+        'Qiniu\\Http\\Client' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Http/Client.php',
+        'Qiniu\\Http\\Error' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Http/Error.php',
+        'Qiniu\\Http\\Request' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Http/Request.php',
+        'Qiniu\\Http\\Response' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Http/Response.php',
+        'Qiniu\\Processing\\ImageUrlBuilder' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/ImageUrlBuilder.php',
+        'Qiniu\\Processing\\Operation' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/Operation.php',
+        'Qiniu\\Processing\\PersistentFop' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Processing/PersistentFop.php',
+        'Qiniu\\Rtc\\AppClient' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Rtc/AppClient.php',
+        'Qiniu\\Storage\\BucketManager' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/BucketManager.php',
+        'Qiniu\\Storage\\FormUploader' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/FormUploader.php',
+        'Qiniu\\Storage\\ResumeUploader' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/ResumeUploader.php',
+        'Qiniu\\Storage\\UploadManager' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Storage/UploadManager.php',
+        'Qiniu\\Zone' => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu/Zone.php',
         'Ramsey\\Uuid\\BinaryUtils' => __DIR__ . '/..' . '/ramsey/uuid/src/BinaryUtils.php',
         'Ramsey\\Uuid\\Builder\\DefaultUuidBuilder' => __DIR__ . '/..' . '/ramsey/uuid/src/Builder/DefaultUuidBuilder.php',
         'Ramsey\\Uuid\\Builder\\DegradedUuidBuilder' => __DIR__ . '/..' . '/ramsey/uuid/src/Builder/DegradedUuidBuilder.php',
@@ -3829,6 +3872,19 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Whoops\\Util\\SystemFacade' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/SystemFacade.php',
         'Whoops\\Util\\TemplateHelper' => __DIR__ . '/..' . '/filp/whoops/src/Whoops/Util/TemplateHelper.php',
         'XdgBaseDir\\Xdg' => __DIR__ . '/..' . '/dnoegel/php-xdg-base-dir/src/Xdg.php',
+        'itbdw\\QiniuStorage\\Plugins\\DownloadUrl' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/DownloadUrl.php',
+        'itbdw\\QiniuStorage\\Plugins\\Fetch' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/Fetch.php',
+        'itbdw\\QiniuStorage\\Plugins\\ImageExif' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/ImageExif.php',
+        'itbdw\\QiniuStorage\\Plugins\\ImageInfo' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/ImageInfo.php',
+        'itbdw\\QiniuStorage\\Plugins\\ImagePreviewUrl' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/ImagePreviewUrl.php',
+        'itbdw\\QiniuStorage\\Plugins\\PersistentFop' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/PersistentFop.php',
+        'itbdw\\QiniuStorage\\Plugins\\PersistentStatus' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/PersistentStatus.php',
+        'itbdw\\QiniuStorage\\Plugins\\PrivateDownloadUrl' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/PrivateDownloadUrl.php',
+        'itbdw\\QiniuStorage\\Plugins\\PutFile' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/PutFile.php',
+        'itbdw\\QiniuStorage\\Plugins\\UploadToken' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/Plugins/UploadToken.php',
+        'itbdw\\QiniuStorage\\QiniuAdapter' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/QiniuAdapter.php',
+        'itbdw\\QiniuStorage\\QiniuFilesystemServiceProvider' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/QiniuFilesystemServiceProvider.php',
+        'itbdw\\QiniuStorage\\QiniuStorage' => __DIR__ . '/..' . '/itbdw/laravel-storage-qiniu/src/QiniuStorage.php',
         'phpDocumentor\\Reflection\\DocBlock' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlock.php',
         'phpDocumentor\\Reflection\\DocBlockFactory' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactory.php',
         'phpDocumentor\\Reflection\\DocBlockFactoryInterface' => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src/DocBlockFactoryInterface.php',

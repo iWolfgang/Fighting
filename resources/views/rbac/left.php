@@ -25,16 +25,16 @@
     <span>用户：admin<br>角色：超级管理员</span>
 </div>
 <div style="float: left" id="my_menu" class="sdmenu">
-    <div class="collapsed">
+  <!--   <div class="collapsed">
         <span>系统设置</span>
         <a href="main.html" target="mainFrame" onFocus="this.blur()">后台首页</a>
         <a href="main_list.html" target="mainFrame" onFocus="this.blur()">列表页</a>
         <a href="main_info.html" target="mainFrame" onFocus="this.blur()">列表详细页</a>
         <a href="main_message.html" target="mainFrame" onFocus="this.blur()">留言页</a>
         <a href="main_menu.html" target="mainFrame" onFocus="this.blur()">栏目管理</a>
-    </div>
+    </div> -->
     <div>
-        <span>用户管理</span>
+        <span>APP管理</span>
         <a href="userlist" target="mainFrame" onFocus="this.blur()">用户列表</a>
         <a href="main.html" target="mainFrame" onFocus="this.blur()">分组权限</a>
         <a href="main_list.html" target="mainFrame" onFocus="this.blur()">级别权限</a>
@@ -42,8 +42,8 @@
         <a href="main.html" target="mainFrame" onFocus="this.blur()">自定义权限</a>
     </div>
     <div>
-        <span>文章管理</span>
-        <a href="main.html" target="mainFrame" onFocus="this.blur()">文章列表</a>
+        <span>后端管理</span>
+        <a href="banner" target="mainFrame" onFocus="this.blur()">轮播图添加</a>
         <a href="main_list.html" target="mainFrame" onFocus="this.blur()">新增文章</a>
         <a href="main_info.html" target="mainFrame" onFocus="this.blur()">删除文章</a>
         <a href="main.html" target="mainFrame" onFocus="this.blur()">编辑文章</a>

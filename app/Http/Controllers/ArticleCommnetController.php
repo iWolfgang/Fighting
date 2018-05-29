@@ -16,7 +16,7 @@ class ArticleCommnetController extends Controller
 	public function addCommentLike(Request $request)
 	{
 		$user_id = $this->user_id;
-
+        print_r($user_id);die;
 		$comment_id = intval($request->input("comment_id"));
 		if(empty($comment_id)){
             $res = array(

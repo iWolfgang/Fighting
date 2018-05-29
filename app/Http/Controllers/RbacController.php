@@ -34,6 +34,10 @@ class RbacController extends Controller
     {
         return view('rbac/bottom');
     }
+    public function banner(Request $request)
+    {
+        return view('rbac/banner');
+    }
     /**
      * 用户列表
      * Author Amber
@@ -46,9 +50,8 @@ class RbacController extends Controller
 //       print_r($data);die;
       return view('rbac/userlist', ['data' => $data]);
 
-
-
     }
+    
     /**
      * 用户登陆
      * Author Amber
