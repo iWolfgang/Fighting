@@ -73,7 +73,7 @@
                         <td align="center" valign="middle" class="borderright borderbottom"><?php echo $v['updatetime'];?></td>
                         <td align="center" valign="middle" class="borderbottom"><a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">编辑</a><span class="gray">&nbsp;|&nbsp;</span><a href="add.html" target="mainFrame" onFocus="this.blur()" class="add">删除</a></td>
                     </tr>
-<?php }?>
+                <?php }?>
             </table>
         </td>
     </tr>

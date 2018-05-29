@@ -78,9 +78,14 @@ class HomePageModel extends Model
     $disk->fetch($url, $key);          //从指定URL抓取资源，并将该资源存储到指定空间中。
         $data['slideshow'] = $slideshow;
         $data['slideshow_url'] = $slideshow_urll;
+<<<<<<< HEAD
         $data['type'] = $slideshow_type;
         $data['title'] = $title;
         print_r($data);die;
+=======
+        $data['slideshow_type'] = $slideshow_type;
+
+>>>>>>> 253f48cf7fa8c77a93cba39e83048f50b7946385
         $into = DB::table($this->_tabName)
             ->insert($data); 
 

@@ -19,8 +19,9 @@ class Controller extends BaseController
     function __construct(){
         $startTime = microtime(true);
         $debug = config("app.api_debug");
-
+//echo $_POST['token'];die;
         if(isset($_POST['token']) && empty($_POST['token']) == false){
+
             $check = $this->checkUserToken($_POST['token']);
 
             if($check == false){
