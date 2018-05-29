@@ -27,7 +27,7 @@
             <div class="alert-close"></div>
         </div>
 
-        <form method="post" action="http://dev.api.miyin.com/Rbac/regist_do">
+        <form method="post" action="<?php echo 'regist_do'?>">
             <ul>
                 <li><input type="text" class="text" name="name"  >
                     <a href="#" class=" icon user"></a></li>
@@ -37,7 +37,7 @@
 
             <div class="submit">
                 <input type="submit" value="注册" >
-                <a href="http://dev.api.miyin.com/Rbac/index" >去登陆</a>
+                <a href="<?php echo 'index'?>" >去登陆</a>
                 <div class="clear">  </div>
             </div>
         </form>

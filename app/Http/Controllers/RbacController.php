@@ -62,15 +62,13 @@ class RbacController extends Controller
         $RbacModel = new RbacModel();
 
         $ret = $RbacModel->UserLogin($name, $pwd);
-       // echo $name;die;
+
         if($ret == FALSE){
             echo "<script>alert('用户名或密码有误');window.location.href = 'index';</script>";
         }else{
- 
-            session_start();
-          
+           session_start();
             $request->session()->put('name', $name);
-          
+            //echo session('name');die;
             echo "<script>alert('登陆成功');window.location.href = 'main'</script>";
         }
     }

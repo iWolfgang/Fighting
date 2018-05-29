@@ -7,11 +7,12 @@
 <link href="/css/css.css" type="text/css" rel="stylesheet" />
 </head>
 <!--框架样式-->
-     <?php
-        if(empty(session('name'))){
-           echo "<script>alert('请先登录');window.location.href = 'index';</script>";
-        }
-     ?>
+
+<!--     --><?php
+//        if(empty(session('name'))){
+//           echo "<script>alert('请先登录');window.location.href = 'index';</script>";
+//        }
+//     ?>
 <frameset rows="95,*,30" cols="*" frameborder="no" border="0" framespacing="0">
 <!--top样式-->
   <frame src="/Rbac/top" name="topframe" scrolling="no" noresize id="topframe" title="topframe" />
