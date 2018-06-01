@@ -60,7 +60,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <td align="right" valign="middle"  name=''  class="borderright borderbottom bggray">图片</td>
 
         <td align="left" valign="middle" class="borderright borderbottom main-for">
-        <input type="file" name="aaa" value="" class="text-word">
+        <input type="file" name="slideshow" value="" class="text-word">
         </td>
         </tr>
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">

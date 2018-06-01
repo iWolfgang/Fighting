@@ -63,14 +63,6 @@ return [
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
         ],
-        
-        'qiniu' => [
-            'driver' => 'qiniu',
-            'domain' => 'http://mithrilgaming.com',          //你的七牛域名，支持 http 和 https，也可以不带协议，默认 http
-            'access_key'=> 'rG_ybhyeVBPwWqwN2Pi056DOFGMmHYjcFIPb7HOZ',  //AccessKey
-            'secret_key'=> 'NuHESaPe54OS15I_qJF5LaiY-ptu-C_fgKhoBZ8o',  //SecretKey
-            'bucket' => 'ran',                                 //Bucket名字
-        ],
 
     ],
 

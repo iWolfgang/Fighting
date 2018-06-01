@@ -38,8 +38,9 @@ class HomePageController extends Controller
 
     }
     public function slideshow_add(Request $request){
-
+// echo 1;die;
         $slideshow = $request->file("slideshow");
+        
         $slideshow_url = $request->input("slideshow_url");
         $slideshow_type = $request->input("slideshow_type");
         $slideshow_title = $request->input("title");
