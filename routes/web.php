@@ -49,6 +49,6 @@ Route::get('/Rbac/mains', 'RbacController@mains');//管理注册模块
 Route::get('/Rbac/top', 'RbacController@top');//管理注册模块
 Route::get('/Rbac/bottom', 'RbacController@bottom');//管理注册模块
 Route::get('Rbac/userlist', 'RbacController@userlist');//管理注册模块
-Route::get('Rbac/banner', 'RbacController@banner');//管理注册模块
+Route::get('Rbac/banner', 'HomePageController@banner');//管理注册模块
 Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');
 
