@@ -67,9 +67,6 @@ class HomePageModel extends Model
             $data['type'] = $slideshow_type;
             $data['title'] = $title;
 
-            $data['slideshow_type'] = $slideshow_type;
-
-
             $into = DB::table($this->_tabName)
                 ->insert($data); 
 
