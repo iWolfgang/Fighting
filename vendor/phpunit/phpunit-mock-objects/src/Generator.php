@@ -593,7 +593,9 @@ class Generator
             $object->__phpunit_setOriginalObject($proxyTarget);
         }
 
-        $object->__phpunit_setReturnValueGeneration($returnValueGeneration);
+        if ($object instanceof MockObject) {
+            $object->__phpunit_setReturnValueGeneration($returnValueGeneration);
+        }
 
         return $object;
     }
@@ -1176,8 +1178,13 @@ class Generator
 
                 if (!$parameter->isVariadic()) {
                     if ($parameter->isDefaultValueAvailable()) {
-                        $value   = $parameter->getDefaultValue();
-                        $default = ' = ' . \var_export($value, true);
+                        $value = $parameter->getDefaultValueConstantName();
+
+                        if ($value === null) {
+                            $value = \var_export($parameter->getDefaultValue(), true);
+                        }
+
+                        $default = ' = ' . $value;
                     } elseif ($parameter->isOptional()) {
                         $default = ' = null';
                     }

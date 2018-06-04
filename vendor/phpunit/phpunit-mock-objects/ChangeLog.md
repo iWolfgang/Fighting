@@ -2,6 +2,19 @@
 
 All notable changes are documented in this file using the [Keep a CHANGELOG](https://keepachangelog.com/) principles.
 
+## [6.1.2] - 2018-05-29
+
+### Fixed
+
+* Fixed [#418](https://github.com/sebastianbergmann/phpunit-mock-objects/issues/418): Parameters named `$arguments`, `$count`, `$i`, or `$result` are mangled by generated code
+* Fixed [#419](https://github.com/sebastianbergmann/phpunit-mock-objects/issues/419): Constants as default parameter values are not handled correctly
+
+## [6.1.1] - 2018-04-11
+
+### Fixed
+
+* Fixed [#416](https://github.com/sebastianbergmann/phpunit-mock-objects/pull/416): Stubbing/Mocking of traits stopped working
+
 ## [6.1.0] - 2018-04-06
 
 ### Added
@@ -20,6 +33,8 @@ All notable changes are documented in this file using the [Keep a CHANGELOG](htt
 
 ## [6.0.0] - 2018-02-01
 
+[6.1.2]: https://github.com/sebastianbergmann/phpunit-mock-objects/compare/6.1.1...6.1.2
+[6.1.1]: https://github.com/sebastianbergmann/phpunit-mock-objects/compare/6.1.0...6.1.1
 [6.1.0]: https://github.com/sebastianbergmann/phpunit-mock-objects/compare/6.0...6.1.0
 [6.0.1]: https://github.com/sebastianbergmann/phpunit-mock-objects/compare/6.0.0...6.0.1
 [6.0.0]: https://github.com/sebastianbergmann/phpunit-mock-objects/compare/5.0...6.0.0
