@@ -55,9 +55,9 @@ return [
         ],
         'mysql_center' => [
             'driver' => 'mysql',
-            'host' => env('DB_HOST_CENTER', '127.0.0.1'),
+            'host' => env('DB_HOST_CENTER', 'localhost'),
             'port' => env('DB_PORT_CENTER', '3306'),
-            'database' => env('DB_DATABASE_CENTER', 'test'),
+            'database' => env('DB_DATABASE_CENTER', 'miyin_db'),
             'username' => env('DB_USERNAME_CENTER', 'root'),
             'password' => env('DB_PASSWORD_CENTER', 'root'),
             'charset' => 'utf8',

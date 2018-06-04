@@ -74,8 +74,8 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <td align="left" valign="middle" class="borderright borderbottom main-for">
         <select name="slideshow_type" id="level">
 	    <option value="1" >&nbsp;&nbsp;轮播图</option>
-	    <option value="2" >&nbsp;&nbsp;文章内插图</option>
-	    <option value="3" >&nbsp;&nbsp;商城图</option>
+	    <!-- <option value="2" >&nbsp;&nbsp;文章内插图</option>
+	    <option value="3" >&nbsp;&nbsp;商城图</option> -->
         </select>
         </td>
       </tr>

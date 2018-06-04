@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Redirect;
 use App\HomePageModel;
 
 class HomePageController extends Controller
@@ -37,8 +38,13 @@ class HomePageController extends Controller
         $this->_response($res);
 
     }
+    /**
+     * 轮播图 添加
+     * Author Amber
+     * Date 2018-05-08
+     */
     public function slideshow_add(Request $request){
-// echo 1;die;
+
         $slideshow = $request->file("slideshow");
         
         $slideshow_url = $request->input("slideshow_url");
@@ -49,18 +55,13 @@ class HomePageController extends Controller
 
         $ret = $HomePageModel->slideshow_add( $slideshow,  $slideshow_title, $slideshow_url, $slideshow_type);
         if($ret == FALSE){
-            $res = array(
-                "errNo" => "0003",
-                "errMsg" => "系统错误"
-            );
-            $this->_response($res);
+             echo "<script>alert('添加失败');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+        }else{
+            echo "<script>alert('添加成功');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+           
+
         }
 
-         $res = array(
-                "errNo" => "0",
-                "errMsg" => "添加成功"
-            );
-
-        $this->_response($res);
+     
     }
 }
