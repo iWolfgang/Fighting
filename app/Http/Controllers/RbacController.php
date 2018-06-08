@@ -38,6 +38,33 @@ class RbacController extends Controller
     {
         return view('rbac/banner');
     }
+    public function game_video()
+    {
+          return view('rbac/game_video');
+    }
+    public function article()
+    {
+          return view('rbac/article');
+    }
+    public function game_video_info(Request $request)
+    {
+        $title = $request['title'];
+        $content = $request['content'];
+        $source = $request['source'];
+        $video_type = $request['video_type'];
+        $game_video = $request->file("video");
+        $RbacModel = new RbacModel();
+
+        $ret = $RbacModel->game_video_info($title, $content,$game_video,$source,$video_type);
+        if($ret == FALSE){
+             echo "<script>alert('添加失败,可重新操作');window.location.href = 'http://dev.api.miyin.com//Rbac/game_video'</script>";
+        }else{
+            echo "<script>alert('添加成功,可继续操作');window.location.href = 'http://dev.api.miyin.com//Rbac/game_video'</script>";
+        }
+
+
+
+    }
     /**
      * 用户列表
      * Author Amber

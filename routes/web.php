@@ -35,7 +35,13 @@ Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
 Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
 Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
-Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
+Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯展示
+Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯展示
+Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频展示
+Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯展示
+Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答展示
+Route::get('/HomePage/full', 'HomePageController@full');//问答展示
+
 
 
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面
@@ -49,6 +55,11 @@ Route::get('/Rbac/mains', 'RbacController@mains');//管理注册模块
 Route::get('/Rbac/top', 'RbacController@top');//管理注册模块
 Route::get('/Rbac/bottom', 'RbacController@bottom');//管理注册模块
 Route::get('Rbac/userlist', 'RbacController@userlist');//管理注册模块
-Route::get('Rbac/banner', 'HomePageController@banner');//管理注册模块
+Route::get('Rbac/banner', 'RbacController@banner');//管理注册模块
 Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');
+Route::get('Rbac/shorts', 'ArticleController@shorts');//短资讯后端添加界面
+Route::get('Rbac/shorts_add', 'ArticleController@shorts_add');//短资讯后端添加
+Route::get('Rbac/game_video', 'RbacController@game_video');//视频添加
+Route::post('Rbac/game_video_info', 'RbacController@game_video_info');//视频添加
+Route::get('Rbac/article', 'RbacController@article');//文章添加
 

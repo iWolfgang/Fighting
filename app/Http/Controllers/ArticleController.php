@@ -87,4 +87,14 @@ class ArticleController extends Controller
         $this->_response($res);
     }
 
+    public function shorts()
+    {
+        return view('rbac/shorts');
+    }
+
+    public function shorts_add()
+    {
+        echo 1;die;
+    }
+
 }
