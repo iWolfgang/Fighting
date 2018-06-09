@@ -69,6 +69,10 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
             'Predis\\' => 7,
             'PhpParser\\' => 10,
         ),
+        'O' => 
+        array (
+            'Overtrue\\LaravelUEditor\\' => 24,
+        ),
         'N' => 
         array (
             'NunoMaduro\\Collision\\' => 21,
@@ -223,6 +227,10 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'PhpParser\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/php-parser/lib/PhpParser',
+        ),
+        'Overtrue\\LaravelUEditor\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src',
         ),
         'NunoMaduro\\Collision\\' => 
         array (
@@ -2002,6 +2010,12 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'NunoMaduro\\Collision\\Highlighter' => __DIR__ . '/..' . '/nunomaduro/collision/src/Highlighter.php',
         'NunoMaduro\\Collision\\Provider' => __DIR__ . '/..' . '/nunomaduro/collision/src/Provider.php',
         'NunoMaduro\\Collision\\Writer' => __DIR__ . '/..' . '/nunomaduro/collision/src/Writer.php',
+        'Overtrue\\LaravelUEditor\\Events\\Uploaded' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/Events/Uploaded.php',
+        'Overtrue\\LaravelUEditor\\Events\\Uploading' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/Events/Uploading.php',
+        'Overtrue\\LaravelUEditor\\StorageManager' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/StorageManager.php',
+        'Overtrue\\LaravelUEditor\\UEditorController' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/UEditorController.php',
+        'Overtrue\\LaravelUEditor\\UEditorServiceProvider' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/UEditorServiceProvider.php',
+        'Overtrue\\LaravelUEditor\\UrlResolverTrait' => __DIR__ . '/..' . '/overtrue/laravel-ueditor/src/UrlResolverTrait.php',
         'PHPUnit\\Exception' => __DIR__ . '/..' . '/phpunit/phpunit/src/Exception.php',
         'PHPUnit\\Framework\\Assert' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert.php',
         'PHPUnit\\Framework\\AssertionFailedError' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/AssertionFailedError.php',

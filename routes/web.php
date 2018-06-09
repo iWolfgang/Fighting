@@ -15,6 +15,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
 Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');//发送短信验证码
 Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证码是否正确
 Route::post('/User/regist', 'UserController@regist');//用户注册

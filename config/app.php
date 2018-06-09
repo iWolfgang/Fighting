@@ -153,6 +153,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Overtrue\LaravelUEditor\UEditorServiceProvider::class,
 
         /*
          * Application Service Providers...
