@@ -51,10 +51,10 @@ class ArticleModel extends Model{
         }
 //        print_r($articleInfo);
 //        echo $articleInfo[0]['fk_game_id'] ;die;
-        if($articleInfo[0]['fk_game_id'] > 0){
-            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
-        }
-//        print_r($gameInfo);die;
+        // if($articleInfo[0]['fk_game_id'] > 0){
+        //     $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
+        // }
+
 
         $res = array();
         $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
@@ -108,10 +108,10 @@ class ArticleModel extends Model{
 //            ->where("id" , "=", $article_id)
 //            ->where("article_status", "=", 1)
 //            ->first();
-        $articleInfo = DB::select('SELECT * FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
+        $articleInfo = DB::select('SELECT article_title,article_content,article_thumb,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
         $articleInfos = json_decode(json_encode($articleInfo), true);
 //        ->toArray();
-//            print_r($articleInfos);die;
+           // print_r($articleInfos);die;
 //        return empty($articleInfo) ? false : get_object_vars($articleInfo);
         return empty($articleInfo) ? false : $articleInfos;
     }

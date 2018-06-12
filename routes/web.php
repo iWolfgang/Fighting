@@ -63,4 +63,5 @@ Route::get('Rbac/shorts_add', 'ArticleController@shorts_add');//短资讯后端�
 Route::get('Rbac/game_video', 'RbacController@game_video');//视频添加
 Route::post('Rbac/game_video_info', 'RbacController@game_video_info');//视频添加
 Route::get('Rbac/article', 'RbacController@article');//文章添加
+Route::post('Rbac/article_add', 'RbacController@article_add');//文章添加
 
