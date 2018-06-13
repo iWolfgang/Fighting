@@ -30,28 +30,77 @@ class ArticleController extends Controller
 
     }
 
-    /**
-     * 文章数据
-     * Author Liuran
-     * Date 2018-04-10
-     * @param string $id [文章id]
+/**
+ * 增加阅读量 
+ * Author Amber
+ * Date 2018-06-12
+ * Params [params]
+ * @param Request $request [description]
+ */
+    public function addArticleRead(Request $request)
+    {
+        $article_id = intval($request->input("article_id"));
+        $ArticleModel = new ArticleModel();
+
+        $ret = $ArticleModel->addArticleRead($article_id);
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success"
+        );
+
+        $this->_response($res);
+
+    }
+    /*
+    获取短文章详情
      */
-//    public function Article_msg(Request $request)
-//    {
-//        $id = $request->input("id");
-//        $sear = new ArticleModel();
-//        $arr = $sear->article_sms($id);
-//        // var_dump($arr);die;
-//        $res = array(
-//            "errNo" => 0,
-//            "errMsg" => "success",
-//            "data" => $arr
-//        );
-//
-//        $this->_response($res);
-//    }
+    public function getD_ArtInfo(Request $request)
+    {
+          $article_id = intval($request->input("article_id"));
 
+        if(empty($article_id)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        }
 
+        $ArticleModel = new ArticleModel();
+
+        $ret = $ArticleModel->getD_ArtInfo($article_id);
+
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
+    /*
+    获取文章详情
+     */
     public function getArticleInfo(Request $request)
     {
         $article_id = intval($request->input("article_id"));

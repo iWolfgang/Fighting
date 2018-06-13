@@ -25,7 +25,9 @@ Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');//搜索
 Route::post('/CheckCode/search', 'ArticleController@search');//搜索
 Route::post('/CheckCode/Article_msg', 'ArticleController@Article_msg');//文章信息 差
 
-Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//文章信息 好
+Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
+Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
+Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
@@ -35,13 +37,13 @@ Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_r
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
 Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
-Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
-Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯展示
-Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯展示
-Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频展示
-Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯展示
-Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答展示
-Route::get('/HomePage/full', 'HomePageController@full');//问答展示
+Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
+Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯列表展示
+Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示
+Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频列表展示
+Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
+Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答列表展示
+Route::get('/HomePage/full', 'HomePageController@full');//首页展示
 
 
 

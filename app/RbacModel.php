@@ -57,7 +57,7 @@ class RbacModel extends Model
  * Date 2018-06-11
  * @return [type]             [description]
  */
-    public function game_video_info($title, $content,$game_video,$source,$video_type)
+    public function game_video_info($title, $content,$game_video,$source,$video_type,$game_name)
     {
         $file = $game_video;
         
@@ -83,6 +83,7 @@ class RbacModel extends Model
             $data['video_text'] = $content;
             $data['video_url'] = $img;
             $data['video_type'] = $video_type;
+            $data['game_name'] = $game_name;
             $data['video_source'] = $source;
             $data['update'] = '20'.date('y-m-d h:i:s');
             
@@ -122,7 +123,7 @@ class RbacModel extends Model
 
             if($into){
 
-                $dat['article_img'] = $headimg;
+                $dat['article_img'] = $img;
                 $dat['fk_game_name'] = $game_name;
                 $dat['article_thumb'] = $headimg;
                 $dat['article_type'] = $type;

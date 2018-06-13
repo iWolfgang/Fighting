@@ -74,14 +74,16 @@ class RbacController extends Controller
     }
     public function game_video_info(Request $request)
     {
+       echo 1;die;
         $title = $request['title'];
         $content = $request['content'];
         $source = $request['source'];
+        $game_name = $request['game_name'];
         $video_type = $request['video_type'];
         $game_video = $request->file("video");
         $RbacModel = new RbacModel();
 
-        $ret = $RbacModel->game_video_info($title, $content,$game_video,$source,$video_type);
+        $ret = $RbacModel->game_video_info($title, $content,$game_video,$source,$video_type,$game_name);
         if($ret == FALSE){
              echo "<script>alert('添加失败,可重新操作');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/game_video'</script>";
         }else{

@@ -28,6 +28,17 @@ class ArticleModel extends Model{
     	
     }
 
+/**
+ * 短文章详情页 
+ * Author Amber
+ * Date 2018-06-12
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function getD_ArtInfo($value='')
+    {
+        
+    }
     /**
      * 获取文章详情 
      * Author Liuran
@@ -38,8 +49,9 @@ class ArticleModel extends Model{
     public function getArticleInfo($article_id = 0)
     {
         $articleInfo = $this->getArticleInfoById($article_id);//文章信息
-        $readCntInfo = $this->getArticleReadCntInfoById($article_id);//阅读数量
-
+       // $readCntInfo = $this->getArticleReadCntInfoById($article_id);//阅读数量
+        $comment_info =  $this->formArticleComment($article_id);
+        //print_r($comment_info);die;
         $gameInfo = array();
 
         if($articleInfo == false){
@@ -49,24 +61,42 @@ class ArticleModel extends Model{
             );
             return $res;
         }
-//        print_r($articleInfo);
-//        echo $articleInfo[0]['fk_game_id'] ;die;
-        // if($articleInfo[0]['fk_game_id'] > 0){
-        //     $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
-        // }
+
+        if(isset($articleInfo[0]['fk_game_name'])){
+            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_name']);//游戏信息
+        }
 
 
         $res = array();
         $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
-        $res['read_info'] = $readCntInfo;
+        //$res['read_info'] = $readCntInfo;
         $res['game_info'] = $gameInfo;
-        $res['comment_info'] = array();
+        $res['comment_info'] = $comment_info;
 
         $this->incrArticleReadCnt($article_id);
 
         return $res;
     }
-
+    /**
+     * 获取评论信息
+     * Author Amber
+     * Date 2018-06-12
+     * Params [params]
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function formArticleComment($article_id)
+    {
+            $article = DB::table('t_article_comment')
+            ->select('fk_user_id','comment_content','create_time')
+            ->where("fk_article_id", $article_id)
+            ->get();
+        
+        $articleInfos = json_decode(json_encode($article), true);
+        // print_r($articleInfos);die;
+        //return empty($articleInfo) ? false : $articleInfos;         
+       return $articleInfos;
+    }
     /**
      * 增加文章阅读数 
      * Author Amber
@@ -104,15 +134,10 @@ class ArticleModel extends Model{
      */
     public function getArticleInfoById($article_id = 0)
     {
-//        $articleInfo = DB::table($this->_tabName)
-//            ->where("id" , "=", $article_id)
-//            ->where("article_status", "=", 1)
-//            ->first();
-        $articleInfo = DB::select('SELECT article_title,article_content,article_thumb,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
+
+        $articleInfo = DB::select('SELECT article_title,fk_game_name,article_content,article_img,article_reading,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
         $articleInfos = json_decode(json_encode($articleInfo), true);
-//        ->toArray();
-           // print_r($articleInfos);die;
-//        return empty($articleInfo) ? false : get_object_vars($articleInfo);
+        // print_r($articleInfos);die;
         return empty($articleInfo) ? false : $articleInfos;
     }
 
@@ -123,18 +148,34 @@ class ArticleModel extends Model{
      * Params [params]
      * @param  integer $game_id [游戏id]
      */
-    public function getGameInfoByGameId($game_id = 0)
+    public function getGameInfoByGameId($game_name)
     {
-        $res = array(
-            "id" => 1,
-            "game_name" => "绝地求生大逃杀",
-            "game_thumb" => "http://game.jpg",
-            "game_type" => "冒险/解谜/生存",
-            "game_platform" => "PS4独占",
-            "game_begin_date" => "2018年4月20日"
-        );
+      $students = DB::select('select * from t_game_info where game_name = ?',[$game_name]); 
+      $articleInfos = json_decode(json_encode($students), true);
 
-        return $res;
+      return $articleInfos;
+    }
+/**
+ * 增加阅读量
+ * Author Amber
+ * Date 2018-06-12
+ * Params [params]
+ * @param integer $article_id [description]
+ */
+    public function addArticleRead($article_id = 0)
+    {
+      $students = DB::select('select article_reading from t_article where id = ?',[$article_id]); 
+     $articleInfos = json_decode(json_encode($students), true);
+      $nums = $articleInfos[0]['article_reading'];
+      $new = $nums+1;
+
+      $num = DB::update('update t_article set article_reading = ? where id = ?',[$new,$article_id]);
+      if($num == false){
+        return false;
+      }else{
+        return $num;
+      }
+      
     }
 
     /**
@@ -144,15 +185,15 @@ class ArticleModel extends Model{
      * Params [params]
      * @param  integer $article_id [文章id]
      */
-    public function getArticleReadCntInfoById($article_id = 0)
-    {
-        $res = array(
-            "read_count" => $this->getArticleReadCnt($article_id),
-            "like_count" => "1"
-        );
+    // public function getArticleReadCntInfoById($article_id = 0)
+    // {
+    //     $res = array(
+    //         "read_count" => $this->getArticleReadCnt($article_id),
+    //         "like_count" => "1"
+    //     );
 
-        return $res;
-    }
+    //     return $res;
+    // }
 
     /**
      * 格式化代码 
@@ -165,9 +206,11 @@ class ArticleModel extends Model{
     {
         $res = array();
         $res['title'] = $article_info['article_title'];
-        $res['thumb'] = $article_info['article_thumb'];
+        $res['thumb'] = $article_info['article_img'];
+        $res['article_reading'] = $article_info['article_reading'];
         $res['author'] = $article_info['article_author'];
         $res['content'] = $article_info['article_content'];
+        $res['fk_game_name'] = $article_info['fk_game_name'];
 
         return $res;
     }
