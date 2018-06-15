@@ -6,14 +6,103 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Illuminate\Support\Facades\Redis;
 
+
 class ArticleModel extends Model{
 
     public $_tabName = 't_article';
+    const LIKE_ZAN_COUNT = 'Like_zan_%d';//点赞功能
+    /**
+     * 用户点赞 功能
+     * Author Amber
+     * Date 2018-06-14
+     * Params [params]
+     * @param [type] $page    [文章id]
+     * @param [type] $user_id [用户id]
+     */
+    public function Like_zan($page,$user_id)
+    {
+        $isset = $this->Like_zan_isset($page,$user_id);
+        
+        if($isset){
+
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id);
+            
+        }else{
+
+            $Like_zan_add = $this->Like_zan_add($page,$user_id);
+        
+        }
+
+        $action = $isset ? "un_like" : "like";
+        $count = $this->Like_zan_count($page,$user_id);
+        
+        $data = array(
+            "action" => $action,
+            "count" => $count
+        );
+        return $data;
+    }
+    /**
+     * 判断用户是否点过赞 
+     * Author Amber
+     * Date 2018-06-14
+     * Params [params]
+     * @param [type] $page    [description]
+     * @param [type] $user_id [description]
+     */
+    public function Like_zan_isset($page,$user_id)
+    {
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $isset = Redis::SISMEMBER($key,$user_id);
+        return $isset;
+    }
+
+    /**
+     * 点赞 
+     * Author Amber
+     * Date 2018-06-14
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function Like_zan_add($page,$user_id)
+    {
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $Like_zan = Redis::SADD($key,$user_id);
+        return $Like_zan;
+    }
+
+    /**
+     * 取消点赞 
+     * Author Amber
+     * Date 2018-06-14
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function Like_zan_reduce($page,$user_id)
+    {
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $Like_zan = Redis::SREM($key,$user_id);
+        return $Like_zan;
+    }
+    /**
+     * 统计点赞数量 
+     * Author Amber
+     * Date 2018-06-14
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function Like_zan_count($page)
+    {
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $Like_zan = count(Redis::SMEMBERS($key));
+        return $Like_zan;        
+    }
+
 
 
     /**
      * 获取文章详情 
-     * Author Liuran
+     * Author Liuran 
      * Date 2018-04-10
      * @param  [type] $id [接受的文章id]
      */

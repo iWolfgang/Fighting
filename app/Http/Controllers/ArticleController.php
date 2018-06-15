@@ -7,6 +7,32 @@ use App\funsModel;
 
 class ArticleController extends Controller
 {
+
+    public function Like_zan(Request $request)
+    {
+        $user_id = $request->input("user_id");
+        $page = $request->input("page");
+        $sear = new ArticleModel();
+        $ret = $sear->Like_zan($user_id,$page);
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "点赞成功",
+            "data" => $ret
+        );
+
+        
+        $this->_response($res);
+    }
     /**
      * 搜索关键字
      * Author Liuran
@@ -17,6 +43,7 @@ class ArticleController extends Controller
 
         $keyword = $request->input("keyword");
        // var_dump($keyword);die;
+       // 
         $sear = new funsModel();
         $arr = $sear->search($keyword);
 

@@ -44,6 +44,7 @@ Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//�
 Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
+Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞
 
 
 
