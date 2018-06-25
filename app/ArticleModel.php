@@ -118,16 +118,44 @@ class ArticleModel extends Model{
     }
 
 /**
- * 短文章详情页 
+ * 短文章详情页 + 游戏模块
  * Author Amber
  * Date 2018-06-12
  * Params [params]
  * @param string $value [description]
  */
-    public function getD_ArtInfo($value='')
+    public function getD_ArtInfo($article_id)
     {
-        
+      $objects = DB::table('t_shorts_article')  
+        ->select('t_shorts_article.id','title','content','updatetime','source','image_url','fk_game_id')
+        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+        ->where('t_shorts_article.id',$article_id)
+        ->get();
+       $data = json_decode(json_encode($objects), true);
+       //print_r($data);die;
+        $imgArr = array();
+        foreach ($data as $key => $value) {
+          $imgArr[$value['id']][] = $value['image_url'];
+          
+        }
+
+        $res = array();
+        foreach ($data as $key => $value) {
+          $res[$value['id']] = $value;
+
+          $res[$value['id']]['image_url'] = $imgArr[$value['id']];
+        }
+        $fk_game_id = $data[0]['fk_game_id'];
+        $game = $this->getGameInfoByGameId($fk_game_id);
+        if($game == '游戏信息不存在'){
+            $res['game'] = '游戏信息不存在';
+            
+        }
+        $res['game'] = $game;
+          return empty($res) ? '游戏信息不存在' : $res;
+     
     }
+
     /**
      * 获取文章详情 
      * Author Liuran
@@ -138,27 +166,38 @@ class ArticleModel extends Model{
     public function getArticleInfo($article_id = 0)
     {
         $articleInfo = $this->getArticleInfoById($article_id);//文章信息
-       // $readCntInfo = $this->getArticleReadCntInfoById($article_id);//阅读数量
         $comment_info =  $this->formArticleComment($article_id);
-        //print_r($comment_info);die;
+       //print_r($articleInfo);die;
         $gameInfo = array();
 
-        if($articleInfo == false){
+        if($articleInfo == false){                                                                          
             $res = array(
                 "errNo" => "3001",
                 "errMsg" => "文章信息不存在"
             );
             return $res;
         }
-
-        if(isset($articleInfo[0]['fk_game_name'])){
-            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_name']);//游戏信息
+        if($comment_info == false){
+            $res = array(
+                "errNo" => "3003",
+                "errMsg" => "暂无评论"
+            );
+            return $res;
         }
 
-
+        // echo $articleInfo[0]['fk_game_id'];die;
+        if(isset($articleInfo[0]['fk_game_id'])){
+            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
+        }
+        if($gameInfo == '游戏信息不存在'){
+            $res = array(
+                "errNo" => "3002",
+                "errMsg" => "游戏信息不存在"
+            );
+            return $res;
+        }
         $res = array();
         $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
-        //$res['read_info'] = $readCntInfo;
         $res['game_info'] = $gameInfo;
         $res['comment_info'] = $comment_info;
 
@@ -183,7 +222,7 @@ class ArticleModel extends Model{
         
         $articleInfos = json_decode(json_encode($article), true);
         // print_r($articleInfos);die;
-        //return empty($articleInfo) ? false : $articleInfos;         
+        //return empty($articleInfo) ? '游戏信息不存在' : $articleInfos;         
        return $articleInfos;
     }
     /**
@@ -224,7 +263,7 @@ class ArticleModel extends Model{
     public function getArticleInfoById($article_id = 0)
     {
 
-        $articleInfo = DB::select('SELECT article_title,fk_game_name,article_content,article_img,article_reading,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
+        $articleInfo = DB::select('SELECT article_title,fk_game_id,article_content,article_img,article_reading,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
         $articleInfos = json_decode(json_encode($articleInfo), true);
         // print_r($articleInfos);die;
         return empty($articleInfo) ? false : $articleInfos;
@@ -237,12 +276,16 @@ class ArticleModel extends Model{
      * Params [params]
      * @param  integer $game_id [游戏id]
      */
-    public function getGameInfoByGameId($game_name)
+    public function getGameInfoByGameId($g_id)
     {
-      $students = DB::select('select * from t_game_info where game_name = ?',[$game_name]); 
-      $articleInfos = json_decode(json_encode($students), true);
+        // echo $game_name;die;
+        $students = DB::table('t_game_main')
+        ->select( 'g_name','g_thumb','g_meta_information','g_type','g_update')
+        ->where("id", $g_id)
+        ->first();
+        // print_r($students);die;
+       return $students ? get_object_vars($students) : '游戏信息不存在';
 
-      return $articleInfos;
     }
 /**
  * 增加阅读量
@@ -267,22 +310,6 @@ class ArticleModel extends Model{
       
     }
 
-    /**
-     * 通过文章id获取阅读数信息 
-     * Author Liuran
-     * Date 2018-04-10
-     * Params [params]
-     * @param  integer $article_id [文章id]
-     */
-    // public function getArticleReadCntInfoById($article_id = 0)
-    // {
-    //     $res = array(
-    //         "read_count" => $this->getArticleReadCnt($article_id),
-    //         "like_count" => "1"
-    //     );
-
-    //     return $res;
-    // }
 
     /**
      * 格式化代码 
@@ -299,7 +326,7 @@ class ArticleModel extends Model{
         $res['article_reading'] = $article_info['article_reading'];
         $res['author'] = $article_info['article_author'];
         $res['content'] = $article_info['article_content'];
-        $res['fk_game_name'] = $article_info['fk_game_name'];
+        $res['fk_game_id'] = $article_info['fk_game_id'];
 
         return $res;
     }

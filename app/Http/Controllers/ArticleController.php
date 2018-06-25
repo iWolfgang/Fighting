@@ -42,18 +42,62 @@ class ArticleController extends Controller
     public function search(Request $request){
 
         $keyword = $request->input("keyword");
+        $user_id = $request->input("user_id");
        // var_dump($keyword);die;
-       // 
+         if(empty($keyword)){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "缺少关键字"
+            );
+            $this->_response($res);
+        } 
         $sear = new funsModel();
-        $arr = $sear->search($keyword);
+        $arr = $sear->search($keyword,$user_id);
+
+
+        if($arr == FALSE){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "未找到相关游戏"
+            );
+            $this->_response($res);
+        }
 
         $res = array(
             "errNo" => 0,
             "errMsg" => "success",
             "data" => $arr
         );
+          $this->_response($res);
+    }
 
-        $this->_response($res);
+/**
+ * 历史搜索 
+ * Author Amber
+ * Date 2018-06-21
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function history_Search(Request $request)
+    {
+        $user_id = intval($request->input("user_id"));
+        $sear = new funsModel();
+        $arr = $sear->history_Search($user_id);
+        if($arr == FALSE){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "历史记录为空,快搜索吧~"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $arr
+        );
+          $this->_response($res);
+
 
     }
 
@@ -161,6 +205,19 @@ class ArticleController extends Controller
         );
 
         $this->_response($res);
+    }
+
+    
+    /**
+ * 短文章详情页 + 游戏模块
+ * Author Amber
+ * Date 2018-06-12
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function getD_ArtInfo_game($value='')
+    {
+        
     }
 
     public function shorts()

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\HomePageModel;
+use App\ArticleModel;
 
 class HomePageController extends Controller
 {
@@ -57,7 +58,7 @@ class HomePageController extends Controller
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow();
-
+     
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -108,12 +109,13 @@ class HomePageController extends Controller
  * Params [params]
  * @return [type] [description]
  */
-    public function long_articlelist()
+    public function long_articlelist(Request $request)
     {
+        $game_id = $request->input("game_id");
         
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->long_articlelist();
+        $ret = $HomePageModel->long_articlelist($game_id);
 
             if($ret == FALSE){
             $res = array(
@@ -201,7 +203,48 @@ class HomePageController extends Controller
 
         $this->_response($res);
     }
+/**
+ * 视频资讯详情页信息
+ * Author Amber
+ * Date 2018-06-22
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+    public function video_info(Request $request)
+    {
+     //  $user_id = $request->input("user_id");$user_id,
+        $article_id = $request->input("article_id");
+        if($article_id <= 0){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "文章有误"
+            );
+            $this->_response($res);
+        }
+        $HomePageModel = new HomePageModel();
 
+        $ret = $HomePageModel->video_info($article_id);
+        $g_id = $ret['fk_game_id'];
+        $ArticleModel = new ArticleModel();
+        $game = $ArticleModel->getGameInfoByGameId($g_id);
+        $ret['game'] = $game;
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
     public function q_ask()
     {
         $HomePageModel = new HomePageModel();

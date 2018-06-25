@@ -20,14 +20,18 @@ Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');//发送短信验
 Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证码是否正确
 Route::post('/User/regist', 'UserController@regist');//用户注册
 Route::post('/User/login', 'UserController@login');//用户登录
+Route::post('/User/userinfo', 'UserController@userinfo');//用户信息
 Route::get('/User/apijson', 'UserController@apijson');
 Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');//搜索
 Route::post('/CheckCode/search', 'ArticleController@search');//搜索
-Route::post('/CheckCode/Article_msg', 'ArticleController@Article_msg');//文章信息 差
+Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//搜索
+
 
 Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
-Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章
+Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
+Route::post('/Game/Game_Info', 'GameController@game_info');//游戏详情页
+Route::post('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
@@ -44,8 +48,12 @@ Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//�
 Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
-Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞
 
+Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞 
+Route::get('/Game/game_banner', 'GameController@game_banner');//游戏列表 轮播图 页展示
+Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
+Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 热门 页展示
+Route::get('/Game/be_up_game', 'GameController@be_up_game');//游戏列表 即将 页展示
 
 
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面

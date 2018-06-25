@@ -40,7 +40,14 @@
             </tr>
             <tr>
                 <td>关联的游戏名称：</td>
-                <td><input type="text" name="game_name"></td>
+                <!-- <td><input type="text" name="game_name"></td> -->
+                <td>
+                    <select name="game_name" id="level">
+                    <option value="1" >&nbsp;&nbsp;古墓丽影</option>
+                    <option value="2" >&nbsp;&nbsp;绝地求生</option>
+                    <option value="3" >&nbsp;&nbsp;王者</option>
+                    </select> 
+                </td>
             </tr>
             <tr>
                 <td>作者：</td>
