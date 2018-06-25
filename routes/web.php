@@ -35,7 +35,8 @@ Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
 Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
 Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
-Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
+//Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
+Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//资讯列表展示
 
 
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面
@@ -49,6 +50,6 @@ Route::get('/Rbac/mains', 'RbacController@mains');//管理注册模块
 Route::get('/Rbac/top', 'RbacController@top');//管理注册模块
 Route::get('/Rbac/bottom', 'RbacController@bottom');//管理注册模块
 Route::get('Rbac/userlist', 'RbacController@userlist');//管理注册模块
-Route::get('Rbac/banner', 'HomePageController@banner');//管理注册模块
-Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');
+Route::get('Rbac/banner', 'HomePageController@banner');//添加轮播图
+Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');//添加轮播图
 

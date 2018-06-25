@@ -47,7 +47,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   </tr>
   <tr>
     <td align="left" valign="top">
-    <form  method="post" enctype="multipart/form-data" action="http://dev.api.miyin.com/HomePage/slideshow_add">
+    <form  method="post" enctype="multipart/form-data" action="http://api.mithrilgaming.com/HomePage/slideshow_add">
  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
     
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">

@@ -16,9 +16,5 @@ return array(
     '58571171fd5812e6e447dce228f52f4d' => $vendorDir . '/laravel/framework/src/Illuminate/Support/helpers.php',
     '6124b4c8570aa390c21fafd04a26c69f' => $vendorDir . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
     '801c31d8ed748cfa537fa45402288c95' => $vendorDir . '/psy/psysh/src/functions.php',
-<<<<<<< HEAD
-    '841780ea2e1d6545ea3a253239d59c05' => $vendorDir . '/qiniu/php-sdk/src/Qiniu/functions.php',
-=======
->>>>>>> f04109a8e462c45d1b204af738ce1dd909aea0dc
     '4378f255c67b62a024d3295602369ebf' => $vendorDir . '/johnlui/aliyun-oss/src/AliyunOSS.php',
 );

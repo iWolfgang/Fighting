@@ -11,11 +11,7 @@
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
         "predis/predis": "^1.1",
-<<<<<<< HEAD
         "johnlui/aliyun-oss": "~2.0"
-=======
-        "johnlui/aliyun-oss": "*"
->>>>>>> f04109a8e462c45d1b204af738ce1dd909aea0dc
     },
     "require-dev": {
         "filp/whoops": "^2.0",

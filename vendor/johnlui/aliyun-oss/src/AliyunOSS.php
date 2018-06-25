@@ -82,15 +82,8 @@ class AliyunOSS
     ]);
   }
 
-<<<<<<< HEAD
   public static function boot($city, $networkType, $isInternal, $AccessKeyId, $AccessKeySecret)
   {
-=======
-
-  public static function boot($city, $networkType, $isInternal, $AccessKeyId, $AccessKeySecret)
-  {
-
->>>>>>> f04109a8e462c45d1b204af738ce1dd909aea0dc
     return new self($city, $networkType, $isInternal, $AccessKeyId, $AccessKeySecret);
   }
 
