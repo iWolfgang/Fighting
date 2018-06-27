@@ -269,6 +269,7 @@ print_r($res);die;
     public function addUserInfoByMobile($user_mobile = '', $user_passwd = '', $device_id = '', $user_platform = '   ')
     {
         $data = array();
+
         $data['user_mobile'] = $user_mobile;
         $data['user_passwd'] = $this->createPasswd($user_passwd);
         $data['user_type'] = 1; //用户类型 1-手机号码 2-微信 3-QQ
@@ -277,9 +278,18 @@ print_r($res);die;
         $data['create_time'] = time();
 
         $add = DB::table($this->_tabName)
-            ->insert($data);
-
-        return $add;
+            ->insertGetId($data);
+// print_r($add);die;
+        $res = array();
+        $res['head_portrait'] = 'https://mithril-capsule.oss-cn-beijing.aliyuncs.com/1.jpg';
+        $res['user_name'] = '秘银'.rand(1000,9999).'用户';
+        $res['user_id'] = $add;
+        $res['sex'] = '男';
+        $res['email'] = '请绑定邮箱';
+        $res = DB::table('t_user_infos')
+            ->insert($res);
+        return $res;
+        // echo $res;die;
     }
 
     /**
@@ -324,11 +334,51 @@ print_r($res);die;
     public function userinfo($user_id)
     {
        $count = DB::table('t_user_info')
-        ->select('t_user_info.id','t_user_info.user_mobile','t_user_infos.head portrait','t_user_infos.sex','t_user_infos.email','t_user_infos.id_attestation','t_user_infos.shipping address')
+        ->select('t_user_info.id','t_user_info.user_mobile','t_user_infos.head_portrait','t_user_infos.sex','t_user_infos.email','t_user_infos.id_attestation','t_user_infos.user_name','t_user_infos.shipping_address')
         ->where("user_id", $user_id)
         ->join('t_user_infos','user_id','t_user_info.id')
         ->first();
+        return $count ? get_object_vars($count) : False;
 
-       return $count;
+    }
+
+    public function userinfo_add($head_img,$user_name,$user_id,$sex,$email)
+    {
+       $old_infos = $this->del_old_news($user_id);
+       if($old_infos == false){
+        return false;
+       } 
+        $file = $head_img;
+        if($file -> isValid()){  
+            //检验一下上传的文件是否有效  
+            $clientName = $file -> getClientOriginalName(); //获取文件名称  
+            $tmpName = $file -> getFileName();  //缓存tmp文件夹中的文件名，例如 php9372.tmp 这种类型的  
+            $realPath = $file -> getRealPath();  //
+
+            $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
+
+            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 image/jpeg  
+
+            $newName = date('ymdhis').$clientName;
+            $path = $file -> move('services',$newName);  
+        }
+        OSS::publicUpload('mithril-capsule',$newName, $path);// 上传一个文件
+
+        $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
+        $data = array();
+        $data['head_portrait'] = $img;
+        $data['user_id'] = $user_id;
+        $data['user_name'] = $user_name;
+        $data['sex'] = $sex;
+        $data['email'] = $email; 
+        $bool = DB::table('t_user_infos')->insert($data);
+        return $bool;
+    }
+
+    public function del_old_news($user_id)
+    {
+      $res = DB::delete("delete from t_user_infos where user_id = $user_id");
+    
+       return $res;
     }
 }

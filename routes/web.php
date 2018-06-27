@@ -21,13 +21,14 @@ Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证�
 Route::post('/User/regist', 'UserController@regist');//用户注册
 Route::post('/User/login', 'UserController@login');//用户登录
 Route::post('/User/userinfo', 'UserController@userinfo');//用户信息
+Route::post('/User/userinfo_add', 'UserController@userinfo_add');//用户信息补全
 Route::get('/User/apijson', 'UserController@apijson');
 Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');//搜索
 Route::post('/CheckCode/search', 'ArticleController@search');//搜索
 Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//搜索
 
 
-Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
+Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
 Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
 Route::post('/Game/Game_Info', 'GameController@game_info');//游戏详情页

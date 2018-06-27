@@ -53,8 +53,14 @@ class HomePageController extends Controller
      */
     public function slideshow(Request $request)
     {
-        // $slideshow_type = $request->input("slideshow_type");
-
+        //  $slideshow_type = $request->input("slideshow_type");
+        // //   if($slideshow_type !=  ||$slideshow_type !=  2){
+        // //     $res = array(
+        // //         "errNo" => "0003",
+        // //         "errMsg" => "轮播图类型不符"
+        // //     );
+        // //     $this->_response($res);
+        // // }
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow();
@@ -93,9 +99,9 @@ class HomePageController extends Controller
 
         $ret = $HomePageModel->slideshow_add( $slideshow,  $slideshow_title, $slideshow_url, $slideshow_type);
         if($ret == FALSE){
-             echo "<script>alert('添加失败');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+             echo "<script>alert('添加失败');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
         }else{
-            echo "<script>alert('添加成功');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+            echo "<script>alert('添加成功');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
            
 
         }

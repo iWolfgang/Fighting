@@ -60,7 +60,7 @@ class RbacModel extends Model
     public function game_video_info($title, $content,$game_video,$source,$video_type,$game_name)
     {
         $file = $game_video;
-        
+        // print_r($file);die;`
         if($file -> isValid()){  
             //检验一下上传的文件是否有效  
             $clientName = $file -> getClientOriginalName(); //获取文件名称  
@@ -69,13 +69,14 @@ class RbacModel extends Model
 
             $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
 
-            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 image/jpeg  
-
+            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
+           // echo $mimeTye;
             $newName = date('ymdhis').$clientName;
             $path = $file -> move('services',$newName);  
         }
-        OSS::publicUpload('mithril-capsule',$newName, $path);// 上传一个文件
-
+       $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);// 上传一个文件
+// print_r($dat);die;
+       
         $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
 
 
@@ -108,16 +109,16 @@ class RbacModel extends Model
             $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
 
             $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 image/jpeg  
-
+            echo $mimeTye;die;
             $newName = date('ymdhis').$clientName;
             $path = $file -> move('services',$newName);  
         }
-        OSS::publicUpload('mithril-capsule',$newName, $path);// 上传一个文件
-
+       $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['Content-Type' => $mimeTye]);// 上传一个文件
+print_r($dat);die;
         $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
             $data['article_title'] = $title;
             $data['article_content'] = $content;
-            // print_r($data);die;
+            
             $into = DB::table('t_article_main')
                 ->insert($data); 
 
