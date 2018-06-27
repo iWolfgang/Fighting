@@ -10,8 +10,13 @@
         "johnlui/aliyun-oss": "~2.0",
         "laravel/framework": "5.6.*",
         "laravel/tinker": "^1.0",
+<<<<<<< HEAD
         "predis/predis": "^1.1",
         "johnlui/aliyun-oss": "~2.0"
+=======
+        "overtrue/laravel-ueditor": "~1.0",
+        "predis/predis": "^1.1"
+>>>>>>> 734014d068bb8777d4bd0ad6e526f096ae7d2ca0
     },
     "require-dev": {
         "filp/whoops": "^2.0",

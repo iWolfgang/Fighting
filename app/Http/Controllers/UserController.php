@@ -153,4 +153,22 @@ class UserController extends Controller
 
         $this->_response($res);
     }
+
+/**
+ * 个人中心
+ * Author Amber
+ * Date 2018-06-19
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function userinfo(Request $request)
+    {
+        $key = $request->input("user_id");
+
+        $GetPYModel = new UserModel();
+
+        $res = $GetPYModel->userinfo($key);
+
+        $this->_response($res);
+    }
 }

@@ -38,6 +38,61 @@ class RbacController extends Controller
     {
         return view('rbac/banner');
     }
+    public function game_video()
+    {
+          return view('rbac/game_video');
+    }
+    public function article()
+    {
+          return view('rbac/article');
+    }
+    public function article_add(Request $request)
+    {
+      
+
+        $headimg =  $request->file("files");
+        $content = $request->input('content');
+        $title = $request['title'];
+        $source = $request['source'];
+        $type = $request['type'];
+        $game_name = $request['game_name'];
+        $article_author = $request['article_author'];
+// print_r($headimg."||".$content."||".$title."||".$source."||".$type."||".$game_name);die;
+
+        $RbacModel = new RbacModel();
+
+        $ret = $RbacModel->article_add($headimg, $content,$title,$source,$type,$game_name,$article_author);
+                if($ret == FALSE){
+             echo "<script>alert('添加失败,可重新操作');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/article'</script>";
+        }else{
+            echo "<script>alert('添加成功,可继续操作');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/article'</script>";
+        }
+
+
+
+
+    }
+    public function game_video_info(Request $request)
+    {
+       echo 1;die;
+        $title = $request['title'];
+        $content = $request['content'];
+        $source = $request['source'];
+        $game_name = $request['game_name'];
+        $video_type = $request['video_type'];
+        $game_video = $request->file("video");
+        $RbacModel = new RbacModel();
+
+        $ret = $RbacModel->game_video_info($title, $content,$game_video,$source,$video_type,$game_name);
+        if($ret == FALSE){
+             echo "<script>alert('添加失败,可重新操作');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/game_video'</script>";
+        }else{
+            echo "<script>alert('添加成功,可继续操作');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/game_video'</script>";
+        }
+
+
+
+    }
     /**
      * 用户列表
      * Author Amber

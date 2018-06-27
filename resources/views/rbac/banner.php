@@ -47,7 +47,11 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   </tr>
   <tr>
     <td align="left" valign="top">
+<<<<<<< HEAD
     <form  method="post" enctype="multipart/form-data" action="http://api.mithrilgaming.com/HomePage/slideshow_add">
+=======
+    <form  method="post" enctype="multipart/form-data" action="http://dev.api.miyin.com/Rbac/banner_info">
+>>>>>>> 734014d068bb8777d4bd0ad6e526f096ae7d2ca0
  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
     
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
@@ -63,6 +67,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
         <input type="file" name="slideshow" value="" class="text-word">
         </td>
         </tr>
+      
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">
         <td align="right" valign="middle"  name=''  class="borderright borderbottom bggray">外链地址</td>
         <td align="left" valign="middle" class="borderright borderbottom main-for">

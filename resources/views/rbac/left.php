@@ -44,9 +44,10 @@
     <div>
         <span>后端管理</span>
         <a href="banner" target="mainFrame" onFocus="this.blur()">轮播图添加</a>
-        <a href="main_list.html" target="mainFrame" onFocus="this.blur()">新增文章</a>
-        <a href="main_info.html" target="mainFrame" onFocus="this.blur()">删除文章</a>
-        <a href="main.html" target="mainFrame" onFocus="this.blur()">编辑文章</a>
+        <a href="article" target="mainFrame" onFocus="this.blur()">新增长资讯</a>
+        <a href="shorts" target="mainFrame" onFocus="this.blur()">增加短资讯</a>
+        <a href="game_video" target="mainFrame" onFocus="this.blur()">增加游戏视频</a>
+        <a href="main.html" target="mainFrame" onFocus="this.blur()">问和答</a>
     </div>
 
 <!--    <div>-->

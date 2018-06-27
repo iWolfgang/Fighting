@@ -101,7 +101,7 @@ class UserModel extends Model
             return $res;
         }
 
-        $userId = 1;
+       // $userId = 1;
         if(isset($userId['errNo'])){
             return $userId;
         }
@@ -110,7 +110,8 @@ class UserModel extends Model
         $userToken = $this->createUserToken($userId);
 
         $res = array(
-            "token" => $userToken
+            "token" => $userToken,
+            "user_id" => $userId
         );
         return $res;
     }
@@ -157,7 +158,7 @@ class UserModel extends Model
             return $res;
         }
         $res = $this->getUserInfoByMobile($user_mobile);
-
+print_r($res);die;
         return $res;
     }
 
@@ -310,7 +311,24 @@ class UserModel extends Model
        // $aa = $User->paginate(5);
       //  return empty($aa) ? false : json_decode(json_encode($aa), true);
         $users = DB::table('t_user_info')->paginate(2);
-        var_dump($users);die;
         return view('user.index', ['users' => $users]);
+    }
+/**
+ * 用户信息查询
+ * Author Amber
+ * Date 2018-06-19
+ * Params [params]
+ * @param  [type] $user_id [description]
+ * @return [type]          [description]
+ */
+    public function userinfo($user_id)
+    {
+       $count = DB::table('t_user_info')
+        ->select('t_user_info.id','t_user_info.user_mobile','t_user_infos.head portrait','t_user_infos.sex','t_user_infos.email','t_user_infos.id_attestation','t_user_infos.shipping address')
+        ->where("user_id", $user_id)
+        ->join('t_user_infos','user_id','t_user_info.id')
+        ->first();
+
+       return $count;
     }
 }

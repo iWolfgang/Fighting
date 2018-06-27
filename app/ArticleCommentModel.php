@@ -123,7 +123,7 @@ class ArticleCommentModel extends Model
 		$data['fk_comment_id'] = $fk_comment_id;
 		$data['fk_user_id'] = $fk_user_id;
 		$data['comment_content'] = $comment_content;
-		$data['create_time'] = time();
+		$data['create_time'] = date('Y-m-d H:i:s');
 		$add = DB::table($this->_tabName)
             ->insert($data);
 
