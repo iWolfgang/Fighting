@@ -18,20 +18,26 @@ class HomePageModel extends Model
      * Params [params]
      
      */
-    public function slideshow($slideshow_type = '')
+    public function slideshow()
     {
+
 
         if(empty($slideshow_type)){
            $where = null;
            echo $where;die;
         }
-        $data = DB::table($this->_tabName)
-        // ->where('type', 1)
-        ->limit(3)
-        ->get(['slideshow','title','slideshow_url','type']);
+        // $data = DB::table($this->_tabName)
+        // // ->where('type', 1)
+        // ->limit(3)
+        // ->get(['slideshow','title','slideshow_url','type']);
 
-        $data = json_decode(json_encode($data), true);
-        return $data;
+          $data = DB::table($this->_tabName)
+            
+            ->limit(3)
+            ->get(['slideshow','title','slideshow_url','type']);
+          $data = json_decode(json_encode($data), true);
+
+          return $data;
         
     }
 
@@ -149,7 +155,7 @@ class HomePageModel extends Model
     {
           $objects = DB::table('t_video')
           // ->("select `id`,`video_title`,`Video_text`,`video_url` from `t_video` where video_type ='1'  limit 4");
-                ->select('id','video_title','Video_text','video_url')
+                ->select('id','video_title','video_text','video_url')
                 ->where(  'video_type','1')
                 ->limit(4)
                 ->get();
@@ -163,7 +169,7 @@ class HomePageModel extends Model
   public function videolist()
     {
           $objects = DB::table('t_video')  
-                ->select('id','Video_text','video_url','video_source','update')
+                ->select('id','video_text','video_url','video_source','update')
                // ->where(  'video_type','2')
                 ->limit(4)
                 ->get();

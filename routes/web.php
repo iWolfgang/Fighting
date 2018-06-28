@@ -21,13 +21,14 @@ Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证�
 Route::post('/User/regist', 'UserController@regist');//用户注册
 Route::post('/User/login', 'UserController@login');//用户登录
 Route::post('/User/userinfo', 'UserController@userinfo');//用户信息
+Route::post('/User/userinfo_add', 'UserController@userinfo_add');//用户信息补全
 Route::get('/User/apijson', 'UserController@apijson');
 Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');//搜索
 Route::post('/CheckCode/search', 'ArticleController@search');//搜索
 Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//搜索
 
 
-Route::post('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
+Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
 Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
 Route::post('/Game/Game_Info', 'GameController@game_info');//游戏详情页
@@ -41,11 +42,7 @@ Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_r
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
 Route::post('/ArticleCollect/Art_col_reply', 'ArticleCollectController@Art_col_reply');//文章收藏列表
 Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同时连接两个db模拟
-// <<<<<<< HEAD
-// Route::post('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
-// //Route::post('/HomePage/slideshow_add', 'HomePageController@slideshow_add');//添加轮播图
-// Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//资讯列表展示
-// =======
+
 Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
 Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯列表展示
 Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示
@@ -59,7 +56,6 @@ Route::get('/Game/game_banner', 'GameController@game_banner');//游戏列表 轮
 Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
 Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 热门 页展示
 Route::get('/Game/be_up_game', 'GameController@be_up_game');//游戏列表 即将 页展示
-// >>>>>>> 734014d068bb8777d4bd0ad6e526f096ae7d2ca0
 
 
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面
@@ -73,10 +69,8 @@ Route::get('/Rbac/mains', 'RbacController@mains');//管理注册模块
 Route::get('/Rbac/top', 'RbacController@top');//管理注册模块
 Route::get('/Rbac/bottom', 'RbacController@bottom');//管理注册模块
 Route::get('Rbac/userlist', 'RbacController@userlist');//管理注册模块
-// <<<<<<< HEAD
 Route::get('Rbac/banner', 'HomePageController@banner');//添加轮播图
 Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');//添加轮播图
-// =======
 Route::get('Rbac/banner', 'RbacController@banner');//管理注册模块
 Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');
 Route::get('Rbac/shorts', 'ArticleController@shorts');//短资讯后端添加界面

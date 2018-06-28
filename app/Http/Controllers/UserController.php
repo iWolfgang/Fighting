@@ -167,8 +167,57 @@ class UserController extends Controller
 
         $GetPYModel = new UserModel();
 
-        $res = $GetPYModel->userinfo($key);
+        $ret = $GetPYModel->userinfo($key);
 
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "登陆成功",
+            "data" => $ret
+        );
         $this->_response($res);
+    }
+/**
+ * 添加add用户信息 
+ * Author Amber
+ * Date 2018-06-26
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
+    public function userinfo_add(Request $request)
+    {
+        $head_img = $request->file("head_img");
+        $user_id = $request->input("user_id"); 
+        $user_name = $request->input("user_name"); 
+        $sex = $request->input("sex"); 
+        $email = $request->input("email"); 
+        $GetPYModel = new UserModel();
+
+        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$sex,$$email);
+
+        // $bool = $this->_response($res);
+        if($bool == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "修改成功"
+        );
+        $this->_response($res);
+
     }
 }

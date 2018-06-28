@@ -51,7 +51,7 @@ td.fenye{ padding:10px 0 0 0; text-align:right;}
   <h1>首页中的视频资讯和游戏模块都在此处添加！</h1>
   <tr>
     <td align="left" valign="top">
-    <form  method="post" enctype="multipart/form-data" action="http://dev.api.miyin.com:8000/Rbac/game_video_info">
+    <form  method="post" enctype="multipart/form-data" action="/Rbac/game_video_info">
  <table width="100%" border="0" cellspacing="0" cellpadding="0" id="main-tab">
     
       <tr onMouseOut="this.style.backgroundColor='#ffffff'" onMouseOver="this.style.backgroundColor='#edf5ff'">

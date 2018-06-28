@@ -53,8 +53,6 @@ class HomePageController extends Controller
      */
     public function slideshow(Request $request)
     {
-        echo 'sssssssssssssssss';die;
-        $slideshow_type = $request->input("slideshow_type");
 
         $HomePageModel = new HomePageModel();
 
@@ -94,9 +92,9 @@ class HomePageController extends Controller
 
         $ret = $HomePageModel->slideshow_add( $slideshow,  $slideshow_title, $slideshow_url, $slideshow_type);
         if($ret == FALSE){
-             echo "<script>alert('添加失败');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+             echo "<script>alert('添加失败');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
         }else{
-            echo "<script>alert('添加成功');window.location.href = 'http://dev.api.miyin.com//Rbac/banner'</script>";
+            echo "<script>alert('添加成功');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
            
 
         }

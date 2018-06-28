@@ -74,7 +74,7 @@ class RbacController extends Controller
     }
     public function game_video_info(Request $request)
     {
-       echo 1;die;
+       // echo 1;die;
         $title = $request['title'];
         $content = $request['content'];
         $source = $request['source'];
