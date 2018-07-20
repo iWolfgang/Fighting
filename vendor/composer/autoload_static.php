@@ -114,6 +114,8 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'A' => 
         array (
             'App\\' => 4,
+            'Aliyun\\Test\\' => 12,
+            'Aliyun\\' => 7,
         ),
     );
 
@@ -292,6 +294,14 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         array (
             0 => __DIR__ . '/../..' . '/app',
         ),
+        'Aliyun\\Test\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/tests',
+        ),
+        'Aliyun\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib',
+        ),
     );
 
     public static $prefixesPsr0 = array (
@@ -334,11 +344,37 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
     );
 
     public static $classMap = array (
+        'Aliyun\\Api\\Sms\\Request\\V20170525\\QueryInterSmsIsoInfoRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Api/Sms/Request/V20170525/QueryInterSmsIsoInfoRequest.php',
+        'Aliyun\\Api\\Sms\\Request\\V20170525\\QuerySendDetailsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Api/Sms/Request/V20170525/QuerySendDetailsRequest.php',
+        'Aliyun\\Api\\Sms\\Request\\V20170525\\SendInterSmsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Api/Sms/Request/V20170525/SendInterSmsRequest.php',
+        'Aliyun\\Api\\Sms\\Request\\V20170525\\SendSmsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Api/Sms/Request/V20170525/SendSmsRequest.php',
+        'Aliyun\\Core\\AcsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/AcsRequest.php',
+        'Aliyun\\Core\\AcsResponse' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/AcsResponse.php',
+        'Aliyun\\Core\\Auth\\Credential' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Auth/Credential.php',
+        'Aliyun\\Core\\Auth\\ISigner' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Auth/ISigner.php',
+        'Aliyun\\Core\\Auth\\ShaHmac1Signer' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Auth/ShaHmac1Signer.php',
+        'Aliyun\\Core\\Auth\\ShaHmac256Signer' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Auth/ShaHmac256Signer.php',
+        'Aliyun\\Core\\Config' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Config.php',
+        'Aliyun\\Core\\DefaultAcsClient' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/DefaultAcsClient.php',
+        'Aliyun\\Core\\Exception\\ClientException' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Exception/ClientException.php',
+        'Aliyun\\Core\\Exception\\ServerException' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Exception/ServerException.php',
+        'Aliyun\\Core\\Http\\HttpHelper' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Http/HttpHelper.php',
+        'Aliyun\\Core\\Http\\HttpResponse' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Http/HttpResponse.php',
+        'Aliyun\\Core\\IAcsClient' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/IAcsClient.php',
+        'Aliyun\\Core\\Profile\\DefaultProfile' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Profile/DefaultProfile.php',
+        'Aliyun\\Core\\Profile\\IClientProfile' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Profile/IClientProfile.php',
+        'Aliyun\\Core\\Regions\\Endpoint' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Regions/Endpoint.php',
+        'Aliyun\\Core\\Regions\\EndpointConfig' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Regions/EndpointConfig.php',
+        'Aliyun\\Core\\Regions\\EndpointProvider' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Regions/EndpointProvider.php',
+        'Aliyun\\Core\\Regions\\ProductDomain' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/Regions/ProductDomain.php',
+        'Aliyun\\Core\\RoaAcsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/RoaAcsRequest.php',
+        'Aliyun\\Core\\RpcAcsRequest' => __DIR__ . '/..' . '/jjonline/aliyun-dysms-php-sdk/lib/Core/RpcAcsRequest.php',
         'App\\ArticleCollectModel' => __DIR__ . '/../..' . '/app/ArticleCollectModel.php',
         'App\\ArticleCommentModel' => __DIR__ . '/../..' . '/app/ArticleCommentModel.php',
         'App\\ArticleModel' => __DIR__ . '/../..' . '/app/ArticleModel.php',
         'App\\Console\\Kernel' => __DIR__ . '/../..' . '/app/Console/Kernel.php',
         'App\\Exceptions\\Handler' => __DIR__ . '/../..' . '/app/Exceptions/Handler.php',
+        'App\\GameModel' => __DIR__ . '/../..' . '/app/GameModel.php',
         'App\\GetPYModel' => __DIR__ . '/../..' . '/app/GetPYModel.php',
         'App\\HomePageModel' => __DIR__ . '/../..' . '/app/HomePageModel.php',
         'App\\Http\\Controllers\\ArticleCollectController' => __DIR__ . '/../..' . '/app/Http/Controllers/ArticleCollectController.php',
@@ -349,6 +385,7 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'App\\Http\\Controllers\\Auth\\RegisterController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/RegisterController.php',
         'App\\Http\\Controllers\\Auth\\ResetPasswordController' => __DIR__ . '/../..' . '/app/Http/Controllers/Auth/ResetPasswordController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',
+        'App\\Http\\Controllers\\GameController' => __DIR__ . '/../..' . '/app/Http/Controllers/GameController.php',
         'App\\Http\\Controllers\\HomePageController' => __DIR__ . '/../..' . '/app/Http/Controllers/HomePageController.php',
         'App\\Http\\Controllers\\RbacController' => __DIR__ . '/../..' . '/app/Http/Controllers/RbacController.php',
         'App\\Http\\Controllers\\SmsCodeController' => __DIR__ . '/../..' . '/app/Http/Controllers/SmsCodeController.php',
@@ -1430,6 +1467,7 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Illuminate\\Foundation\\Testing\\WithoutEvents' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/Testing/WithoutEvents.php',
         'Illuminate\\Foundation\\Testing\\WithoutMiddleware' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/Testing/WithoutMiddleware.php',
         'Illuminate\\Foundation\\Validation\\ValidatesRequests' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/Validation/ValidatesRequests.php',
+        'Illuminate\\Hashing\\AbstractHasher' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Hashing/AbstractHasher.php',
         'Illuminate\\Hashing\\ArgonHasher' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Hashing/ArgonHasher.php',
         'Illuminate\\Hashing\\BcryptHasher' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Hashing/BcryptHasher.php',
         'Illuminate\\Hashing\\HashManager' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Hashing/HashManager.php',
@@ -3087,6 +3125,7 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Psy\\Command\\SudoCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/SudoCommand.php',
         'Psy\\Command\\ThrowUpCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/ThrowUpCommand.php',
         'Psy\\Command\\TimeitCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/TimeitCommand.php',
+        'Psy\\Command\\TimeitCommand\\TimeitVisitor' => __DIR__ . '/..' . '/psy/psysh/src/Command/TimeitCommand/TimeitVisitor.php',
         'Psy\\Command\\TraceCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/TraceCommand.php',
         'Psy\\Command\\WhereamiCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/WhereamiCommand.php',
         'Psy\\Command\\WtfCommand' => __DIR__ . '/..' . '/psy/psysh/src/Command/WtfCommand.php',
@@ -3876,6 +3915,7 @@ class ComposerStaticInit0b7505da2765b86545b9b84ac9a7ce93
         'Symfony\\Component\\VarDumper\\Dumper\\HtmlDumper' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/HtmlDumper.php',
         'Symfony\\Component\\VarDumper\\Dumper\\ServerDumper' => __DIR__ . '/..' . '/symfony/var-dumper/Dumper/ServerDumper.php',
         'Symfony\\Component\\VarDumper\\Exception\\ThrowingCasterException' => __DIR__ . '/..' . '/symfony/var-dumper/Exception/ThrowingCasterException.php',
+        'Symfony\\Component\\VarDumper\\Server\\Connection' => __DIR__ . '/..' . '/symfony/var-dumper/Server/Connection.php',
         'Symfony\\Component\\VarDumper\\Server\\DumpServer' => __DIR__ . '/..' . '/symfony/var-dumper/Server/DumpServer.php',
         'Symfony\\Component\\VarDumper\\Test\\VarDumperTestTrait' => __DIR__ . '/..' . '/symfony/var-dumper/Test/VarDumperTestTrait.php',
         'Symfony\\Component\\VarDumper\\VarDumper' => __DIR__ . '/..' . '/symfony/var-dumper/VarDumper.php',

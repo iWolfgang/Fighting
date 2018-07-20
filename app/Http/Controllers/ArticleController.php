@@ -174,6 +174,7 @@ class ArticleController extends Controller
      */
     public function getArticleInfo(Request $request)
     {
+        // echo 1;die;
         $article_id = intval($request->input("article_id"));
 
         if(empty($article_id)){
@@ -187,7 +188,7 @@ class ArticleController extends Controller
         $ArticleModel = new ArticleModel();
 
         $ret = $ArticleModel->getArticleInfo($article_id);
-
+     
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

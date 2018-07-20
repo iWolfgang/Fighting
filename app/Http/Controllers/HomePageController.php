@@ -56,7 +56,7 @@ class HomePageController extends Controller
 
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->slideshow($slideshow_type);
+        $ret = $HomePageModel->slideshow();
      
         if($ret == FALSE){
             $res = array(
@@ -83,18 +83,19 @@ class HomePageController extends Controller
     public function slideshow_add(Request $request){
 
         $slideshow = $request->file("slideshow");
-        
-        $slideshow_url = $request->input("slideshow_url");
-        $slideshow_type = $request->input("slideshow_type");
         $slideshow_title = $request->input("title");
+        $slideshow_type = $request->input("slideshow_type");
+        $slideshow_url = $request->input("slideshow_url");
+        
+        
 
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow_add( $slideshow,  $slideshow_title, $slideshow_url, $slideshow_type);
         if($ret == FALSE){
-             echo "<script>alert('添加失败');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
+             echo "<script>alert('添加失败');window.location.href = 'http://api.mithrilgaming.com/Rbac/banner'</script>";
         }else{
-            echo "<script>alert('添加成功');window.location.href = 'http://api.mithrilgaming.com:8000/Rbac/banner'</script>";
+            echo "<script>alert('添加成功');window.location.href = 'http://api.mithrilgaming.com/Rbac/banner'</script>";
            
 
         }
@@ -133,11 +134,13 @@ class HomePageController extends Controller
         $this->_response($res);
     }
 
-    public function short_articlelist()
+    public function short_articlelist(Request $request)
     {
+        $more = $request->input("more");
+        // echo $more;die;
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->short_articlelist();
+        $ret = $HomePageModel->short_articlelist($more);
 
             if($ret == FALSE){
             $res = array(
@@ -146,7 +149,6 @@ class HomePageController extends Controller
             );
             $this->_response($res);
         }
-
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
@@ -180,11 +182,12 @@ class HomePageController extends Controller
     }
 
 
-    public function videolist()
+    public function videolist(Request $request)
     {
+        $more = $request->input("more");
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->videolist();
+        $ret = $HomePageModel->videolist($more);
 
             if($ret == FALSE){
             $res = array(
@@ -224,10 +227,10 @@ class HomePageController extends Controller
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->video_info($article_id);
-        $g_id = $ret['fk_game_id'];
-        $ArticleModel = new ArticleModel();
-        $game = $ArticleModel->getGameInfoByGameId($g_id);
-        $ret['game'] = $game;
+        // $g_id = $ret['fk_game_id'];
+        // $ArticleModel = new ArticleModel();
+        // $game = $ArticleModel->getGameInfoByGameId($g_id);
+        // $ret['game'] = $game;
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -244,11 +247,34 @@ class HomePageController extends Controller
 
         $this->_response($res);
     }
-    public function q_ask()
-    {
+    public function q_question(){
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->q_ask();
+        $ret = $HomePageModel->q_question();
+
+            if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
+    public function q_ask(Request $request)
+    {
+     //  $user_id = $request->input("user_id");$user_id,
+        $id = $request->input("id");
+        $HomePageModel = new HomePageModel();
+
+        $ret = $HomePageModel->q_ask($id);
 
             if($ret == FALSE){
             $res = array(

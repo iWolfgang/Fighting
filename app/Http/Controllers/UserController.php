@@ -21,8 +21,8 @@ class UserController extends Controller
 
         $sms_code = $request->input("sms_code");
 
-        $device_id = $request->input("device_id");
-        $user_platform = $request->input("user_platform");
+        // $device_id = $request->input("device_id");
+        // $user_platform = $request->input("user_platform");
 
         if(empty($user_mobile) || preg_match("/^1[34578]{1}\d{9}$/",$user_mobile) == FALSE){
             $res = array(
@@ -50,7 +50,7 @@ class UserController extends Controller
 
         $UserModel = new UserModel();
 
-        $ret = $UserModel->regist($user_mobile, $user_passwd, $sms_code, $device_id, $user_platform);
+        $ret = $UserModel->regist($user_mobile, $user_passwd, $sms_code);
 
         if($ret == FALSE){
             $res = array(
@@ -86,6 +86,7 @@ class UserController extends Controller
         $user_passwd = $request->input('user_passwd');    
 
         if(empty($user_mobile) || preg_match("/^1[34578]{1}\d{9}$/",$user_mobile) == FALSE){
+            // echo 1;die;
             $res = array(
                 "errNo" => "0002",
                 "errMsg" => "手机号码格式不正确"
@@ -94,16 +95,18 @@ class UserController extends Controller
         }
 
         if($login_type == 2 && (empty($user_passwd) || strlen($user_passwd) != 32)){
+            // echo 2;die;
             $res = array(
-                "errNo" => "0002",
+                "errNo" => "0003",
                 "errMsg" => "密码格式不正确"
             );
             $this->_response($res);
         }
 
         if ($login_type == 1 && (empty($sms_code) || is_numeric($sms_code) == FALSE)){
+            // echo 3;die;
             $res = array(
-                "errNo" => "0002",
+                "errNo" => "0004",
                 "errMsg" => "短信验证码格式不正确"
             );
             $this->_response($res);
@@ -120,6 +123,7 @@ class UserController extends Controller
         $UserModel = new UserModel();
 
         $ret = $UserModel->login($user_mobile, $login_type, $sms_code, $user_passwd);
+        // dump($ret);die;
 
         if($ret == FALSE){
             $res = array(

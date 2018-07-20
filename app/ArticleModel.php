@@ -17,7 +17,8 @@ class ArticleModel extends Model{
      * Date 2018-06-14
      * Params [params]
      * @param [type] $page    [文章id]
-     * @param [type] $user_id [用户id]
+     * @param [type] $user_id [用户i
+     *d]
      */
     public function Like_zan($page,$user_id)
     {
@@ -127,18 +128,18 @@ class ArticleModel extends Model{
     public function getD_ArtInfo($article_id)
     {
       $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','updatetime','source','image_url','fk_game_id')
+        ->select('t_shorts_article.id','title','content','updated_at','source','image_url','fk_game_id')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('t_shorts_article.id',$article_id)
         ->get();
        $data = json_decode(json_encode($objects), true);
-       //print_r($data);die;
+      
         $imgArr = array();
         foreach ($data as $key => $value) {
           $imgArr[$value['id']][] = $value['image_url'];
           
         }
-
+//  print_r($imgArr);die;
         $res = array();
         foreach ($data as $key => $value) {
           $res[$value['id']] = $value;
@@ -178,11 +179,7 @@ class ArticleModel extends Model{
             return $res;
         }
         if($comment_info == false){
-            $res = array(
-                "errNo" => "3003",
-                "errMsg" => "暂无评论"
-            );
-            return $res;
+           $comment_info = "暂无评论";
         }
 
         // echo $articleInfo[0]['fk_game_id'];die;
@@ -190,11 +187,12 @@ class ArticleModel extends Model{
             $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
         }
         if($gameInfo == '游戏信息不存在'){
-            $res = array(
-                "errNo" => "3002",
-                "errMsg" => "游戏信息不存在"
-            );
-            return $res;
+            $gameInfo = "游戏信息不存在";
+            // $res = array(
+            //     "errNo" => "3002",
+            //     "errMsg" => "游戏信息不存在"
+            // );
+            // return $res;
         }
         $res = array();
         $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
@@ -263,7 +261,13 @@ class ArticleModel extends Model{
     public function getArticleInfoById($article_id = 0)
     {
 
-        $articleInfo = DB::select('SELECT article_title,fk_game_id,article_content,article_img,article_reading,article_author,article_source,updatetime FROM t_article a JOIN t_article_main b ON a.id = b.m_id where a.id  = :id and a.article_status = 1;', [':id'=>$article_id]);
+        $articleInfo = DB::select('SELECT article_title,fk_game_id,article_thumb,article_content,article_reading,article_author,article_source,updated_at FROM t_article 
+        where id  = :id and article_status = 1;', [':id'=>$article_id]);
+        // $objects = DB::table('t_article')  
+        // ->select('id','article_thumb','article_title','article_type','updatetime','article_source')
+        // // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
+        // ->limit(9)
+        // ->get();
         $articleInfos = json_decode(json_encode($articleInfo), true);
         // print_r($articleInfos);die;
         return empty($articleInfo) ? false : $articleInfos;
@@ -322,7 +326,7 @@ class ArticleModel extends Model{
     {
         $res = array();
         $res['title'] = $article_info['article_title'];
-        $res['thumb'] = $article_info['article_img'];
+        $res['thumb'] = $article_info['article_thumb'];
         $res['article_reading'] = $article_info['article_reading'];
         $res['author'] = $article_info['article_author'];
         $res['content'] = $article_info['article_content'];

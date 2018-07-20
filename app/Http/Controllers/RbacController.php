@@ -49,7 +49,7 @@ class RbacController extends Controller
     public function article_add(Request $request)
     {
       
-
+echo 2;die;
         $headimg =  $request->file("files");
         $content = $request->input('content');
         $title = $request['title'];
@@ -57,7 +57,7 @@ class RbacController extends Controller
         $type = $request['type'];
         $game_name = $request['game_name'];
         $article_author = $request['article_author'];
-// print_r($headimg."||".$content."||".$title."||".$source."||".$type."||".$game_name);die;
+ //print_r($headimg."||".$content."||".$title."||".$source."||".$type."||".$game_name);die;
 
         $RbacModel = new RbacModel();
 

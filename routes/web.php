@@ -30,9 +30,9 @@ Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//�
 
 Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
-Route::post('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
-Route::post('/Game/Game_Info', 'GameController@game_info');//游戏详情页
-Route::post('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
+Route::get('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
+Route::get('/Game/Game_Info', 'GameController@game_info');//游戏详情页
+Route::get('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
@@ -45,10 +45,12 @@ Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同�
 
 Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
 Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯列表展示
-Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示
-Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频列表展示
+Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示D
+// Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频列表展示
 Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
-Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//问答列表展示
+Route::get('/HomePage/q_question', 'HomePageController@q_question');//问列表展示
+Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//答列表展示
+
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
 
 Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞 
@@ -66,9 +68,9 @@ Route::post('/Rbac/regist_do', 'RbacController@regist_do');//管理注册模块
 Route::get('/Rbac/left', 'RbacController@left');//管理注册模块
 Route::get('/Rbac/swich', 'RbacController@swich');//管理注册模块
 Route::get('/Rbac/mains', 'RbacController@mains');//管理注册模块
-Route::get('/Rbac/top', 'RbacController@top');//管理注册模块
-Route::get('/Rbac/bottom', 'RbacController@bottom');//管理注册模块
-Route::get('Rbac/userlist', 'RbacController@userlist');//管理注册模块
+Route::get('/Rbac/top', 'RbacController@top');
+Route::get('/Rbac/bottom', 'RbacController@bottom');
+Route::get('Rbac/userlist', 'RbacController@userlist');
 Route::get('Rbac/banner', 'HomePageController@banner');//添加轮播图
 Route::post('Rbac/banner_info', 'HomePageController@slideshow_add');//添加轮播图
 Route::get('Rbac/banner', 'RbacController@banner');//管理注册模块

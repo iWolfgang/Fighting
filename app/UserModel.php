@@ -22,9 +22,9 @@ class UserModel extends Model
      * @param  string  $user_passwd   [登录密码]
      * @param  integer $sms_code      [短信验证码]
      * @param  string  $device_id     [注册设备id]
-     * @param  string  $user_platform [注册平台]
+     * @param  string  $user_platform [注册平台]$device_id = '', $user_platform = ''
      */
-    public function regist($user_mobile = '', $user_passwd = '', $sms_code = 0, $device_id = '', $user_platform = '')
+    public function regist($user_mobile = '', $user_passwd = '', $sms_code = 0)
     {
         $checkSmsCode = $this->checkSmsCode($user_mobile, $sms_code);
         if($checkSmsCode == FALSE){
@@ -47,7 +47,7 @@ class UserModel extends Model
             return $res;
         }
 
-        $add = $this->addUserInfoByMobile($user_mobile, $user_passwd, $device_id, $user_platform);
+        $add = $this->addUserInfoByMobile($user_mobile, $user_passwd);
 
         if($add == false){
             $res = array(
@@ -85,10 +85,13 @@ class UserModel extends Model
         }
 
         if($login_type == 1){
+            // echo 1;
+            
             $userId = $this->getUserIdBySmsCode($user_mobile, $sms_code);
         }
 
         if($login_type == 2){
+            // echo 2;die;
             $userId = $this->getUserIdByUserPasswd($user_mobile, $user_passwd);
         }
 
@@ -100,18 +103,19 @@ class UserModel extends Model
 
             return $res;
         }
+        // dump($userId);die;
 
-       // $userId = 1;
+       $userid = $userId['id'];
         if(isset($userId['errNo'])){
             return $userId;
         }
 
 
-        $userToken = $this->createUserToken($userId);
-
+        $userToken = $this->createUserToken($userid);
+        // dump($userToken);die;
         $res = array(
             "token" => $userToken,
-            "user_id" => $userId
+            "user_id" => $userid
         );
         return $res;
     }
@@ -125,9 +129,10 @@ class UserModel extends Model
      */
     public function createUserToken($user_id = 0)
     {
+        // echo 1;die;
         $time = time();
         $secret = md5($user_id . $time . rand(1111,9999));
-
+        // echo $secret;die;
         $token = sprintf("%s|%s|%s", $user_id, $time, $secret);
 
         $key = sprintf("MYAPI_USER_TOKEN_%s", $user_id);
@@ -158,7 +163,7 @@ class UserModel extends Model
             return $res;
         }
         $res = $this->getUserInfoByMobile($user_mobile);
-print_r($res);die;
+// print_r($res);die;
         return $res;
     }
 
@@ -173,7 +178,7 @@ print_r($res);die;
     public function getUserIdByUserPasswd($user_mobile = '', $user_passwd = '')
     {
         $userInfo = $this->getUserInfoByMobile($user_mobile);
-
+    //    dump($userInfo);die;
         if($userInfo == false){
             $res = array(
                 "errNo" => "1005",
@@ -189,7 +194,7 @@ print_r($res);die;
             );
             return $res;
         }
-        return $userInfo['id'];
+        return $userInfo;
     }
 
 
@@ -205,7 +210,7 @@ print_r($res);die;
         $userInfo = DB::table($this->_tabName)
             ->where('user_mobile', $user_mobile)
             ->first();
-
+        // dump($userInfo);die;
         return empty($userInfo) ? false : get_object_vars($userInfo);
     }
 
@@ -281,7 +286,7 @@ print_r($res);die;
             ->insertGetId($data);
 // print_r($add);die;
         $res = array();
-        $res['head_portrait'] = 'https://mithril-capsule.oss-cn-beijing.aliyuncs.com/1.jpg';
+        $res['head_portrait'] = 'https://mithril-capsule.oss-cn-beijing.aliyuncs.com/986528.jpg';
         $res['user_name'] = '秘银'.rand(1000,9999).'用户';
         $res['user_id'] = $add;
         $res['sex'] = '男';
@@ -301,9 +306,10 @@ print_r($res);die;
      */
     public function createPasswd($passwd = '')
     {
-        $signStr = "r1zhaox1anglushengz1yan";
+        // $signStr = "r1zhaox1anglushengz1yan";
 
-        return md5($passwd . $signStr);
+       // return md5($passwd . $signStr);
+        return $passwd;
     }
 
 

@@ -20,22 +20,11 @@ class HomePageModel extends Model
      */
     public function slideshow()
     {
-
-
-        if(empty($slideshow_type)){
-           $where = null;
-           echo $where;die;
-        }
-        // $data = DB::table($this->_tabName)
-        // // ->where('type', 1)
-        // ->limit(3)
-        // ->get(['slideshow','title','slideshow_url','type']);
-
-          $data = DB::table($this->_tabName)
-            
+      $data = DB::table($this->_tabName) 
             ->limit(3)
             ->get(['slideshow','title','slideshow_url','type']);
           $data = json_decode(json_encode($data), true);
+          //print_r($data);die;
 
           return $data;
         
@@ -52,7 +41,6 @@ class HomePageModel extends Model
     {
 
         $file = $slideshow;
-                // print_r($file);die;
         if($file -> isValid()){  
             //检验一下上传的文件是否有效  
             $clientName = $file -> getClientOriginalName(); //获取文件名称  
@@ -66,7 +54,7 @@ class HomePageModel extends Model
             $newName = date('ymdhis').$clientName;
             $path = $file -> move('services',$newName);  
         }
-        OSS::publicUpload('mithril-capsule',$newName, $path);// 上传一个文件
+        OSS::publicUpload('mithril-capsule',$newName, $path,['Content-Type' => $mimeTye]);// 上传一个文件
 
         $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
 
@@ -110,46 +98,59 @@ class HomePageModel extends Model
       if($game_id > 0){
 
           $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updatetime','article_source')
+                ->select('id','article_thumb','article_title','article_type','updated_at','article_source')
                 ->where('fk_game_id', $game_id)
-                ->join('t_article_main','t_article.id','=','t_article_main.m_id')
+                // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
                 ->limit(9)
                 ->get();
         }else{
            $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updatetime','article_source')
-                ->join('t_article_main','t_article.id','=','t_article_main.m_id')
+                ->select('id','article_thumb','article_title','article_type','updated_at','article_source')
+                // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
                 ->limit(9)
                 ->get();
         }
             
           $data = json_decode(json_encode($objects), true);
+          
           return empty($data) ? false : $data;
     }
-
-   public function short_articlelist()
+//,'updatetime'
+   public function short_articlelist($more)
     {
-      $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','updatetime','source','image_url')
+
+      if($more == 1){
+        $objects = DB::table('t_shorts_article')
+        ->select('t_shorts_article.id','title','content','source','imageurl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->get();
-       $data = json_decode(json_encode($objects), true);
-        $imgArr = array();
-        foreach ($data as $key => $value) {
-          $imgArr[$value['id']][] = $value['image_url'];
-          
-        }
+      }else{
+        $objects = DB::table('t_shorts_article')  
+        ->select('t_shorts_article.id','title','content','source','imageurl')
+        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+        ->limit(6)
+        ->get();
+      }
 
+       $data = json_decode(json_encode($objects), true);
+
+
+       $imgArr = array();
+        foreach ($data as $key => $value) {
+          $imgArr[$value['id']] =  $this->getImageurlAttribute( $value['imageurl']);   
+        }
         $res = array();
         foreach ($data as $key => $value) {
           $res[$value['id']] = $value;
 
-          $res[$value['id']]['image_url'] = $imgArr[$value['id']];
+          $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
         }
-
           return empty($res) ? false : $res;
     }
-
+    public function getImageurlAttribute($cover)
+    {
+        return json_decode($cover, true);
+    }  
 
   public function game_videolist()
     {
@@ -166,14 +167,20 @@ class HomePageModel extends Model
     }
 
 
-  public function videolist()
+  public function videolist($more)
     {
+          if($more == 1){
+            // echo 1;die;
+            $objects = DB::table('t_video')  
+            ->select('id','video_text','video_url','created_at')
+            ->get();
+          }else{
           $objects = DB::table('t_video')  
-                ->select('id','video_text','video_url','video_source','update')
-               // ->where(  'video_type','2')
+                ->select('id','video_text','video_url','created_at')
                 ->limit(4)
                 ->get();
- 
+
+          }
           $data = json_decode(json_encode($objects), true);
 
           return empty($data) ? false : $data;
@@ -184,12 +191,12 @@ class HomePageModel extends Model
  * Date 2018-06-22
  * Params [params]
  * @param  string $value [description]
- * @return [type]        [description]
+ * @return [type]        [description],'fk_game_id'
  */
   public function video_info($article_id)
   {
               $objects = DB::table('t_video')  
-                ->select('id','Video_text','video_url','video_source','update','fk_game_id')
+                ->select('id','video_url','video_text','updated_at')
                 ->where('id',$article_id)
                 ->first();
  
@@ -197,27 +204,42 @@ class HomePageModel extends Model
 
           return empty($data) ? false : $data;
   }
-    public function q_ask()
-    {
+
+    public function q_question(){
         $objects = DB::table('t_issue')  
-        ->select('t_issue.id','issue_id','issue','answer')
-        ->join('t_answer','t_issue.id','=','t_answer.issue_id')
+        ->select('id','issue','describe')
+        // ->join('t_answer','t_issue.id','=','t_answer.issue_id')
         ->get();
        $data = json_decode(json_encode($objects), true);
+       return empty($data) ? false : $data;
+    }
+    public function q_ask($id)
+    {
+        
+      //  $objects = DB::table('t_issue')  
+      //   ->select('t_issue.id','issue_id','issue','describe','answer','user_id','user_id','user_name','head_portrait')
+      //   ->join('t_answer','t_issue.id','=','t_answer.issue_id')
+      //   ->get();
+        $objects = DB::table('t_answer')  
+        ->select()
+        ->where('t_answer.issue_id',$id)
+        // ->join('t_user_infos','t_answer.user_id','=','t_user_infos.user_id')
+        ->get();
+       $data = json_decode(json_encode($objects), true);
+     
+      //  $arr = array();
+      //  foreach ($data as $key => $value) {
+      //    $arr[$value['issue_id']][] = $value['answer'];
+      //    $arr[$value['user_id']][] = $value['user_id'];
+      //  }
+      //   // 
+      //  $res = array();
+      //  foreach ($data as $key => $value) {
+      //    $res[$value['id']] = $value;
+      //    $res[$value['id']]['answer'] = $arr[$value['id']];
+      //  }
 
-       // print_r($data);die;
-       $arr = array();
-       foreach ($data as $key => $value) {
-         $arr[$value['issue_id']][] = $value['answer'];
-       }
-        // 
-       $res = array();
-       foreach ($data as $key => $value) {
-         $res[$value['id']] = $value;
-         $res[$value['id']]['answer'] = $arr[$value['id']];
-       }
-
-          return empty($res) ? false : $res;
+          return empty($data) ? false : $data;
    }
      
 

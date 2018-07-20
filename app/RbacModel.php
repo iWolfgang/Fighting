@@ -97,9 +97,9 @@ class RbacModel extends Model
 
     public function article_add($headimg,$content,$title,$source,$type,$game_name,$article_author)
     {
-
+        echo 1;die;
         $file = $headimg;
-        
+        var_dump($file);die;
         if($file -> isValid()){  
             //检验一下上传的文件是否有效  
             $clientName = $file -> getClientOriginalName(); //获取文件名称  
@@ -109,12 +109,10 @@ class RbacModel extends Model
             $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
 
             $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 image/jpeg  
-            echo $mimeTye;die;
             $newName = date('ymdhis').$clientName;
             $path = $file -> move('services',$newName);  
         }
-       $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['Content-Type' => $mimeTye]);// 上传一个文件
-print_r($dat);die;
+        OSS::publicUpload('mithril-capsule',$newName, $path,['Content-Type' => $mimeTye]);// 上传一个文件
         $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
             $data['article_title'] = $title;
             $data['article_content'] = $content;

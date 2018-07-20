@@ -10,10 +10,14 @@ use App\HomePageModel;
 class GameController extends Controller
 {
 
-
+/**
+ * //游戏详情页
+ * Author Amber
+ * Date 2018-06-28
+ */
 	public function game_info(Request $request)
 	{
-		$user_id = $request->input("user_id");
+		//$user_id = $request->input("user_id");
 		$game_id = $request->input("game_id");
 
         $HomePageModel = new HomePageModel();
@@ -22,7 +26,7 @@ class GameController extends Controller
 
         $GameModel = new GameModel();
 
-        $ret = $GameModel->game_info($user_id,$game_id);
+        $ret = $GameModel->game_info($game_id);
 
         if($ret == FALSE){
             $res = array(

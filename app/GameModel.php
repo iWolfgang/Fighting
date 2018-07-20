@@ -11,10 +11,11 @@ class GameModel extends Model{
 
     public $_tabName = 't_game_main';
 
-    public function game_info($user_id,$game_id)
+    //$user_id,$user_id,
+    public function game_info($game_id)
     {
-    	$game_info = $this->game_info_msg($user_id,$game_id);
-    	 //print_r($game_info);die;
+    	$game_info = $this->game_info_msg($game_id);
+    	//print_r($game_info);die;
     	$game_name = $game_info['g_name'];
     	$game_type = $game_info['g_type'];
     	//$game_news = $this->game_news($game_id);
@@ -34,9 +35,9 @@ class GameModel extends Model{
  * Date 2018-06-19
  * Params [params]
  * @param  [type] $user_id [description]
- * @param  [type] $game_id [description]
+ * @param  [type] $game_id [description]$user_id,
  */
-    public function game_info_msg($user_id,$game_id)
+    public function game_info_msg($game_id)
     {
     	$users = DB::table('t_game_main')->select()->where('id',$game_id)->first();
 
