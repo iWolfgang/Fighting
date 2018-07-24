@@ -58,6 +58,19 @@ Route::get('/Game/game_banner', 'GameController@game_banner');//游戏列表 轮
 Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
 Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 热门 页展示
 Route::get('/Game/be_up_game', 'GameController@be_up_game');//游戏列表 即将 页展示
+//===========================================电商=========电商================================================================
+Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
+Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
+Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
+Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
+
+
+
+
+
+
+
+
 
 
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面
