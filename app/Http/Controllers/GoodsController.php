@@ -22,7 +22,7 @@ class GoodsController extends Controller
         if($res == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errMsg" => "此分类下暂无商品"
             );
             $this->_response($res);
         }
@@ -35,7 +35,14 @@ class GoodsController extends Controller
         $this->_response($res);
 
 	}
-
+/**
+ * 商品详情页
+ * Author Amber
+ * Date 2018-07-24
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
     public function detail_page(Request $request)
     {
         $goods_id = $request->input("goods_id");
@@ -47,7 +54,7 @@ class GoodsController extends Controller
         if($res == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "返回数据类型找刘然要"
+                "errMsg" => "系统有误"
             );
             $this->_response($res);
         }
@@ -59,4 +66,6 @@ class GoodsController extends Controller
 
         $this->_response($res);
     }
+
+
 }

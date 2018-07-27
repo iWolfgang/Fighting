@@ -22,7 +22,7 @@ class GoodsCatModel extends Model{
     public function only_this_homelist()
     {
         $article = DB::table($this->_tabName)
-            ->select('id','cat_name')
+            ->select('id','cat_name','cat_imageUrl','cat_imageUrlCor')
             ->where("pid", 0)
             ->get();
          
@@ -36,15 +36,11 @@ class GoodsCatModel extends Model{
     public function only_two_homelist($cat_id='')
     {
         $article = DB::table($this->_tabName)
-            ->select('id','cat_name')
+            ->select('id','cat_name','cat_imageUrl','cat_imageUrlCor')
             ->where("pid", $cat_id)
             ->get();
          
         $data = json_decode(json_encode($article), true);
-        // print_r($datas);
-        // $data = array_splice($datas,1);
-
-        // print_r($data);die;
         return $data ? $data : False;  
     }
 }

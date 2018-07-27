@@ -200,14 +200,16 @@ class UserController extends Controller
  */
     public function userinfo_add(Request $request)
     {
+
         $head_img = $request->file("head_img");
         $user_id = $request->input("user_id"); 
         $user_name = $request->input("user_name"); 
         $sex = $request->input("sex"); 
         $email = $request->input("email"); 
+        // echo $email;die;
         $GetPYModel = new UserModel();
 
-        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$sex,$$email);
+        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$sex,$email);
 
         // $bool = $this->_response($res);
         if($bool == FALSE){

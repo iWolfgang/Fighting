@@ -28,7 +28,7 @@ class GoodsModel extends Model{
     public function only_this_goodslist($classify_id='')
     {
         $article = DB::table($this->_tabName)
-            ->select('id','goods_name')
+            ->select('id','goods_name','goods_thumb')
             ->where("goods_cat", $classify_id)
             ->get();
          // print_r($article);die;
@@ -43,9 +43,23 @@ class GoodsModel extends Model{
             ->select()
             ->where("id", $goods_id)
             ->first();
-         // print_r($article);die;
-        // $data = json_decode(json_encode($article), true);
-
+            // print_r($data);die;
         return $data ? get_object_vars($data): False;     
+    }
+
+    /**
+     * 检查库存
+     */
+    public function check_sku($goods_id,$buy_num)
+    {
+        $data = $this->detail_page($goods_id);
+        // print_r($data);die;
+        $sku = $data['inventory'];
+        if($buy_num > $sku){
+            return False;
+        }
+        else{
+            return true;
+        }
     }
 }

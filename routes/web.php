@@ -50,9 +50,7 @@ Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist'
 Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
 Route::get('/HomePage/q_question', 'HomePageController@q_question');//问列表展示
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//答列表展示
-
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
-
 Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞 
 Route::get('/Game/game_banner', 'GameController@game_banner');//游戏列表 轮播图 页展示
 Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
@@ -63,6 +61,9 @@ Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
+Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
+Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
+Route::get('/Order/creat_orders', 'OrderController@creat_orders');//添加订单
 
 
 
