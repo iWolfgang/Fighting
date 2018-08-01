@@ -347,7 +347,14 @@ class UserModel extends Model
         return $count ? get_object_vars($count) : False;
 
     }
-
+/**
+ * 用户信息补全
+ * Author Amber
+ * Date 2018-08-01
+ * Params [params]
+ * @param  [type] $head_img  [description]
+ * @param  [type] $user_name [description]
+ */
     public function userinfo_add($head_img,$user_name,$user_id,$sex,$email)
     {
        $old_infos = $this->del_old_news($user_id);
@@ -386,5 +393,21 @@ class UserModel extends Model
       $res = DB::delete("delete from t_user_infos where user_id = $user_id");
     
        return $res;
+    }
+
+/**
+ * 添加收货地址
+ * Author Amber
+ * Date 2018-08-01
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function add_user_address($value='')
+    {
+        // $user_id = $order['user_id'] = $request->input("user_id");
+       // $order['contact_name'] = $request->input("contact_name");//收件人
+       //$order['contact_phone'] = $request->input("contact_phone");//收件人号码
+       //$order['last_used_at'] = date('Y-m-d H:i:s');//最后下单时间
+        // $order['address'] = $request->input("address");//收货地址
     }
 }
