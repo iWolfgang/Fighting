@@ -115,7 +115,7 @@ class GoodsBuyCarController extends Controller
 // print_r($res);die;
         if($res == FALSE){
             $res = array(
-                "errNo" => "6004",
+                "errNo" => "0",
                 "errMsg" => "购物车空空的"
             );
             $this->_response($res);

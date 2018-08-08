@@ -31,7 +31,8 @@ class OrderController extends Controller
         $order['creatorder_at'] = time();//购买总金额
         $order['expiration_at'] = time()+24*3600;//购买总金额
         $order['paid_status'] = "待支付";//购买总金额
-	    	$order['no'] = $this->creat_ordnum();//订单流水号
+        $order['no'] = $this->creat_ordnum();//订单流水号
+	    	$is_car =  $request->input("is_car");//是否调用了购物车
         // print_r($order);die;
         $isset = $this->check_address($order['user_id']);//检查地址是否存在
         if($isset == False){
@@ -45,7 +46,7 @@ class OrderController extends Controller
         $items = array(
 
           0 => array(
-                        "goods_id" => '1',
+                        "goods_id" => '9',
                         "buy_num" => '5',
                         "price" => '200'
                       ),
@@ -54,11 +55,11 @@ class OrderController extends Controller
                         "buy_num" => '7',
                         "price" => '250'
                       ),
-          2 => array(
-                        "goods_id" => '3',
-                        "buy_num" => '7',
-                        "price" => '252'
-                      ),
+          // 2 => array(2750
+          //               "goods_id" => '3',
+          //               "buy_num" => '7',
+          //               "price" => '252'
+          //             ),
         );
 
         //循环商量items
@@ -81,26 +82,30 @@ class OrderController extends Controller
             $this->_response($res);
         }
         //将下单商品从购物车中删除
-        
-        $skuIds = collect($item)->pluck('goods_id');
-        $GoodsBuyCarModel = new GoodsBuyCarModel();
-        $del = $GoodsBuyCarModel->delcar($user_id,$skuIds);
-        if($del == False){
-             $res = array(
-                "errNo" => "7003",
-                "errMsg" => "系统有误，购买失败，请重新购买"
-            );
-            $this->_response($res);
+        if($is_car){
+          // echo $is_car;die;
+          $skuIds = collect($item)->pluck('goods_id');
+          $GoodsBuyCarModel = new GoodsBuyCarModel();
+          $del = $GoodsBuyCarModel->delcar($user_id,$skuIds);
+          if($del == False){
+               $res = array(
+                  "errNo" => "7003",
+                  "errMsg" => "系统有误，购买失败，请重新购买"
+              );
+              $this->_response($res);
+          }
         }
+        
 
         //减少库存
-        
+     //   print_r($item);die;
+        // echo 2;die;
         $GoodsModel = new GoodsModel();
         $cut_sku = $GoodsModel->cut_sku($item);
         if($cut_sku == False){
              $res = array(
                 "errNo" => "7004",
-                "errMsg" => "系统有误，购买失败，请重新购买"
+                "errMsg" => "库存不足，购买失败"
             );
             $this->_response($res);
         } 
@@ -190,8 +195,24 @@ class OrderController extends Controller
    public function wait_paylist(Request $request)
    {
       $user_id = $request->input('user_id');
-      // $user_id = $request->input('user_id');
       $orderModel = new orderModel();
-      $res = $orderModel->wait_paylist($user_id);
+      $ret = $orderModel->wait_paylist($user_id);
+      //print_r($res);die;
+       // $this->_response($res);
+       if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+         }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
    }
 }
