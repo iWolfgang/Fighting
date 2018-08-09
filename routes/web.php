@@ -62,8 +62,10 @@ Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电�
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
-Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
-Route::get('/Order/creat_orders', 'OrderController@creat_orders');//添加订单
+Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
+Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单
+Route::post('/Order/wait_paylist', 'OrderController@wait_paylist');//待付款订单列表
+Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
 
 
 

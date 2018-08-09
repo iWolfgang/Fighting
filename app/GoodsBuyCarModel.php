@@ -70,51 +70,29 @@ class GoodsBuyCarModel extends Model{
 
     public function show_buycar($user_id='')
     {
-    	// $isset = DB::table($this->_tabName)
-    	//    	->select('user_id','goods_id','buy_num')
-     //        ->where("user_id", $user_id)
-     //        ->get();
-
-     //    $data = json_decode(json_encode($isset), true);
-      // print_r($data);die;
-        // $imgArr = array();
-        // foreach ($data as $key => $value) {
-        //   $imgArr[$value['goods_id']] = $value['goods_id'];
-        // }
- $objects = DB::table('g_goods')  
-        ->select('g_goods.id','g_buycar.buy_num','g_goods.goods_name','g_goods.goods_thumb','g_goods.ruling_price','g_goods.inventory')
-        ->join('g_buycar','g_goods.id','=','g_buycar.goods_id')
-        ->where('g_buycar.user_id',$user_id)
-        // ->limit(9)
-        ->get();
+        $objects = DB::table('g_goods')  
+             ->select('g_goods.id','g_buycar.buy_num','g_goods.goods_name','g_goods.goods_thumb','g_goods.ruling_price','g_goods.inventory')
+             ->join('g_buycar','g_goods.id','=','g_buycar.goods_id')
+             ->where('g_buycar.user_id',$user_id)
+             ->get();
          $objects = json_decode(json_encode($objects), true);
          return $objects;
- // print_r($objects);die;
-
-
-        //  $imgArr = array();
-        // foreach ($objects as $key => $value) {
-        //   $imgArr[$value['goods_id']] = $value['goods_id'];
-        // }
-
-
-
- // $articleInfo = DB::select("SELECT t1.buy_num,t2.goods_name,t2.ruling_price,t2.goods_code,t2.inventory FROM g_buycar t1 LEFT JOIN g_goods t2 ON t1.goods_id = t2.id WHERE t1.user_id = 1");
- //        $articleInfos = json_decode(json_encode($articleInfo), true);
-
-// print_r($articleInfos);die;
-
-
-
-
-        // $comma_separated = implode(",", $imgArr);
-        //  $data = DB::select ("select id,goods_name,ruling_price,goods_code,inventory from g_goods where id in ($comma_separated)");
-        //  return empty($data) ? false : $data;
-
-        
-       // SQLSTATE[42000]: Syntax error or access violation: 1064 You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'FROM 'g_buycar' as t1 LEFT JOIN 'g_goods' as 't2' ON 't1.goods_id' = 't2.id' WHE' at line 1 (SQL:
-       //  SELECT FROM 'g_buycar' as t1 LEFT JOIN 'g_goods' as 't2' ON 't1.goods_id' = 't2.id' WHERE 't1.user_id' = 1)
-
+    }
+/**
+ * 删除购物车已经下单的商品 
+ * Author Amber
+ * Date 2018-07-31
+ * Params [params]
+ * @param  string $user_id [description]
+ * @param  string $skuIds  [description]
+ * @return [type]          [description]
+ */
+    public function delcar($user_id = '' , $skuIds = '')
+    {
+        $objects = json_decode(json_encode($skuIds), true);
+        $objectss = implode($objects,',');
+        $del_goods =  DB::delete('delete from g_buycar where user_id = '.$user_id.' and goods_id in ('.$objectss.')');
+        return $del_goods;
     }
 
  }

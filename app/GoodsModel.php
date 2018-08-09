@@ -62,4 +62,53 @@ class GoodsModel extends Model{
             return true;
         }
     }
+/**
+ * 下单后减库存
+ * Author Amber
+ * Date 2018-08-01
+ * Params [params]
+ * @param  [type] $user_id [description]
+ * @param  [type] $skuIds  [description]
+ * @return [type]          [description]
+ */
+    public function cut_sku($item)
+    {
+        // $this -> check_sku()
+       foreach ($item as $k => $v) {
+            // select inventory from g_goods where id = '.$v['goods_id'].'
+          $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
+          $objects = json_decode(json_encode($sku), true);
+          if($objects[0]['inventory'] < $v['amout']){
+            return False;
+          }
+        } 
+        foreach ($item as $key => $value) {
+           $cut_sku =  DB::update('update g_goods set inventory = inventory- '.$value['amout'].' where id = '.$value['goods_id'].'');
+        }
+        return $cut_sku;
+    }
+
+/**
+ * 取消订单后添加库存
+ * Author Amber
+ * Date 2018-08-01
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+    public function plus_sku($value='')
+    {
+       foreach ($item as $k => $v) {
+            // select inventory from g_goods where id = '.$v['goods_id'].'
+          $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
+          $objects = json_decode(json_encode($sku), true);
+          if($objects[0]['inventory'] < 0){
+            return False;
+          }
+        } 
+        foreach ($item as $key => $value) {
+           $plus_sku =  DB::update('update g_goods set inventory = inventory+ '.$value['amout'].' where id = '.$value['goods_id'].'');
+        }
+        return $plus_sku;
+    }
 }

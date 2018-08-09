@@ -43,4 +43,5 @@ class GoodsCatModel extends Model{
         $data = json_decode(json_encode($article), true);
         return $data ? $data : False;  
     }
+
 }

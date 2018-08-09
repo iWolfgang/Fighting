@@ -24,7 +24,6 @@ class HomePageModel extends Model
             ->limit(3)
             ->get(['slideshow','title','slideshow_url','type']);
           $data = json_decode(json_encode($data), true);
-          //print_r($data);die;
 
           return $data;
         

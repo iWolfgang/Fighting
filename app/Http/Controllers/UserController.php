@@ -206,6 +206,14 @@ class UserController extends Controller
         $user_name = $request->input("user_name"); 
         $sex = $request->input("sex"); 
         $email = $request->input("email"); 
+        //=================收货地址=======================
+        // $data['province'] = $request->input("province");
+        // $data['city'] = $request->input("city");
+        // $data['district'] = $request->input("district");
+        // $data['address'] = $request->input("address");
+        // $data['contact_name'] = $request->input("contact_name");
+        // $data['contact_phone'] = $request->input("contact_phone");
+        // $data['district'] = $request->input("district");
         // echo $email;die;
         $GetPYModel = new UserModel();
 
