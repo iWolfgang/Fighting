@@ -66,8 +66,14 @@ Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//�
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单
 Route::post('/Order/wait_paylist', 'OrderController@wait_paylist');//待付款订单列表
 Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
-
-
+//===================================支付====================
+Route::get('alipay', function() {
+    return app('alipay')->web([
+        'out_trade_no' => time(),
+        'total_amount' => '1',
+        'subject' => 'test subject - 测试',
+    ]);
+});
 
 
 
