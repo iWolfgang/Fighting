@@ -83,9 +83,8 @@ class OrderModel extends Model{
                      $small[] = json_decode(json_encode($small_order), true);
                 // }
                     
-                     // print_r($small);die;
+                   // print_r($small);die;
                     foreach ($small as $ke => $va) {
-
                         foreach ($va as $k => $v) {
                             $goods = DB::table('g_goods')
                                 ->select('id','goods_name','goods_thumb')
@@ -93,22 +92,53 @@ class OrderModel extends Model{
                                 ->first();
                           
                             $list[$ke][$k]['goods'] = get_object_vars($goods);
-                            // $list[$ke][$k]['no'] =$value['no'];
-                            // $list[$ke][$k]['order_id'] =$value['id'];
+                            $list[$ke][$k]['order_id'] =$v['order_id'];
                             $list[$ke][$k]['amout'] =$v['amout'];
                             $list[$ke][$k]['price'] =$v['price'];
                          }    
                  }
              }
-
-           // print_r($list);die;
+             // print_r($list);die;
                     return $list ? $list : False; 
             }
         }
 
     }else{
             return False;
+        }  
+    }
+/**
+ * 待支付详情页
+ * Author Amber
+ * Date 2018-08-09
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+    public function wait_pay($user_id = '',$order_id = '',$goods_id = '')
+    {
+        $order = DB::table($this->_tabName)
+            ->select('id','no','address','total_amount','remark','expiration_at','creatorder_at')
+            ->where('id', $order_id)
+            ->where('user_id',$user_id)
+            ->first();
+        if(empty($order)){
+            return False;
         }
+        $orders = get_object_vars($order);
         
+        $order_item = DB::table('g_order_items')
+            ->select('amout','g_order_items.price','g_goods.goods_thumb','g_order_items.goods_id','g_goods.goods_name')
+            ->join('g_goods','g_order_items.goods_id','=','g_goods.id')
+            ->where('order_id', $order_id)
+            ->where('goods_id',$goods_id)
+            ->first();
+        if(empty($order_item)){
+            return False;
+        }
+        $order_items = get_object_vars($order_item);
+        
+        $arr = array_merge($orders,$order_items);
+        return $arr ? $arr : False; 
     }
 }

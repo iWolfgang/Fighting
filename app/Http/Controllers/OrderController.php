@@ -109,7 +109,7 @@ class OrderController extends Controller
             );
             $this->_response($res);
         } 
-        
+     
         $order_id = $this->orderstore($order);
         //循环商量items
         $itemnew = array();
@@ -197,8 +197,6 @@ class OrderController extends Controller
       $user_id = $request->input('user_id');
       $orderModel = new orderModel();
       $ret = $orderModel->wait_paylist($user_id);
-      //print_r($res);die;
-       // $this->_response($res);
        if($ret){
          $res = array(
                 "errNo" => "success",
@@ -214,5 +212,38 @@ class OrderController extends Controller
             $this->_response($res);
         
        }
+   }
+/**
+ * 待付款商品详情页
+ * Author Amber
+ * Date 2018-08-09
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+   public function wait_pay(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $order_id = $request->input('order_id');
+      $goods_id = $request->input('goods_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->wait_pay($user_id,$order_id,$goods_id);
+      if($ret){
+        // echo 1;die;
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+         }else{
+          // echo 2;die;
+           $res = array(
+                "errNo" => "7008",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+
    }
 }
