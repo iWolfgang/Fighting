@@ -18,17 +18,31 @@ class HomePageController extends Controller
  * Params [params]
  * @return [type] [description]
  */
-  public function full()
+  public function full(Request $request)
     {
+        $game_id = $request->input("game_id");
+        $more = $request->input("more");
         $HomePageModel = new HomePageModel();
-        $ret = array();
-        $ret['slideshow'] = $HomePageModel->slideshow();
-        $ret['long_articlelist'] = $HomePageModel->long_articlelist();
-        $ret['short_articlelist'] = $HomePageModel->short_articlelist();
-        $ret['game_videolist'] = $HomePageModel->game_videolist();
-        $ret['videolist'] = $HomePageModel->videolist();
-        $ret['q_ask'] = $HomePageModel->q_ask();
-        
+        // $ret = array();
+        // $ret['long_articlelist'] = $HomePageModel->long_articlelist($game_id);
+        // $ret['short_articlelist'] = $HomePageModel->short_articlelist($more);
+        // $ret['videolist'] = $HomePageModel->videolist($more);
+        $long_articlelist = $HomePageModel->long_articlelist($game_id);
+        $short_articlelist = $HomePageModel->short_articlelist($more);
+                // print_r($short_articlelist);die;
+
+        $videolist = $HomePageModel->videolist($more);
+        // print_r($ret);die;
+        $ret = array_merge($long_articlelist,$short_articlelist,$videolist);
+         // print_r($ret);die;
+        $orderFile = array();
+            foreach($ret as $vo){
+                // print_r($vo['updated_at']);die;
+               $orderFile[]=$vo['updated_at'];
+               }
+            array_multisort($orderFile ,SORT_DESC, $ret);
+            $order = array_values($ret );
+ // print_r($order);die;
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -120,7 +134,7 @@ class HomePageController extends Controller
             if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errMsg" => "内容为空"
             );
             $this->_response($res);
         }
@@ -145,7 +159,31 @@ class HomePageController extends Controller
             if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errMsg" => "内容为空"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
+
+    public function Evaluation_list(Request $request)
+    {
+        $more = $request->input("more");
+        // echo $more;die;
+        $HomePageModel = new HomePageModel();
+
+        $ret = $HomePageModel->Evaluation_list($more);
+
+            if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "内容为空"
             );
             $this->_response($res);
         }

@@ -21,7 +21,7 @@ class HomePageModel extends Model
     public function slideshow()
     {
       $data = DB::table($this->_tabName) 
-            ->limit(3)
+            ->limit(7)
             ->get(['slideshow','title','slideshow_url','type']);
           $data = json_decode(json_encode($data), true);
 
@@ -97,15 +97,15 @@ class HomePageModel extends Model
       if($game_id > 0){
 
           $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updated_at','article_source')
+                ->select('id','source_type','source_img','source_name','source_id','article_thumb','all_type','article_title','article_type','updated_at')
                 ->where('fk_game_id', $game_id)
-                // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
+                ->where('its_type','2')
                 ->limit(9)
                 ->get();
         }else{
            $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updated_at','article_source')
-                // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
+                ->select('id','source_type','source_img','source_name','source_id','article_thumb','all_type','article_title','article_type','updated_at')
+                ->where('its_type','2')
                 ->limit(9)
                 ->get();
         }
@@ -114,19 +114,50 @@ class HomePageModel extends Model
           
           return empty($data) ? false : $data;
     }
-//,'updatetime'
+    /**
+ * 测评列表
+ * Author Amber
+ * Date 2018-06-19
+ * Params `
+ * @return [type] [description]
+ */
+  public function Evaluation_list($more )
+  {
+    if($more > 0){
+
+        $objects = DB::table('t_article')  
+              ->select('id','all_type','source_type','source_img','source_name','source_id','article_thumb','article_title','article_type','updated_at')
+              ->where('its_type','1')
+              ->get();
+      }else{
+         $objects = DB::table('t_article')  
+              ->select('id','all_type','source_type','source_img','source_name','source_id','article_thumb','article_title','article_type','updated_at')
+              ->where('its_type','1')
+              ->limit(9)
+              ->get();
+      }
+          
+        $data = json_decode(json_encode($objects), true);
+        
+        return empty($data) ? false : $data;
+  }
+/**
+ * 短资讯列表页
+ */
    public function short_articlelist($more)
     {
 
       if($more == 1){
         $objects = DB::table('t_shorts_article')
-        ->select('t_shorts_article.id','title','content','source','imageurl')
+        ->select('t_shorts_article.id','source_type','source_img','source','source_id','all_type','title','content','t_shorts_article.updated_at','imageurl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+        ->orderBy('updated_at', 'desc')
         ->get();
       }else{
         $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','source','imageurl')
+        ->select('t_shorts_article.id','source_type','source_img','source','source_id','all_type','title','content','t_shorts_article.updated_at','imageurl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+        ->orderBy('updated_at', 'desc')
         ->limit(6)
         ->get();
       }
@@ -151,19 +182,19 @@ class HomePageModel extends Model
         return json_decode($cover, true);
     }  
 
-  public function game_videolist()
-    {
-          $objects = DB::table('t_video')
-          // ->("select `id`,`video_title`,`Video_text`,`video_url` from `t_video` where video_type ='1'  limit 4");
-                ->select('id','video_title','video_text','video_url')
-                ->where(  'video_type','1')
-                ->limit(4)
-                ->get();
+  // public function game_videolist()
+  //   {
+  //         $objects = DB::table('t_video')
+  //         // ->("select `id`,`video_title`,`Video_text`,`video_url` from `t_video` where video_type ='1'  limit 4");
+  //               ->select('id','video_title','video_text','video_url')
+  //               ->where(  'video_type','1')
+  //               ->limit(4)
+  //               ->get();
  
-          $data = json_decode(json_encode($objects), true);
+  //         $data = json_decode(json_encode($objects), true);
    
-          return empty($data) ? false : $data;
-    }
+  //         return empty($data) ? false : $data;
+  //   }
 
 
   public function videolist($more)
@@ -171,11 +202,11 @@ class HomePageModel extends Model
           if($more == 1){
             // echo 1;die;
             $objects = DB::table('t_video')  
-            ->select('id','video_text','video_url','created_at')
+            ->select('id','source_type','source_img','source_name','source_id','all_type','video_text','video_url','updated_at')
             ->get();
           }else{
           $objects = DB::table('t_video')  
-                ->select('id','video_text','video_url','created_at')
+                ->select('id','source_type','source_img','source_name','source_id','all_type','video_text','video_url','updated_at')
                 ->limit(4)
                 ->get();
 
@@ -186,7 +217,7 @@ class HomePageModel extends Model
     }
 /**
  *视频资讯详情页信息
- * Author Amber
+ * Author Amber-
  * Date 2018-06-22
  * Params [params]
  * @param  string $value [description]

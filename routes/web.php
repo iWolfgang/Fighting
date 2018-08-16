@@ -45,9 +45,11 @@ Route::get('/ArticleCollect/demo_db', 'ArticleCollectController@demo_db');//同�
 
 Route::get('/HomePage/slideshow', 'HomePageController@slideshow');//轮播图展示
 Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');//长资讯列表展示
+Route::get('/HomePage/Evaluation_list', 'HomePageController@Evaluation_list');//测评列表展示
 Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示D
 // Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频列表展示
 Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
+Route::get('/HomePage/full', 'HomePageController@full');//
 Route::get('/HomePage/q_question', 'HomePageController@q_question');//问列表展示
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//答列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
