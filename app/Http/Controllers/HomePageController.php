@@ -67,7 +67,7 @@ class HomePageController extends Controller
      */
     public function slideshow(Request $request)
     {
-
+        echo 1;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow();
