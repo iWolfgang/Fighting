@@ -10,10 +10,13 @@ class ArticleController extends Controller
 
     public function Like_zan(Request $request)
     {
-        $user_id = $request->input("user_id");
-        $page = $request->input("page");
+        
+        $user_id =  $request->input('user_id');//用户id
+
+        $page_id = $request->input("page_id");//文章idid
+        $type = $request->input("type");//文章类型
         $sear = new ArticleModel();
-        $ret = $sear->Like_zan($user_id,$page);
+        $ret = $sear->Like_zan($user_id,$page_id,$type);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -160,7 +163,7 @@ class ArticleController extends Controller
         }elseif(isset($ret['errNo'])){
             $this->_response($ret);
         }
-
+// print_r($ret);die;
         $res = array(
             "errNo" => 0,
             "errMsg" => "success",
@@ -174,7 +177,7 @@ class ArticleController extends Controller
      */
     public function getArticleInfo(Request $request)
     {
-        // echo 1;die;
+        
         $article_id = intval($request->input("article_id"));
 
         if(empty($article_id)){
@@ -208,27 +211,6 @@ class ArticleController extends Controller
         $this->_response($res);
     }
 
-    
-    /**
- * 短文章详情页 + 游戏模块
- * Author Amber
- * Date 2018-06-12
- * Params [params]
- * @param string $value [description]
- */
-    public function getD_ArtInfo_game($value='')
-    {
-        
-    }
-
-    public function shorts()
-    {
-        return view('rbac/shorts');
-    }
-
-    public function shorts_add()
-    {
-        echo 1;die;
-    }
+ 
 
 }

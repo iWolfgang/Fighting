@@ -115,22 +115,25 @@ class ArticleCommentModel extends Model
  * @param string $fk_user_id      [用户id]
  * @param string $comment_content [内容]
  */
-	public function addComment($fk_article_id = '',$fk_comment_id = '',$fk_user_id = '',$comment_content = '')
+	public function addComment($fk_article_id = '',$fk_user_id = '',$comment_content = '',$fk_type_name)
 	{
 		$data = array();
 
 		$data['fk_article_id'] = $fk_article_id;
-		$data['fk_comment_id'] = $fk_comment_id;
+		$data['fk_comment_pid'] = 0;
 		$data['fk_user_id'] = $fk_user_id;
 		$data['comment_content'] = $comment_content;
+		$data['fk_article_type'] = $fk_type_name;
 		$data['create_time'] = date('Y-m-d H:i:s');
+
+		// var_dump($data);die;
 		$add = DB::table($this->_tabName)
             ->insert($data);
 
 		if($add == false){
             $res = array(
                 "errNo" => "1004",
-                "errMsg" => "用户注册失败"
+                "errMsg" => "用户评论失败"
             );
 
             return $res;
@@ -173,12 +176,11 @@ class ArticleCommentModel extends Model
             );
             $this->_response($res);
         }
-        print_r($article_list);die;
+        // print_r($article_list);die;
     }
 
      public function articleComment_list1($article_id)
     {
-      // $article_list = DB::table($this->_tabName)->select('fk_article_id','fk_comment_id','comment_content','comment_level','comment_status')->where('fk_article_id', $article_id)->get();
         $article_list = DB::table($this->_tabName)->select('fk_comment_id','comment_content','comment_level')->where('fk_article_id', $article_id)->where('comment_status', 1)->get(); 
        
         return $article_list;

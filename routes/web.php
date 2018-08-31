@@ -15,7 +15,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
 Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');//发送短信验证码
 Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证码是否正确
 Route::post('/User/regist', 'UserController@regist');//用户注册
@@ -28,10 +27,10 @@ Route::post('/CheckCode/search', 'ArticleController@search');//搜索
 Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//搜索
 
 
-Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息 好
+Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
 Route::get('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
-Route::get('/Game/Game_Info', 'GameController@game_info');//游戏详情页
+Route::post('/Game/game_Info', 'GameController@game_info');//游戏详情页
 Route::get('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
@@ -48,16 +47,17 @@ Route::get('/HomePage/long_articlelist', 'HomePageController@long_articlelist');
 Route::get('/HomePage/Evaluation_list', 'HomePageController@Evaluation_list');//测评列表展示
 Route::get('/HomePage/short_articlelist', 'HomePageController@short_articlelist');//短资讯列表展示D
 // Route::get('/HomePage/game_videolist', 'HomePageController@game_videolist');//游戏视频列表展示
-Route::get('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
+Route::post('/HomePage/videolist', 'HomePageController@videolist');//视频资讯列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//
 Route::get('/HomePage/q_question', 'HomePageController@q_question');//问列表展示
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//答列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
 Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞 
-Route::get('/Game/game_banner', 'GameController@game_banner');//游戏列表 轮播图 页展示
+Route::get('/Game/game_list', 'GameController@game_list');//游戏列表页展示
 Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
-Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 热门 页展示
-Route::get('/Game/be_up_game', 'GameController@be_up_game');//游戏列表 即将 页展示
+Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 新品 页展示
+Route::get('/Game/discounts', 'GameController@discounts');//游戏列表 优惠 页展示
+Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 页展示
 //===========================================电商=========电商================================================================
 Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
