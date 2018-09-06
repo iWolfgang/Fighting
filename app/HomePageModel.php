@@ -49,7 +49,7 @@ class HomePageModel extends Model
         // echo 1;die;
         
            $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','created_at')
+                ->select('id','all_type','article_thumb','article_title','article_type','created_at')
                 ->where('its_type','2')
                  ->limit(9)
                  ->orderBy('created_at', 'desc')
@@ -132,11 +132,7 @@ class HomePageModel extends Model
 
   public function videolist($more)
     {
-      //*,$tap
-        // $tap = DB::table('g_tapget')  
-        //     ->select('id','tap_name')
-        //     ->get();
-
+      
           if($more){
             
             $objects = DB::table('t_video')  
@@ -155,7 +151,7 @@ class HomePageModel extends Model
 
           }
           $data = json_decode(json_encode($objects), true);
-
+          // print_r($data);die;
           return empty($data) ? false : $data;
     }
 
@@ -170,7 +166,7 @@ class HomePageModel extends Model
   public function video_info($article_id)
   {
               $objects = DB::table('t_video')  
-                ->select('id','source_img','source','video_url','video_text','video_desc','updated_at','fk_game_id','tapid')
+                ->select('id','source_img','source','video_url','video_text','video_desc','created_at','fk_game_id','tapid')
                 ->where('id',$article_id)
                 ->first();
  

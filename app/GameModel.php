@@ -146,7 +146,7 @@ class GameModel extends Model{
         $arr =array();$result =array();
         foreach ($a as $k => $v) {
             $arr[] = DB::table('t_video')  
-            ->select('id','video_cover','video_text','updated_at')
+            ->select('id','video_cover','video_text','video_type','created_at')
             ->where('tapid', 'like', '%'.$v.'%')
             ->get();
         }
@@ -223,7 +223,9 @@ class GameModel extends Model{
         ->select('id','g_slideshow')
         ->where('is_sift',1)
         ->get();
+
         $data = json_decode(json_encode($rate), true);
+
         return empty($data) ? false : $data;
     }
 //上新品
@@ -231,9 +233,11 @@ class GameModel extends Model{
     {
        $rate = DB::table($this->_tabName) 
         ->select('id','g_thumb')
-        ->orderBy('updated_at', 'desc')
+        ->where('id','!=','1')
+        ->orderBy('created_at', 'desc')
         ->get();
         $data = json_decode(json_encode($rate), true);
+         // print_r($data);die;*-
         return empty($data) ? false : $data;
     }
 
@@ -255,6 +259,7 @@ class GameModel extends Model{
        $rate = DB::table($this->_tabName) 
         ->select('id','g_thumb')
         ->where('price_out','>',0)
+        ->where('id','!=','1')
         ->get();
         $data = json_decode(json_encode($rate), true);
         return empty($data) ? false : $data;

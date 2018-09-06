@@ -236,7 +236,6 @@ class HomePageController extends Controller
         $GameModel = new GameModel();
 
         $video_info = $HomePageModel->video_info($article_id);//视频详情
-        // print_r($video_info);die;
         $game_id = $video_info['fk_game_id'];
         $ids = explode(',',$game_id);
         $game_info = $GameModel->game_correlation($ids);//相关游戏产品
@@ -262,13 +261,21 @@ class HomePageController extends Controller
         //     );
         //     $this->_response($res);
         // }
-        $res = array(
-            "errNo" => 0,
-            'errMsg' => 'success',
+        $data = array(
+            // "errNo" => 0,
+            // 'errMsg' => 'success',
             "video_info" => $video_info,
             "game_info" => $game_info,
             "video_like" => $video_like,
             "formArticleComment" => $formArticleComment
+        );
+
+        // $this->_response($data);
+
+         $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $data
         );
 
         $this->_response($res);
