@@ -68,6 +68,7 @@ class GameModel extends Model{
         foreach ($ids as $k => $v) {
             $arr[] = DB::table($this->_tabName) 
                 ->select('id','g_thumb','g_name','g_content')
+                // ->where('id','!=',1)
                 ->where( 'id',$v)
                 ->first();
         }
@@ -87,7 +88,7 @@ class GameModel extends Model{
     {
         // echo $game_id;
         $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updated_at')
+                ->select('id','article_thumb','article_title','article_type','created_at')
                 ->where('its_type',1)
                 ->where('fk_game_id', 'like', '%'.$game_id.'%')
                 ->get();
@@ -106,7 +107,7 @@ class GameModel extends Model{
     {
         // echo $game_id;
         $objects = DB::table('t_article')  
-                ->select('id','article_thumb','article_title','article_type','updated_at')
+                ->select('id','article_thumb','article_title','article_type','created_at')
                 ->where('its_type',2)
                 ->where('fk_game_id', 'like', '%'.$game_id.'%')
                 ->get();
@@ -125,7 +126,7 @@ class GameModel extends Model{
     {
         // echo $game_id;die;
          $objects = DB::table('t_video')  
-            ->select('id','source_img','source','video_text','video_url','updated_at')
+            ->select('id','source_img','source','video_text','video_url','created_at')
             ->where('fk_game_id', 'like', '%'.$game_id.'%')
             ->get();
         return empty($objects) ? false : $objects;
@@ -173,7 +174,7 @@ class GameModel extends Model{
     public function shorta_correlation($game_id)
     {
        $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','imageurl','t_shorts_article.updated_at')
+        ->select('t_shorts_article.id','title','content','imageurl','t_shorts_article.created_at')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('fk_game_id', 'like', '%'.$game_id.'%')
         ->get();

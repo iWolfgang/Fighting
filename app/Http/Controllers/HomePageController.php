@@ -193,6 +193,8 @@ class HomePageController extends Controller
     {
         // 
         $more = $request->input("more");
+        // $video_type = $request->input("video_type");,$video_type
+        // echo $more,$video_type;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->videolist($more);

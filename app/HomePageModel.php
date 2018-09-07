@@ -134,17 +134,20 @@ class HomePageModel extends Model
     {
       
           if($more){
-            
+            // echo 1;
+            // echo $video_type;die;
+
             $objects = DB::table('t_video')  
             ->select('id','video_type','source_img','source','video_text','video_url','created_at')
-          // ->where('video_type',$tap)
+            // ->where('video_type',$video_type),$video_type
             ->orderBy('created_at', 'desc')
             ->get();
           }else{
-            
+                        // echo 2;die;
+// echo $video_type;die;
           $objects = DB::table('t_video')  
                 ->select('id','video_type','source_img','source','video_text','video_url','created_at')
-              //  ->where('tapid',$tap)
+                // ->where('video_type',$video_type)
                 ->limit(4)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -184,29 +187,12 @@ class HomePageModel extends Model
     }
     public function q_ask($id)
     {
-        
-      //  $objects = DB::table('t_issue')  
-      //   ->select('t_issue.id','issue_id','issue','describe','answer','user_id','user_id','user_name','head_portrait')
-      //   ->join('t_answer','t_issue.id','=','t_answer.issue_id')
-      //   ->get();
         $objects = DB::table('t_answer')  
         ->select()
         ->where('t_answer.issue_id',$id)
         ->get();
        $data = json_decode(json_encode($objects), true);
      
-      //  $arr = array();
-      //  foreach ($data as $key => $value) {
-      //    $arr[$value['issue_id']][] = $value['answer'];
-      //    $arr[$value['user_id']][] = $value['user_id'];
-      //  }
-      //   // 
-      //  $res = array();
-      //  foreach ($data as $key => $value) {
-      //    $res[$value['id']] = $value;
-      //    $res[$value['id']]['answer'] = $arr[$value['id']];
-      //  }
-
           return empty($data) ? false : $data;
    }
      
