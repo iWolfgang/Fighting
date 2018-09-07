@@ -60,9 +60,11 @@ class ArticleCommnetController extends Controller
  */
     public function addComment(Request $request)
     {
-        $fk_article_id = $request->input('fk_article_id');//文章id
-        $fk_comment_id = $request->input('fk_comment_id');//评论id
-        $fk_user_id =  $this->user_id;
+        
+        $fk_type_name = $request->input('type_name');//评论类型名称
+        $fk_article_id = $request->input('article_id');//文章id
+        $fk_comment_id = $request->input('comment_id');//评论id
+        $fk_user_id = $request->input('user_id');
 
         $comment_content = $request->input('comment_content');//评论信息
        
@@ -78,13 +80,20 @@ class ArticleCommnetController extends Controller
         if(empty($comment_content) || mb_strlen($comment_content) > 500){
               $res = array(
                 'errNo' => "0002",
-                'errMsg' => "评论不能为空"
+                'errMsg' => "评论不能为空and超过100字"
             );
             $this->_response($res);
         }
+        // echo $fk_comment_id;die;
+        if($fk_comment_id == 0){//评论
 
-        $ArticleComment = new ArticleCommentModel();
-        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_id,$fk_user_id,$comment_content);
+            $ArticleComment = new ArticleCommentModel();
+            $ret = $ArticleComment->addComment($fk_article_id,$fk_user_id,$comment_content,$fk_type_name);
+
+        }else{//回复
+            echo 2;die;
+        }
+        
 
         if($ret == false){
             $res = array(

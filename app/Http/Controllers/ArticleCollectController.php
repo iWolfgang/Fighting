@@ -17,9 +17,10 @@ class ArticleCollectController extends Controller
 	 */
 	public function Art_col(Request $request)
 	{
+        $type_id = intval($request->input("type_name"));
 		$article_id = intval($request->input("article_id"));
-		// $user_id = intval($request->input("token"));
-		$user_id = intval($request->input("user_id"));
+        $user_id = intval($request->input("user_id"));
+		
         if(empty($article_id)){
             $res = array(
                 "errNo" => "0002",
@@ -30,7 +31,7 @@ class ArticleCollectController extends Controller
 
         $ArticleModel = new ArticleCollectModel();
 
-        $ret = $ArticleModel->Add_collect($article_id,$user_id);
+        $ret = $ArticleModel->Add_collect($article_id,$user_id,$type_id);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

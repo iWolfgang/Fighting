@@ -17,13 +17,8 @@ class GameController extends Controller
  */
 	public function game_info(Request $request)
 	{
-		//$user_id = $request->input("user_id");
-		$game_id = $request->input("game_id");
-
-        $HomePageModel = new HomePageModel();
-
-        $res = $HomePageModel->long_articlelist($game_id);
-
+        $game_id =  $request->input('game_id');
+      
         $GameModel = new GameModel();
 
         $ret = $GameModel->game_info($game_id);
@@ -39,32 +34,23 @@ class GameController extends Controller
         }
 
         $data = array(
-            "data" => $ret,
-            "game_news" => $res
+            "data" => $ret
         );
 
-        $res = array(
-            "errNo" => 0,
-            "errMsg" => "success",
-            "data" => $data
-        );
-
-        $this->_response($res);
+        $this->_response($data);
 
 	}
 
 
-    public function game_banner(Request $request)
+    public function game_list(Request $request)
     {
-       // echo time();die;
-
-        $HomePageModel = new HomePageModel();
-        $ret = $HomePageModel->slideshow();//banner条
+        $HomePageModel = new GameModel();
+        $ret = $HomePageModel->game_list();//banner条
       
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "轮播图类型不符"
+                "errMsg" => "系统错误"
             );
             $this->_response($res);
         }
@@ -86,7 +72,7 @@ class GameController extends Controller
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "轮播图类型不符"
+                "errMsg" => "暂无精品"
             );
             $this->_response($res);
         }
@@ -107,7 +93,7 @@ class GameController extends Controller
          if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "轮播图类型不符"
+                "errMsg" => "暂无新品"
             );
             $this->_response($res);
         }
@@ -121,14 +107,35 @@ class GameController extends Controller
         $this->_response($res);
     }
 
-    public function be_up_game($value='')
+    public function discounts($value='')
     {
         $GameModel = new GameModel();
-        $ret = $GameModel->be_up_game();        
+        $ret = $GameModel->discounts();        
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "轮播图类型不符"
+                "errMsg" => "暂无优惠商品"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $ret
+        );
+
+        $this->_response($res);
+    }
+
+        public function sell_hot($value='')
+    {
+        $GameModel = new GameModel();
+        $ret = $GameModel->sell_hot();        
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "暂无热销商品"
             );
             $this->_response($res);
         }

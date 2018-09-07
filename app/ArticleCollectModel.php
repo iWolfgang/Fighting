@@ -16,20 +16,21 @@ class ArticleCollectModel extends Model{
      * Date 2018-04-17
      * @param  [type] $id [接受的文章id]
      */
-    public function Add_collect($article_id,$user_id)
+    public function Add_collect($article_id,$user_id,$type_id)
     {
-		$art_id = $this->isset_art_id($article_id);
+		// $art_id = $this->isset_art_id($article_id,$type_id);
         
-        if($art_id == false){
-                $res = array(
-                "errNo" => "5005",
-                "errMsg" => "文章信息获取失败"
-            );
+  //       if($art_id == false){
+  //               $res = array(
+  //               "errNo" => "5005",
+  //               "errMsg" => "文章信息获取失败"
+  //           );
 
-            return $res;
-        }
+  //           return $res;
+  //       }
        
-        $num = $this->is_conllect($article_id,$user_id);
+       
+        $num = $this->is_conllect($article_id,$user_id,$type_id);
         
         if($num == false){
             $res = array(
@@ -38,8 +39,8 @@ class ArticleCollectModel extends Model{
             );
             return $res;
         }
-
-        $bol = $this->add_conllects($article_id,$user_id);
+ // echo 1;die;
+        $bol = $this->add_conllects($article_id,$user_id,$type_id);
         if($bol == false){
              $res = array(
                 "errNo" => "1005",
@@ -63,7 +64,7 @@ class ArticleCollectModel extends Model{
      * Date 2018-04-17
      * @param  string $article_id [文章id]
      */
-    public function isset_art_id($article_id)
+    public function isset_art_id($article_id,$type_id)
     {
             $count = DB::table('t_article')
             ->where("id", $article_id)
@@ -77,11 +78,12 @@ class ArticleCollectModel extends Model{
      * Date 2018-04-17
      * @param  string $article_id [文章id]
      */
-    public function is_conllect($article_id = '',$user_id = '')
+    public function is_conllect($article_id = '',$user_id = '',$type_id='')
     {
         $count = DB::table($this->_tabName)
             ->where("article_id", $article_id)
             ->where("user_id", $user_id)
+            ->where("type_id", $type_id)
             ->count();
 
        return $count < 1 ? true : false;
@@ -95,12 +97,13 @@ class ArticleCollectModel extends Model{
      * @param string $article_id [description]
      * @param string $user_id    [description]
      */
-    public function add_conllects($article_id = '',$user_id = '')
+    public function add_conllects($article_id = '',$user_id = '',$type_id = '')
     {
+        // echo $type_id;die;
         $data = array(
             'article_id' => $article_id,
             'user_id' => $user_id,
-            'type_id' => 2
+            'type_id' => $type_id
         );
         $bool = DB::table($this->_tabName)->insert($data);
         
@@ -117,11 +120,43 @@ class ArticleCollectModel extends Model{
      */
     public function Show_collect_reply($user_id='')
     {
+        $col_type = DB::table('t_article_conllect')  
+        ->select('article_id','type_id')
+        ->where('user_id',$user_id)
+        ->get();
+        $CommentInfos = json_decode(json_encode($col_type), true);
+        
+        $arr = array();
+        foreach ($CommentInfos as $key => $value) {
+            if($value['type_id'] == 'longa'){
+                $arr[] = DB::table('t_article')  
+                        ->select('id','all_type','article_thumb','article_title','article_type','created_at')
+                        ->where('id',$value['article_id'])
+                        ->get();
+            }
+           elseif($value['type_id'] == 'shorta'){
+                $arr[] = DB::table('t_shorts_article')
+                        ->select('id','t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+                        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+                        ->where('t_shorts_article.id',$value['article_id'])
+                        ->get();
+            }
+            elseif($value['type_id'] == 'video'){
+                $arr[] = DB::table('t_video')  
+                      ->select('id','video_type','source_img','source','video_text','video_url','created_at')
+                      ->where('id',$value['article_id'])
+                      ->get();
+            }
 
-            $collectInfo = DB::select('select article_thumb,article_title,updatetime,article_author from t_article as a 
-                                      join t_article_conllect as b on a.id=b.article_id 
-                                      where user_id = :user_id',['user_id' => $user_id]);
-            // print_r($collectInfo);die;get_object_vars()
-            return empty($collectInfo) ? false : $collectInfo;
+        }
+         $arr = json_decode(json_encode($arr), true);
+         // print_r($arr);die;
+         $res = array();
+         foreach ($arr as $k => $v) {
+            foreach ($v as $ke => $val) {
+              $res[] = $val; 
+            }  
+         }
+         return $res;
     }
 }

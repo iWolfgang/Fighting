@@ -97,9 +97,9 @@ class RbacModel extends Model
 
     public function article_add($headimg,$content,$title,$source,$type,$game_name,$article_author)
     {
-        echo 1;die;
+        // echo 1;die;
         $file = $headimg;
-        var_dump($file);die;
+        // var_dump($file);die;
         if($file -> isValid()){  
             //检验一下上传的文件是否有效  
             $clientName = $file -> getClientOriginalName(); //获取文件名称  

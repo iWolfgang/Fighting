@@ -3,7 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-
+use App\Services\OSS;
 use DB;
 use Illuminate\Support\Facades\Redis;
 //Call to undefined method Illuminate\Database\MySqlConnection::()
@@ -357,11 +357,14 @@ class UserModel extends Model
  */
     public function userinfo_add($head_img,$user_name,$user_id,$sex,$email)
     {
-       $old_infos = $this->del_old_news($user_id);
-       if($old_infos == false){
-        return false;
-       } 
+        // echo 1;die;
+       // $old_infos = $this->del_old_news($user_id);
+       // if($old_infos == false){
+       //  echo 1;die;
+       //  return false; 
+       // } 
         $file = $head_img;
+        // print_r($file);die;`
         if($file -> isValid()){  
             //检验一下上传的文件是否有效  
             $clientName = $file -> getClientOriginalName(); //获取文件名称  
@@ -370,20 +373,23 @@ class UserModel extends Model
 
             $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
 
-            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 image/jpeg  
-
+            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
+           // echo $mimeTye;
             $newName = date('ymdhis').$clientName;
             $path = $file -> move('services',$newName);  
         }
-        OSS::publicUpload('mithril-capsule',$newName, $path);// 上传一个文件
+       $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
 
         $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
+        // echo $img;die;
         $data = array();
         $data['head_portrait'] = $img;
+        // $data['head_portrait'] = "https://mithril-capsule.oss-cn-beijing.aliyuncs.com/180604011231QQ%E5%9B%BE%E7%89%8720180118192436.jpg";
         $data['user_id'] = $user_id;
         $data['user_name'] = $user_name;
         $data['sex'] = $sex;
         $data['email'] = $email; 
+        // var_dump($data);die;
         $bool = DB::table('t_user_infos')->insert($data);
         return $bool;
     }
@@ -391,7 +397,7 @@ class UserModel extends Model
     public function del_old_news($user_id)
     {
       $res = DB::delete("delete from t_user_infos where user_id = $user_id");
-    
+    echo $res;die;
        return $res;
     }
 

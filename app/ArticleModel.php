@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Redis;
 class ArticleModel extends Model{
 
     public $_tabName = 't_article';
-    const LIKE_ZAN_COUNT = 'Like_zan_%d';//点赞功能
+    const LIKE_ZAN_COUNT = 'Like_zan_%d_%s';//点赞功能
     /**
      * 用户点赞 功能
      * Author Amber
@@ -20,22 +20,21 @@ class ArticleModel extends Model{
      * @param [type] $user_id [用户i
      *d]
      */
-    public function Like_zan($page,$user_id)
+    public function Like_zan($user_id,$page,$type)
     {
-        $isset = $this->Like_zan_isset($page,$user_id);
         
+        $isset = $this->Like_zan_isset($page,$user_id,$type);
         if($isset){
-
-            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id);
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type);
             
         }else{
 
-            $Like_zan_add = $this->Like_zan_add($page,$user_id);
+            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type);
         
         }
 
         $action = $isset ? "un_like" : "like";
-        $count = $this->Like_zan_count($page,$user_id);
+        $count = $this->Like_zan_count($page,$user_id,$type);
         
         $data = array(
             "action" => $action,
@@ -51,9 +50,9 @@ class ArticleModel extends Model{
      * @param [type] $page    [description]
      * @param [type] $user_id [description]
      */
-    public function Like_zan_isset($page,$user_id)
+    public function Like_zan_isset($page,$user_id,$type)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
         $isset = Redis::SISMEMBER($key,$user_id);
         return $isset;
     }
@@ -65,9 +64,9 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_add($page,$user_id)
+    public function Like_zan_add($page,$user_id,$type)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+       $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
         $Like_zan = Redis::SADD($key,$user_id);
         return $Like_zan;
     }
@@ -79,9 +78,9 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_reduce($page,$user_id)
+    public function Like_zan_reduce($page,$user_id,$type)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+         $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
         $Like_zan = Redis::SREM($key,$user_id);
         return $Like_zan;
     }
@@ -92,9 +91,9 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_count($page)
+    public function Like_zan_count($page,$user_id,$type)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page);
+        $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
         $Like_zan = count(Redis::SMEMBERS($key));
         return $Like_zan;        
     }
@@ -128,32 +127,29 @@ class ArticleModel extends Model{
     public function getD_ArtInfo($article_id)
     {
       $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','updated_at','source','image_url','fk_game_id')
+        ->select('t_shorts_article.id','title','content','t_shorts_article.created_at','source','source_img','videourl','imageurl','fk_game_id')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('t_shorts_article.id',$article_id)
-        ->get();
-       $data = json_decode(json_encode($objects), true);
-      
-        $imgArr = array();
-        foreach ($data as $key => $value) {
-          $imgArr[$value['id']][] = $value['image_url'];
-          
+        ->first();
+       $data = get_object_vars($objects);
+       $str = json_decode($data['imageurl']);
+       $data['imageurl'] =  $str;
+        $fk_game_id = $data['fk_game_id'];
+        $game_info = $this->getGameInfoByGameId($fk_game_id);
+        $pinglun_type = 'shorta';
+        $comment_info = $this->formArticleComment($article_id,$pinglun_type);
+         if($comment_info == false){
+           $comment_info = "暂无评论";
         }
-//  print_r($imgArr);die;
-        $res = array();
-        foreach ($data as $key => $value) {
-          $res[$value['id']] = $value;
-
-          $res[$value['id']]['image_url'] = $imgArr[$value['id']];
-        }
-        $fk_game_id = $data[0]['fk_game_id'];
-        $game = $this->getGameInfoByGameId($fk_game_id);
-        if($game == '游戏信息不存在'){
-            $res['game'] = '游戏信息不存在';
+        if($game_info == False){
+            $res['game_info'] = '未关联游戏';
             
         }
-        $res['game'] = $game;
-          return empty($res) ? '游戏信息不存在' : $res;
+
+        $res['shortdata'] = $data;
+        $res['comment_info'] = $comment_info;
+        $res['game_info'] = $game_info;
+        return empty($res) ? '未关联游戏' : $res;
      
     }
 
@@ -167,8 +163,9 @@ class ArticleModel extends Model{
     public function getArticleInfo($article_id = 0)
     {
         $articleInfo = $this->getArticleInfoById($article_id);//文章信息
-        $comment_info =  $this->formArticleComment($article_id);
-       //print_r($articleInfo);die;
+        $pinglun_type = 'longa';
+        $comment_info =  $this->formArticleComment($article_id,$pinglun_type);//评论信息
+       //
         $gameInfo = array();
 
         if($articleInfo == false){                                                                          
@@ -181,21 +178,18 @@ class ArticleModel extends Model{
         if($comment_info == false){
            $comment_info = "暂无评论";
         }
-
-        // echo $articleInfo[0]['fk_game_id'];die;
-        if(isset($articleInfo[0]['fk_game_id'])){
-            $gameInfo = $this->getGameInfoByGameId($articleInfo[0]['fk_game_id']);//游戏信息
+        // if($articleInfo['fk_game_id'] == 1){
+        //     echo 1;die;
+        // }
+        if(isset($articleInfo['fk_game_id'])){
+            $gameInfo = $this->getGameInfoByGameId($articleInfo['fk_game_id']);//游戏信息
         }
-        if($gameInfo == '游戏信息不存在'){
+         // print_r($gameInfo);die;
+        if($gameInfo == False){
             $gameInfo = "游戏信息不存在";
-            // $res = array(
-            //     "errNo" => "3002",
-            //     "errMsg" => "游戏信息不存在"
-            // );
-            // return $res;
         }
         $res = array();
-        $res['article_info'] = $this->formatArticleInfo($articleInfo[0]);
+        $res['article_info'] = $articleInfo;
         $res['game_info'] = $gameInfo;
         $res['comment_info'] = $comment_info;
 
@@ -204,24 +198,68 @@ class ArticleModel extends Model{
         return $res;
     }
     /**
-     * 获取评论信息
+     * 获取长评论信息
      * Author Amber
      * Date 2018-06-12
      * Params [params]
      * @param  string $value [description]
      * @return [type]        [description]
      */
-    public function formArticleComment($article_id)
+    public function formArticleComment($article_id,$pinglun_type)
     {
-            $article = DB::table('t_article_comment')
-            ->select('fk_user_id','comment_content','create_time')
+            $Comment = DB::table('t_article_comment')
+            ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.head_portrait','t_user_infos.user_name','comment_content','create_time')
+            ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
+            ->where('fk_article_type',$pinglun_type)
             ->where("fk_article_id", $article_id)
+            ->where("fk_comment_pid", 0)
             ->get();
         
-        $articleInfos = json_decode(json_encode($article), true);
-        // print_r($articleInfos);die;
-        //return empty($articleInfo) ? '游戏信息不存在' : $articleInfos;         
-       return $articleInfos;
+        $CommentInfos = json_decode(json_encode($Comment), true);
+        // $CommentInfos是一级评论
+        $arr = array();
+        foreach ($CommentInfos as $key => $value) {
+           $obj = DB::table('t_article_comment')
+            ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.user_name','comment_content')
+            ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
+            ->where("fk_comment_pid", $value['comment_id'])
+            ->get();
+           $CommentInfos[$key]['comment_next']  = json_decode(json_encode($obj), true);
+        }
+        // print_r($CommentInfos);die;
+       return $CommentInfos;
+    }
+
+     /**
+     * 获取短评论信息
+     * Author Amber
+     * Date 2018-06-12
+     * Params [params]
+     * @param  string $value [description]
+     * @return [type]        [description]
+     */
+    public function ShortArticleComment($article_id,$pinglun_type)
+    {
+            $Comment = DB::table('t_article_comment')
+            ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.head_portrait','t_user_infos.user_name','comment_content','create_time')
+            ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
+            ->where('fk_article_type',$pinglun_type)
+            ->where("fk_article_id", $article_id)
+            ->where("fk_comment_pid", 0)
+            ->get();
+        
+        $CommentInfos = json_decode(json_encode($Comment), true);
+        // $CommentInfos是一级评论
+        $arr = array();
+        foreach ($CommentInfos as $key => $value) {
+           $obj = DB::table('t_article_comment')
+            ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.user_name','comment_content')
+            ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
+            ->where("fk_comment_pid", $value['comment_id'])
+            ->get();
+           $CommentInfos[$key]['comment_next']  = json_decode(json_encode($obj), true);
+        }
+       return $CommentInfos;
     }
     /**
      * 增加文章阅读数 
@@ -258,19 +296,17 @@ class ArticleModel extends Model{
      * Params [params]
      * @param  integer $article_id [文章id]
      */
-    public function getArticleInfoById($article_id = 0)
+    public function getArticleInfoById($article_id)
     {
 
-        $articleInfo = DB::select('SELECT article_title,fk_game_id,article_thumb,article_content,article_reading,article_author,article_source,updated_at FROM t_article 
-        where id  = :id and article_status = 1;', [':id'=>$article_id]);
-        // $objects = DB::table('t_article')  
-        // ->select('id','article_thumb','article_title','article_type','updatetime','article_source')
-        // // ->join('t_article_main','t_article.id','=','t_article_main.m_id')
-        // ->limit(9)
-        // ->get();
-        $articleInfos = json_decode(json_encode($articleInfo), true);
-        // print_r($articleInfos);die;
-        return empty($articleInfo) ? false : $articleInfos;
+        $objects = DB::table('t_article')  
+                ->select('id','article_content','fk_game_id','created_at')
+                ->orderBy('created_at', 'desc')
+                ->where('id',$article_id)
+                ->first();
+                $obj = get_object_vars($objects);
+        // $objects = json_decode(json_encode($objects), true);
+        return empty($obj) ? false : $obj;
     }
 
     /**
@@ -282,13 +318,16 @@ class ArticleModel extends Model{
      */
     public function getGameInfoByGameId($g_id)
     {
-        // echo $game_name;die;
-        $students = DB::table('t_game_main')
-        ->select( 'g_name','g_thumb','g_meta_information','g_type','g_update')
-        ->where("id", $g_id)
-        ->first();
-        // print_r($students);die;
-       return $students ? get_object_vars($students) : '游戏信息不存在';
+        $ids = explode(',',$g_id);
+        $arr =array();
+        foreach ($ids as $k => $v) {
+            $arr[] = DB::table('t_game_main') 
+                ->select('id','g_thumb','g_name','g_content')
+                ->where( 'id',$v)
+                ->first();
+        }
+        $data = json_decode(json_encode($arr), true);
+        return empty($data) ? false : $data;
 
     }
 /**
@@ -315,24 +354,4 @@ class ArticleModel extends Model{
     }
 
 
-    /**
-     * 格式化代码 
-     * Author Liuran
-     * Date 2018-04-10
-     * Params [params]
-     * @param  array  $article_info [文章信息]
-     */
-    public function formatArticleInfo($article_info = array())
-    {
-        $res = array();
-        $res['title'] = $article_info['article_title'];
-        $res['thumb'] = $article_info['article_thumb'];
-        $res['article_reading'] = $article_info['article_reading'];
-        $res['author'] = $article_info['article_author'];
-        $res['content'] = $article_info['article_content'];
-        $res['fk_game_id'] = $article_info['fk_game_id'];
-
-        return $res;
-    }
- 
 }

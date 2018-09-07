@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\HomePageModel;
 use App\ArticleModel;
+use App\GameModel;
 
 class HomePageController extends Controller
 {
 
 
 /**
- * 首页 
+ *混连资讯
  * Author Amber
  * Date 2018-06-06
  * Params [params]
@@ -20,29 +21,20 @@ class HomePageController extends Controller
  */
   public function full(Request $request)
     {
-        $game_id = $request->input("game_id");
+        // $game_id = $request->input("game_id");,$game_id
         $more = $request->input("more");
         $HomePageModel = new HomePageModel();
-        // $ret = array();
-        // $ret['long_articlelist'] = $HomePageModel->long_articlelist($game_id);
-        // $ret['short_articlelist'] = $HomePageModel->short_articlelist($more);
-        // $ret['videolist'] = $HomePageModel->videolist($more);
-        $long_articlelist = $HomePageModel->long_articlelist($game_id);
+        $long_articlelist = $HomePageModel->long_articlelist($more);
         $short_articlelist = $HomePageModel->short_articlelist($more);
-                // print_r($short_articlelist);die;
 
-        $videolist = $HomePageModel->videolist($more);
-        // print_r($ret);die;
-        $ret = array_merge($long_articlelist,$short_articlelist,$videolist);
-         // print_r($ret);die;
+       // $videolist = $HomePageModel->videolist($more);,$videolist
+        $ret = array_merge($long_articlelist,$short_articlelist);
         $orderFile = array();
             foreach($ret as $vo){
-                // print_r($vo['updated_at']);die;
-               $orderFile[]=$vo['updated_at'];
+               $orderFile[]=$vo['created_at'];
                }
             array_multisort($orderFile ,SORT_DESC, $ret);
-            $order = array_values($ret );
- // print_r($order);die;
+            $order = array_values($ret);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -125,11 +117,11 @@ class HomePageController extends Controller
  */
     public function long_articlelist(Request $request)
     {
-        $game_id = $request->input("game_id");
-        
+        // $game_id = $request->input("game_id");
+        $more = $request->input("more");
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->long_articlelist($game_id);
+        $ret = $HomePageModel->long_articlelist($more);
 
             if($ret == FALSE){
             $res = array(
@@ -196,33 +188,13 @@ class HomePageController extends Controller
         $this->_response($res);
     }
 
-    public function game_videolist()
-    {
-        $HomePageModel = new HomePageModel();
-
-        $ret = $HomePageModel->game_videolist();
-
-            if($ret == FALSE){
-            $res = array(
-                "errNo" => "0003",
-                "errMsg" => "系统错误"
-            );
-            $this->_response($res);
-        }
-
-        $res = array(
-            "errNo" => 0,
-            'errMsg' => 'success',
-            "data" => $ret
-        );
-
-        $this->_response($res);
-    }
-
 
     public function videolist(Request $request)
     {
+        // 
         $more = $request->input("more");
+        // $video_type = $request->input("video_type");,$video_type
+        // echo $more,$video_type;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->videolist($more);
@@ -258,29 +230,54 @@ class HomePageController extends Controller
         if($article_id <= 0){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "文章有误"
+                "errMsg" => "文章不存在"
             );
             $this->_response($res);
         }
         $HomePageModel = new HomePageModel();
+        $GameModel = new GameModel();
 
-        $ret = $HomePageModel->video_info($article_id);
-        // $g_id = $ret['fk_game_id'];
-        // $ArticleModel = new ArticleModel();
-        // $game = $ArticleModel->getGameInfoByGameId($g_id);
-        // $ret['game'] = $game;
-        if($ret == FALSE){
-            $res = array(
-                "errNo" => "0003",
-                "errMsg" => "系统错误"
-            );
-            $this->_response($res);
-        }
+        $video_info = $HomePageModel->video_info($article_id);//视频详情
+        $game_id = $video_info['fk_game_id'];
+        $ids = explode(',',$game_id);
+        $game_info = $GameModel->game_correlation($ids);//相关游戏产品
 
-        $res = array(
+        $tapids = substr($video_info['tapid'],1,-1);
+        $video_like = $GameModel->videotap_correlation($tapids);//相关视频详情
+
+        $ArticleModel = new ArticleModel();
+        $pinglun_type = "video";
+        $formArticleComment = $ArticleModel->formArticleComment($article_id,$pinglun_type);//评论信息
+
+        // if($video_info == FALSE){
+        //     $res = array(
+        //         "errNo" => "0003",
+        //         "errMsg" => "没有此视频"
+        //     );
+        //     $this->_response($res);
+        // }
+        // if($formArticleComment == FALSE){
+        //     $res = array(
+        //         "errNo" => "0003",
+        //         "errMsg" => "暂无评论"
+        //     );
+        //     $this->_response($res);
+        // }
+        $data = array(
+            // "errNo" => 0,
+            // 'errMsg' => 'success',
+            "video_info" => $video_info,
+            "game_info" => $game_info,
+            "video_like" => $video_like,
+            "formArticleComment" => $formArticleComment
+        );
+
+        // $this->_response($data);
+
+         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
-            "data" => $ret
+            "data" => $data
         );
 
         $this->_response($res);
