@@ -19,18 +19,15 @@ class funsModel extends Model{
 
         Redis::SADD($key,$keyword);
 
-    	$sql = "select g_name from t_game_main where g_name like '".$keyword."%' limit 10";
+    	$sql = "select id,g_thumb,g_name from t_game_main where g_name like '%".$keyword."%'";
  //or goods_en_name like '".$keyword."%'
  		$productInfo = DB::select($sql);
  		$res = array();
+        $product =  json_decode(json_encode($productInfo), true);
+       // print_r($product);die;
+ 		
 
- 		foreach ($productInfo as $key => $value) {
- 			$value = get_object_vars($value);
-
- 			$res[] = $value['g_name'];
- 		}
-
- 		return empty($res) ? false : $res;         
+ 		return empty($product) ? false : $product;         
 
     }
 

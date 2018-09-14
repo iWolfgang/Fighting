@@ -73,13 +73,13 @@ class HomePageModel extends Model
     if($more > 0){
 
         $objects = DB::table('t_article')  
-              ->select('id','article_thumb','article_title','article_type','created_at')
+              ->select('id','ceping_type','article_thumb','article_title','article_type','created_at')
               ->where('its_type','1')
               ->orderBy('created_at', 'desc')
               ->get();
       }else{
          $objects = DB::table('t_article')  
-              ->select('id','article_thumb','article_title','article_type','created_at')
+              ->select('id','ceping_type','article_thumb','article_title','article_type','created_at')
               ->where('its_type','1')
               ->limit(9)
               ->orderBy('created_at', 'desc')
