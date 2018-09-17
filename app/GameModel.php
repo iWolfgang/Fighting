@@ -25,7 +25,7 @@ class GameModel extends Model{
         $video_correlation = $this->video_correlation($game_id);
 
 
-    	
+//liuran    	
     	$data = array(
             "game_info" => $game_info,
             "game_correlation" => $game_correlation,
@@ -149,6 +149,7 @@ class GameModel extends Model{
             $arr[] = DB::table('t_video')  
             ->select('id','video_cover','video_text','video_type','created_at')
             ->where('tapid', 'like', '%'.$v.'%')
+            ->limit(4)
             ->get();
         }
        $data = json_decode(json_encode($arr), true);
