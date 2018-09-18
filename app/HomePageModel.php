@@ -33,16 +33,16 @@ class HomePageModel extends Model
  * Params `
  * @return [type] [description]
  */
-  public function long_articlelist($more)
+  public function long_articlelist($m,$page)//分页未完善  可以参考短资讯
     {
-      // if($more == False){
+      // if($m > 0){
       //   echo 2;die;
 
       //      $objects = DB::table('t_article')  
       //           ->select('id','article_thumb','article_title','article_type','created_at')
       //           ->where('its_type','2')
       //           ->orderBy('created_at', 'desc')
-      //           ->get();
+      //           ->paginate(3);
         
       // }
       // else{
@@ -51,14 +51,15 @@ class HomePageModel extends Model
            $objects = DB::table('t_article')  
                 ->select('id','all_type','article_thumb','article_title','article_type','created_at')
                 ->where('its_type','2')
-                 ->limit(9)
+                // ->limit(9)
+                 // 
                  ->orderBy('created_at', 'desc')
-                ->get();
+                ->paginate(15);
         
       // }
             
           $data = json_decode(json_encode($objects), true);
-          
+          // print_r($data);die;
           return empty($data) ? false : $data;
     }
     /**
@@ -93,36 +94,50 @@ class HomePageModel extends Model
 /**
  * 短资讯列表页
  */
-   public function short_articlelist($more)
+   public function short_articlelist($more,$page)
     {
 
-      if($more == 1){
-        $objects = DB::table('t_shorts_article')
-        ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-        ->orderBy('created_at', 'desc')
-        ->get();
-      }else{
+      // if($more == 1){
+      //   echo 1;die;
+      //   $objects = DB::table('t_shorts_article')
+      //   ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+      //   ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+      //   ->orderBy('created_at', 'desc')
+      //   ->paginate(4);
+      //   // ->get();
+      // }else{
         $objects = DB::table('t_shorts_article')  
         ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-        ->limit(6)
+        // ->limit(6)
         ->orderBy('created_at', 'desc')
-        ->get();
-      }
+        ->paginate(4);
+      // }
 
        $data = json_decode(json_encode($objects), true);
 
        $imgArr = array();
-        foreach ($data as $key => $value) {
-          $imgArr[$value['id']] =  $this->getImageurlAttribute( $value['imageurl']);   
-        }
+        foreach ($data['data'] as $key => $value) {
+           $imgArr[$value['id']] =  $this->getImageurlAttribute( $value['imageurl']);  
+           }
+       // print_r($imgArr);die;    
         $res = array();
-        foreach ($data as $key => $value) {
+        foreach ($data['data'] as $key => $value) {
           $res[$value['id']] = $value;
 
           $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
         }
+      // $arr2 = array(1,3, 5,7,8);
+        foreach ($data as $key=>$value)
+        {
+          // print_r($key);die;
+            if ($key === 'data')
+                unset($data[$key]);
+        }
+        // print_r($data);die;
+       
+         $res['page'] = $data;
+        // print_r($res);die;
           return empty($res) ? false : $res;
     }
     public function getImageurlAttribute($cover)

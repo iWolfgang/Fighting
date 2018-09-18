@@ -23,9 +23,10 @@ class HomePageController extends Controller
     {
         // $game_id = $request->input("game_id");,$game_id
         $more = $request->input("more");
+        $page = $request->input("page");
         $HomePageModel = new HomePageModel();
-        $long_articlelist = $HomePageModel->long_articlelist($more);
-        $short_articlelist = $HomePageModel->short_articlelist($more);
+        $long_articlelist = $HomePageModel->long_articlelist($more,$page);
+        $short_articlelist = $HomePageModel->short_articlelist($more,$page);
 
        // $videolist = $HomePageModel->videolist($more);,$videolist
         $ret = array_merge($long_articlelist,$short_articlelist);
@@ -119,9 +120,10 @@ class HomePageController extends Controller
     {
         // $game_id = $request->input("game_id");
         $more = $request->input("more");
+        $page = $request->input("page");
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->long_articlelist($more);
+        $ret = $HomePageModel->long_articlelist($more,$page);
 
             if($ret == FALSE){
             $res = array(
@@ -143,10 +145,10 @@ class HomePageController extends Controller
     public function short_articlelist(Request $request)
     {
         $more = $request->input("more");
-        // echo $more;die;
+        $page = $request->input("page");
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->short_articlelist($more);
+        $ret = $HomePageModel->short_articlelist($more,$page );
 
             if($ret == FALSE){
             $res = array(

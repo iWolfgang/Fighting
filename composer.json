@@ -14,8 +14,8 @@
         "overtrue/laravel-ueditor": "~1.0",
         "predis/predis": "^1.1",
         "yansongda/pay": "*",
-        "psy/psysh":"~0.9.6"
-
+        "psy/psysh":"~0.9.6",
+	"jpush/jpush": "*"
     },
     "require-dev": {
         "filp/whoops": "^2.0",
