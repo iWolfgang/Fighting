@@ -36,7 +36,8 @@ class HomePageController extends Controller
                }
             array_multisort($orderFile ,SORT_DESC, $ret);
             $order = array_values($ret);
-        if($ret == FALSE){
+#	   print_r($order);die; 
+       if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "系统错误"
