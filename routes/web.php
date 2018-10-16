@@ -30,7 +30,7 @@ Route::post('/CheckCode/history_Search', 'ArticleController@history_Search');//�
 Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息
 Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
 Route::get('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
-Route::post('/Game/game_Info', 'GameController@game_info');//游戏详情页
+Route::get('/Game/game_Info', 'GameController@game_info');//游戏详情页
 Route::get('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
@@ -60,6 +60,8 @@ Route::get('/Game/discounts', 'GameController@discounts');//游戏列表 优惠 
 Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 页展示
 //===========================================电商=========电商================================================================
 Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
+Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//商品列表
+
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页

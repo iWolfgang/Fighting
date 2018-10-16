@@ -17,18 +17,18 @@ class GoodsCatModel extends Model{
      * Date 2018-07-23
      * Params [params]
      * @param [type] $page    [文章id]
-     * @param [type] $user_id [用户i
+     * @param [type] $user_id [用户i'cat_imageUrl',
      **/
     public function only_this_homelist()
     {
         $article = DB::table($this->_tabName)
-            ->select('id','cat_name','cat_imageUrl','cat_imageUrlCor')
-            ->where("pid", 0)
+            ->select('id','cat_name','cat_imageUrlCor')
+            ->where("pid", 1)
             ->get();
          
-        $datas = json_decode(json_encode($article), true);
+        $data = json_decode(json_encode($article), true);
         // print_r($datas);
-        $data = array_splice($datas,1);
+        // $data = array_splice($datas,1);
 
         // print_r($data);die;
         return $data ? $data : False;        

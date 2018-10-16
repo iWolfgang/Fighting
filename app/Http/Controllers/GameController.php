@@ -17,6 +17,7 @@ class GameController extends Controller
  */
 	public function game_info(Request $request)
 	{
+        // echo 1;die;
         $game_id =  $request->input('game_id');
       
         $GameModel = new GameModel();

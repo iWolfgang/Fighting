@@ -20,8 +20,9 @@ class HomePageModel extends Model
     public function slideshow()
     {
       $data = DB::table($this->_tabName)
+            ->where('slideshow_type','article')
             ->orderBy('created_at', 'desc')
-            ->get(['slideshow','title','slideshow_url','type']);
+            ->get(['slideshow','slideshow_url','type']);
           $data = json_decode(json_encode($data), true);
 
           return $data;
@@ -98,13 +99,13 @@ class HomePageModel extends Model
 
       if($more == 1){
         $objects = DB::table('t_shorts_article')
-        ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+        ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->orderBy('created_at', 'desc')
         ->get();
       }else{
         $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+        ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->limit(6)
         ->orderBy('created_at', 'desc')

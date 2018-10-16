@@ -300,7 +300,7 @@ class ArticleModel extends Model{
     {
 
         $objects = DB::table('t_article')  
-                ->select('id','article_content','fk_game_id','created_at')
+                ->select('id','article_title','article_content','fk_game_id','created_at')
                 ->orderBy('created_at', 'desc')
                 ->where('id',$article_id)
                 ->first();
