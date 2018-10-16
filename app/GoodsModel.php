@@ -11,6 +11,22 @@ class GoodsModel extends Model{
 
     public $_tabName = 'g_goods';
     // const LIKE_ZAN_COUNT = 'Like_zan_%d';//点赞功能
+        /**
+     * 展示轮播图 
+     * Author Amber
+     * Date 2018-05-08
+     * Params [params]
+     **/
+    public function slideshow()
+    {
+      $data = DB::table('t_slideshow')
+            ->where('slideshow_type','article')
+            ->orderBy('created_at', 'desc')
+            ->get(['slideshow','slideshow_url','type']);
+          $data = json_decode(json_encode($data), true);
+
+          return $data;
+    }
     /**
      * 商品列表页 功能
      * Author Amber
@@ -20,6 +36,7 @@ class GoodsModel extends Model{
      * @param [type] $user_id [用户i
      *d]
      */
+    
     public function GoodsList($classify_id)
     {
         $isset = $this->only_this_goodslist($classify_id);

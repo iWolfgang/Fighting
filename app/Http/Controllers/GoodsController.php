@@ -11,6 +11,35 @@ class GoodsController extends Controller
 {
 
 
+     /**
+     * 首页的轮播图 
+     * Author Amber
+     * Date 2018-05-08
+     */
+    public function slideshow(Request $request)
+    {
+        // echo 1;die;
+        $HomePageModel = new GoodsModel();
+
+        $ret = $HomePageModel->slideshow();
+     
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "轮播图类型不符"
+            );
+            $this->_response($res);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $ret
+        );
+
+        $this->_response($res);
+
+    }
 	public function goods_list(Request $request)
 	{
 		$classify_id = $request->input("classify_id");

@@ -20,8 +20,9 @@ class HomePageModel extends Model
     public function slideshow()
     {
       $data = DB::table($this->_tabName)
+            ->where('slideshow_type','article')
             ->orderBy('created_at', 'desc')
-            ->get(['slideshow','title','slideshow_url','type']);
+            ->get(['slideshow','slideshow_url','type']);
           $data = json_decode(json_encode($data), true);
 
           return $data;

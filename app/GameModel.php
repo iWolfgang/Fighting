@@ -143,25 +143,26 @@ class GameModel extends Model{
         // var_dump($ids);die;
         $a = explode( ',',$ids);
         
-        // print_r($a);die;                           
+        // print_r($a);                           
         $arr =array();$result =array();
         foreach ($a as $k => $v) {
             $arr[] = DB::table('t_video')  
-            ->select('id','video_cover','video_text','video_type','created_at')
+            ->select('id','tapid','video_cover','video_text','video_type','created_at')
             ->where('tapid', 'like', '%'.$v.'%')
             ->limit(4)
             ->get();
         }
        $data = json_decode(json_encode($arr), true);
-     
+     // print_r($arr);
        foreach($data as $value){  
             foreach($value as $v){  
                 $result[]=$v;
             }  
         }
        $res = array_unique($result, SORT_REGULAR);
-       
+       // print_r($res);
        $re=array_splice($res,1);
+       // print_r($re);die;
        return empty($re) ? false : $re;
     }
 

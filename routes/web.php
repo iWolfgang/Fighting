@@ -14,7 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/ssl', array('https' => true, function() {
+        return View('welcome');
+    })
+);
 Route::post('/SmsCode/sendCode', 'SmsCodeController@sendCode');//发送短信验证码
 Route::post('/SmsCode/checkCode', 'SmsCodeController@checkCode');//校验验证码是否正确
 Route::post('/User/regist', 'UserController@regist');//用户注册
@@ -63,7 +66,9 @@ Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 �
 Route::get('/Lpush/push', 'LpushController@push');//推送
 
 
+//SQLSTATE[42S22]: Column not found: 1054 Unknown column 'slideshow' in 'field list' (SQL: select `slideshow`, `slideshow_url`, `type` from `g_goods` where `slideshow_type` = article order by `created_at` desc)
 //===========================================电商=========电商================================================================
+Route::get('/Goods/slideshow', 'GoodsController@slideshow');//商品页的轮播图
 Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
