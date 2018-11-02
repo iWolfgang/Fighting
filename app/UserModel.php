@@ -103,7 +103,6 @@ class UserModel extends Model
 
             return $res;
         }
-        // dump($userId);die;
 
        $userid = $userId['id'];
         if(isset($userId['errNo'])){

@@ -20,9 +20,9 @@ class GameModel extends Model{
         $ids = explode(',',$likeid);
     	$game_correlation = $this->game_correlation($ids);
         $longa_correlation = $this->longa_correlation($game_id);
-        $shorta_correlation = $this->shorta_correlation($game_id);
-        $appraisala_correlation = $this->appraisala_correlation($game_id);
-        $video_correlation = $this->video_correlation($game_id);
+        $shorta_correlation = $this->shorta_correlation($game_id);//相关的短资讯
+        $appraisala_correlation = $this->appraisala_correlation($game_id);//相关的测评
+        $video_correlation = $this->video_correlation($game_id);//相关的视频
 
 
 //liuran    	
@@ -175,7 +175,7 @@ class GameModel extends Model{
     public function shorta_correlation($game_id)
     {
        $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','title','content','imageurl','t_shorts_article.created_at')
+        ->select('t_shorts_article.id','source_img','title','content','imageurl','t_shorts_article.created_at')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('fk_game_id', 'like', '%'.$game_id.'%')
         ->get();
@@ -248,7 +248,7 @@ class GameModel extends Model{
     {
         // echo 1;die;
        $rate = DB::table($this->_tabName) 
-        ->select('id','g_thumb')
+        ->select('id','g_horizontal')
         ->where('g_discount','>','0')
         ->get();
         $data = json_decode(json_encode($rate), true);

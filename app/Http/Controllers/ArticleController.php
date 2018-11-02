@@ -10,11 +10,12 @@ class ArticleController extends Controller
 
     public function Like_zan(Request $request)
     {
-        
+        // var_dump($request->input("type"));die;
         $user_id =  $request->input('user_id');//用户id
 
-        $page_id = $request->input("page_id");//文章idid
+        $page_id = $request->input("page_id");//文章id
         $type = $request->input("type");//文章类型
+
         $sear = new ArticleModel();
         $ret = $sear->Like_zan($user_id,$page_id,$type);
         if($ret == FALSE){

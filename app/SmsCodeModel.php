@@ -85,13 +85,13 @@ class SmsCodeModel extends Model
      */
     public function reCreateSmsCodeInfoByMobile($mobile = '', $create_time = 0)
     {
-        if(time() - $create_time < 60){
-            $res = array(
-                "errNo" => "1001",
-                "errMsg" => "验证码发送过于频繁"
-            );
-            return $res;
-        }
+        // if(time() - $create_time < 60){
+        //     $res = array(
+        //         "errNo" => "1001",
+        //         "errMsg" => "验证码发送过于频繁"
+        //     );
+        //     return $res;
+        // }
 
         $this->removeSmsCodeInfoByMobile($mobile);
 
@@ -150,7 +150,7 @@ class SmsCodeModel extends Model
 
             // 短信中的替换变量json字符串.$product;
             
-            $json_string_param = "{'code':$code,'product':'秘银互动'}";
+            $json_string_param = "{'code':$code,'product':'实锤'}";
 
             // 接收短信的手机号码
             $phone = $mobile;
