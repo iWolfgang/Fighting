@@ -9,10 +9,8 @@ class ArticleController extends Controller
 {
 
     public function Like_zan(Request $request)
-    {
-        
+    {      
         $user_id =  $request->input('user_id');//用户id
-
         $page_id = $request->input("page_id");//文章id
         $type = $request->input("type");//文章类型
         $sear = new ArticleModel();
@@ -37,22 +35,38 @@ class ArticleController extends Controller
         $this->_response($res);
     }
 
-/**
- * 浏览量
- * Author Amber
- * Date 2018-11-08
- * Params [params]
- * @param Request $Request [description]
- */
-    public function PageViews(Request $Request)
+    /**
+     * 浏览量
+     * Author Amber
+     * Date 2018-11-08
+     * Params [params]
+     * @param Request $Request [description]
+     */
+    public function PageViews(Request $request)
     {
-        // $user_id =  $request->input('user_id');//用户id
-
         $page_id = $request->input("page_id");//文章id
         $user_ip = $request->input("user_ip");//用户ip
         $type = $request->input("type");//文章类型
+
         $sear = new ArticleModel();
-        $ret = $sear->PageViews($user_ip,$page_id,$type);
+        $ret = $sear->PageViews($page_id,$user_ip,$type);
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "系统错误"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "data" => $ret
+        );
+
+        
+        $this->_response($res);
     }
     /**
      * 搜索关键字
@@ -63,9 +77,7 @@ class ArticleController extends Controller
     public function search(Request $request){
 
         $keyword = $request->input("keyword");
-        // $user_id = $request->input("user_id");
-       // var_dump($keyword);die;
-         if(empty($keyword)){
+        if(empty($keyword)){
             
             $res = array(
                 "errNo" => "0003",
@@ -123,13 +135,13 @@ class ArticleController extends Controller
 
     }
 
-/**
- * 增加阅读量 
- * Author Amber
- * Date 2018-06-12
- * Params [params]
- * @param Request $request [description]
- */
+    /**
+     * 增加阅读量 
+     * Author Amber
+     * Date 2018-06-12
+     * Params [params]
+     * @param Request $request [description]
+     */
     public function addArticleRead(Request $request)
     {
         $article_id = intval($request->input("article_id"));
@@ -182,7 +194,6 @@ class ArticleController extends Controller
         }elseif(isset($ret['errNo'])){
             $this->_response($ret);
         }
-// print_r($ret);die;
         $res = array(
             "errNo" => 0,
             "errMsg" => "success",

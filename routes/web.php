@@ -56,7 +56,7 @@ Route::get('/HomePage/q_question', 'HomePageController@q_question');//问列表�
 Route::get('/HomePage/q_ask', 'HomePageController@q_ask');//答列表展示
 Route::get('/HomePage/full', 'HomePageController@full');//首页展示
 Route::post('/Article/Like_zan', 'ArticleController@Like_zan');//点赞 
-Route::get('/Article/PageViews', 'ArticleController@PageViews');//浏览量
+Route::post('/Article/PageViews', 'ArticleController@PageViews');//浏览量
 Route::get('/Game/game_list', 'GameController@game_list');//游戏列表页展示
 Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 页展示
 Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 新品 页展示
