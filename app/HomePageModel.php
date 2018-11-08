@@ -11,12 +11,12 @@ class HomePageModel extends Model
 {
     public $_tabName = 't_slideshow';
 
-    /**
-     * 展示轮播图 
-     * Author Amber
-     * Date 2018-05-08
-     * Params [params]
-     **/
+/**
+ * 展示轮播图 
+ * Author Amber
+ * Date 2018-05-08
+ * Params [params]
+ **/
     public function slideshow()
     {
       $data = DB::table($this->_tabName)
@@ -36,34 +36,16 @@ class HomePageModel extends Model
  */
   public function long_articlelist($m,$page)//分页未完善  可以参考短资讯
     {
-      // if($m > 0){
-      //   echo 2;die;
-
-      //      $objects = DB::table('t_article')  
-      //           ->select('id','article_thumb','article_title','article_type','created_at')
-      //           ->where('its_type','2')
-      //           ->orderBy('created_at', 'desc')
-      //           ->paginate(3);
-        
-      // }
-      // else{
-        // echo 1;die;
-        
-           $objects = DB::table('t_article')  
-                ->select('id','all_type','article_thumb','article_title','article_type','created_at')
-                ->where('its_type','2')
-                // ->limit(9)
-                 // 
-                 ->orderBy('created_at', 'desc')
-                ->paginate(15);
-        
-      // }
+      $objects = DB::table('t_article')  
+          ->select('id','all_type','article_thumb','article_title','article_type','created_at')
+          ->where('its_type','2')
+          ->orderBy('created_at', 'desc')
+          ->paginate(15);
             
           $data = json_decode(json_encode($objects), true);
-          // print_r($data);die;
           return empty($data) ? false : $data;
     }
-    /**
+/**
  * 测评列表
 * Author Amber
  * Date 2018-06-19
@@ -97,51 +79,43 @@ class HomePageModel extends Model
  */
    public function short_articlelist($more,$page)
     {
-
       // if($more == 1){
-      //   echo 1;die;
-      //   $objects = DB::table('t_shorts_article')
-      //   ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-      //   ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-      //   ->orderBy('created_at', 'desc')
-      //   ->paginate(4);
-      //   // ->get();
-      // }else{
-        $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+        $objects = DB::table('t_shorts_article')
+        ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-        // ->limit(6)
         ->orderBy('created_at', 'desc')
-        ->paginate(4);
-      // }
+        ->get();
+       // }else{
+       //  $objects = DB::table('t_shorts_article')  
+       //  ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+       //  ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+       //  ->orderBy('created_at', 'desc')
+       //  ->paginate(4);
+       // }
 
-       $data = json_decode(json_encode($objects), true);
+        $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+        print_r($data);die;
 
-       $imgArr = array();
+        $imgArr = array();
         foreach ($data['data'] as $key => $value) {
            $imgArr[$value['id']] =  $this->getImageurlAttribute( $value['imageurl']);  
            }
-       // print_r($imgArr);die;    
         $res = array();
         foreach ($data['data'] as $key => $value) {
           $res[$value['id']] = $value;
 
           $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
         }
-      // $arr2 = array(1,3, 5,7,8);
         foreach ($data as $key=>$value)
         {
-          // print_r($key);die;
             if ($key === 'data')
                 unset($data[$key]);
         }
-        // print_r($data);die;
        
-         $res['page'] = $data;
-        // print_r($res);die;
+          $res['page'] = $data;
           return empty($res) ? false : $res;
     }
-    public function getImageurlAttribute($cover)
+  public function getImageurlAttribute($cover)
     {
         return json_decode($cover, true);
     }  
@@ -150,27 +124,20 @@ class HomePageModel extends Model
     {
       
           if($more){
-            // echo 1;
-            // echo $video_type;die;
 
             $objects = DB::table('t_video')  
             ->select('id','video_type','source_img','source','video_text','video_url','created_at')
-            // ->where('video_type',$video_type),$video_type
             ->orderBy('created_at', 'desc')
             ->get();
           }else{
-                        // echo 2;die;
-// echo $video_type;die;
-          $objects = DB::table('t_video')  
-                ->select('id','video_type','source_img','source','video_text','video_url','created_at')
-                // ->where('video_type',$video_type)
-                ->limit(4)
-                ->orderBy('created_at', 'desc')
-                ->get();
+            $objects = DB::table('t_video')  
+            ->select('id','video_type','source_img','source','video_text','video_url','created_at')
+            ->limit(4)
+            ->orderBy('created_at', 'desc')
+            ->get();
 
           }
           $data = json_decode(json_encode($objects), true);
-          // print_r($data);die;
           return empty($data) ? false : $data;
     }
 
@@ -196,7 +163,6 @@ class HomePageModel extends Model
     public function q_question(){
         $objects = DB::table('t_issue')  
         ->select('id','issue','describe')
-        // ->join('t_answer','t_issue.id','=','t_answer.issue_id')
         ->get();
        $data = json_decode(json_encode($objects), true);
        return empty($data) ? false : $data;
@@ -207,9 +173,9 @@ class HomePageModel extends Model
         ->select()
         ->where('t_answer.issue_id',$id)
         ->get();
-       $data = json_decode(json_encode($objects), true);
+        $data = json_decode(json_encode($objects), true);
      
-          return empty($data) ? false : $data;
+       return empty($data) ? false : $data;
    }
      
 

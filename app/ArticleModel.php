@@ -11,6 +11,7 @@ class ArticleModel extends Model{
 
     public $_tabName = 't_article';
     const LIKE_ZAN_COUNT = 'Like_zan_%d_%s';//点赞功能
+    const LIKE_ZAN_COUNT = 'Look_num_%d_%s';//浏览量功能
     /**
      * 用户点赞 功能
      * Author Amber
@@ -98,8 +99,6 @@ class ArticleModel extends Model{
         return $Like_zan;        
     }
 
-
-
     /**
      * 获取文章详情 
      * Author Liuran 
@@ -132,6 +131,7 @@ class ArticleModel extends Model{
         ->where('t_shorts_article.id',$article_id)
         ->first();
        $data = get_object_vars($objects);
+       print_r($data);die;
        $str = json_decode($data['imageurl']);
        $data['imageurl'] =  $str;
         $fk_game_id = $data['fk_game_id'];
@@ -300,7 +300,7 @@ class ArticleModel extends Model{
     {
 
         $objects = DB::table('t_article')  
-                ->select('id','article_content','fk_game_id','created_at')
+                ->select('id','article_title','article_content','fk_game_id','created_at')
                 ->orderBy('created_at', 'desc')
                 ->where('id',$article_id)
                 ->first();
@@ -352,6 +352,27 @@ class ArticleModel extends Model{
       }
       
     }
+//========================================================上边是点赞，下边是浏览=============================================
+    /**
+     * 浏览量统计 
+     * Author Amber
+     * Date 2018-11-08
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function PageViews($user_ip,$page_id,$type)
+    {
+        //判断这个IP是否浏览过，第一次浏览+1，第二次就不要加一了
+        $gongneng = 2;
+        $isset = $this->Like_zan_isset($page,$user_id,$type,$gongneng);
+        if($isset){
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type);
+            
+        }else{
 
+            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type);
+        
+        }
+    }
 
 }

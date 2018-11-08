@@ -9,14 +9,13 @@ use Illuminate\Support\Facades\Redis;
 
 class GoodsModel extends Model{
 
-    public $_tabName = 'g_goods';
-    // const LIKE_ZAN_COUNT = 'Like_zan_%d';//点赞功能
-        /**
-     * 展示轮播图 
-     * Author Amber
-     * Date 2018-05-08
-     * Params [params]
-     **/
+    public $_tabName = 'g_product';
+/**
+ * 展示轮播图 
+ * Author Amber
+ * Date 2018-05-08
+ * Params [params]
+ **/
     public function slideshow()
     {
       $data = DB::table('t_slideshow')
@@ -27,16 +26,15 @@ class GoodsModel extends Model{
 
           return $data;
     }
-    /**
-     * 商品列表页 功能
-     * Author Amber
-     * Date 2018-07-23
-     * Params [params]
-     * @param [type] $page    [文章id]
-     * @param [type] $user_id [用户i
-     *d]
-     */
-    
+/**
+ * 商品列表页 功能
+ * Author Amber
+ * Date 2018-07-23
+ * Params [params]
+ * @param [type] $page    [文章id]
+ * @param [type] $user_id [用户i
+ *d]
+ */   
     public function GoodsList($classify_id)
     {
         $isset = $this->only_this_goodslist($classify_id);
@@ -47,31 +45,73 @@ class GoodsModel extends Model{
         $article = DB::table($this->_tabName)
             ->select('id','goods_name','goods_thumb')
             ->where("goods_cat", $classify_id)
+            ->where("game_goods", 0)
             ->get();
-         // print_r($article);die;
         $data = json_decode(json_encode($article), true);
 
         return $data ? $data : False;        
     }
-
+/**
+ * 查询商品的详细信息
+ * Author Amber
+ * Date 2018-10-23
+ * Params [params]
+ * @param  string $goods_id [description]
+ * @return [type]           [description]
+ */
     public function detail_page($goods_id='')
     {
-        $data = DB::table($this->_tabName)
+        $data = DB::table('g_productSkus')
             ->select()
             ->where("id", $goods_id)
             ->first();
-            // print_r($data);die;
         return $data ? get_object_vars($data): False;     
     }
-
-    /**
-     * 检查库存
-     */
+/**
+ * 查询SKu商品  
+ * Author Amber
+ * Date 2018-10-16
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+    public function willJoin_Buycart($goods_id)
+    {
+        return $this->selectGoodsSku($goods_id); 
+    }
+/**
+ * 根据商品id查SKU 
+ * Author Amber
+ * Date 2018-10-16
+ * Params [params]
+ * @param  [type] $goods_id [description]
+ * @return [type]           [description]
+ */
+    public function selectGoodsSku($goods_id)
+    {
+        $data = DB::table('g_productSkus')
+            ->select()
+            ->where("product_id", $goods_id)
+            ->get();
+        $data = json_decode(json_encode($data), true);
+        $dev = array();
+        foreach ($data as $key => $value) {
+            if($data[$value['product_id']] = $value['product_id']){
+                $dev['productSku'][$key]['title'] = $value['title'];
+                $dev['productSku'][$key]['description'] = $value['description'];
+                $dev['productSku'][$key]['pricenow'] = $value['pricenow'];
+                $dev['productSku'][$key]['stock'] = $value['stock'];
+            }
+        }
+            return  $dev;
+      }
+/**
+ * 检查库存
+ */
     public function check_sku($goods_id,$buy_num)
     {
         $data = $this->detail_page($goods_id);
-        // print_r($data);die;
-        $sku = $data['inventory'];
+        $sku = $data['stock'];
         if($buy_num > $sku){
             return False;
         }
@@ -90,9 +130,7 @@ class GoodsModel extends Model{
  */
     public function cut_sku($item)
     {
-        // $this -> check_sku()
        foreach ($item as $k => $v) {
-            // select inventory from g_goods where id = '.$v['goods_id'].'
           $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
           $objects = json_decode(json_encode($sku), true);
           if($objects[0]['inventory'] < $v['amout']){
@@ -116,7 +154,6 @@ class GoodsModel extends Model{
     public function plus_sku($value='')
     {
        foreach ($item as $k => $v) {
-            // select inventory from g_goods where id = '.$v['goods_id'].'
           $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
           $objects = json_decode(json_encode($sku), true);
           if($objects[0]['inventory'] < 0){

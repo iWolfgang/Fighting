@@ -6,12 +6,39 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\GoodsBuyCarModel;
 use App\GoodsModel;
-// use App\HomePageModel;
 
 class GoodsBuyCarController extends Controller
 {
+/**
+ * 将要加入购物车--选sku 
+ * Author Amber
+ * Date 2018-10-16
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function willJoin_Buycart(Request $request)
+    {
+        $goods_id = $request->input("goods_id");
+        $GoodsModel = new GoodsModel();
 
+        $ret = $GoodsModel->willJoin_Buycart($goods_id);
+        // print_r($ret);die;
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $ret
+        );
 
+        $this->_response($res);
+    }
+
+/**
+ * 加入购物车 
+ * Author Amber
+ * Date 2018-10-16
+ * Params [params]
+ * @param Request $request [description]
+ */
 	public function add_buycar(Request $request)
 	{
         
@@ -79,7 +106,6 @@ class GoodsBuyCarController extends Controller
         $GoodsModel = new GoodsCatModel();
 
         $res = $GoodsModel->only_two_homelist($cat_id);
-// print_r($res);die;
         if($res == FALSE){
             $res = array(
                 "errNo" => "6003",

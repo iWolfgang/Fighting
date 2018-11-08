@@ -13,7 +13,7 @@ class ArticleController extends Controller
         
         $user_id =  $request->input('user_id');//用户id
 
-        $page_id = $request->input("page_id");//文章idid
+        $page_id = $request->input("page_id");//文章id
         $type = $request->input("type");//文章类型
         $sear = new ArticleModel();
         $ret = $sear->Like_zan($user_id,$page_id,$type);
@@ -36,6 +36,24 @@ class ArticleController extends Controller
         
         $this->_response($res);
     }
+
+/**
+ * 浏览量
+ * Author Amber
+ * Date 2018-11-08
+ * Params [params]
+ * @param Request $Request [description]
+ */
+    public function PageViews(Request $Request)
+    {
+        // $user_id =  $request->input('user_id');//用户id
+
+        $page_id = $request->input("page_id");//文章id
+        $user_ip = $request->input("user_ip");//用户ip
+        $type = $request->input("type");//文章类型
+        $sear = new ArticleModel();
+        $ret = $sear->PageViews($user_ip,$page_id,$type);
+    }
     /**
      * 搜索关键字
      * Author Liuran
@@ -45,9 +63,10 @@ class ArticleController extends Controller
     public function search(Request $request){
 
         $keyword = $request->input("keyword");
-        $user_id = $request->input("user_id");
+        // $user_id = $request->input("user_id");
        // var_dump($keyword);die;
          if(empty($keyword)){
+            
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "缺少关键字"

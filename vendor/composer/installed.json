@@ -4326,17 +4326,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.1.4",
-        "version_normalized": "4.1.4.0",
+        "version": "v4.1.6",
+        "version_normalized": "4.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "a05426e27294bba7b0226ffc17dd01a3c6ef9777"
+            "reference": "60319b45653580b0cdacca499344577d87732f16"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a05426e27294bba7b0226ffc17dd01a3c6ef9777",
-            "reference": "a05426e27294bba7b0226ffc17dd01a3c6ef9777",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/60319b45653580b0cdacca499344577d87732f16",
+            "reference": "60319b45653580b0cdacca499344577d87732f16",
             "shasum": ""
         },
         "require": {
@@ -4358,7 +4358,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2018-08-02T09:24:26+00:00",
+        "time": "2018-10-02T16:36:10+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -4650,17 +4650,17 @@
     },
     {
         "name": "yansongda/supports",
-        "version": "v1.7.1",
-        "version_normalized": "1.7.1.0",
+        "version": "v1.8.3",
+        "version_normalized": "1.8.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/yansongda/supports.git",
-            "reference": "5fff920eb4205e783587c4725ee26061401f292d"
+            "reference": "2e295667942f7bb2453b09fba8f86a5a03cba55e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yansongda/supports/zipball/5fff920eb4205e783587c4725ee26061401f292d",
-            "reference": "5fff920eb4205e783587c4725ee26061401f292d",
+            "url": "https://api.github.com/repos/yansongda/supports/zipball/2e295667942f7bb2453b09fba8f86a5a03cba55e",
+            "reference": "2e295667942f7bb2453b09fba8f86a5a03cba55e",
             "shasum": ""
         },
         "require": {
@@ -4668,7 +4668,7 @@
             "monolog/monolog": "^1.23",
             "php": ">=5.5"
         },
-        "time": "2018-08-07T05:28:15+00:00",
+        "time": "2018-09-13T06:47:49+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {
