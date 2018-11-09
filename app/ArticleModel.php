@@ -23,21 +23,24 @@ class ArticleModel extends Model{
     public function Like_zan($user_id,$page,$type)
     {
         
-        $isset = $this->Like_zan_isset($page,$user_id,$type);
+        $isset = $this->Like_zan_isset($page,$user_id,$type);//判断是否点赞
         if($isset){
-            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type);
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type);//取消点赞
             
         }else{
 
-            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type);
+            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type);//添加点赞
         
         }
 
         $action = $isset ? "un_like" : "like";
-        $count = $this->Like_zan_count($page,$user_id,$type);
-        
+        $count = $this->Like_zan_count($page,$user_id,$type);//点赞数量
+        $types = $type;
+        $page_id = $page;
         $data = array(
             "action" => $action,
+            "type" => $types,
+            "page_id" => $page_id,
             "count" => $count
         );
         return $data;
