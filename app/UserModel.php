@@ -103,7 +103,6 @@ class UserModel extends Model
 
             return $res;
         }
-        // dump($userId);die;
 
        $userid = $userId['id'];
         if(isset($userId['errNo'])){
@@ -286,7 +285,7 @@ class UserModel extends Model
             ->insertGetId($data);
 // print_r($add);die;
         $res = array();
-        $res['head_portrait'] = 'https://mithril-capsule.oss-cn-beijing.aliyuncs.com/986528.jpg';
+        $res['head_portrait'] = 'https://mithril-capsule.oss-cn-beijing.aliyuncs.com/%E5%BE%AE%E4%BF%A1%E5%9B%BE%E7%89%87_20180815192914.png';
         $res['user_name'] = '秘银'.rand(1000,9999).'用户';
         $res['user_id'] = $add;
         $res['sex'] = '男';

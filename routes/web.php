@@ -14,6 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
 Route::get('/ssl', array('https' => true, function() {
         return View('welcome');
     })

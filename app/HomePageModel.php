@@ -126,15 +126,16 @@ class HomePageModel extends Model
           if($more){
 
             $objects = DB::table('t_video')  
-            ->select('id','video_type','source_img','source','video_text','video_url','created_at')
+            ->select('id','video_type','source_img','video_cover','source','video_text','video_url','created_at')
             ->orderBy('created_at', 'desc')
             ->get();
           }else{
-            $objects = DB::table('t_video')  
-            ->select('id','video_type','source_img','source','video_text','video_url','created_at')
-            ->limit(4)
-            ->orderBy('created_at', 'desc')
-            ->get();
+            $objects = DB::table('t_video')
+                ->select('id','video_type','source_img','video_cover','source','video_text','video_url','created_at')
+                // ->where('video_type',$video_type)
+                ->limit(4)
+                ->orderBy('created_at', 'desc')
+                ->get();
 
           }
           $data = json_decode(json_encode($objects), true);
@@ -152,7 +153,7 @@ class HomePageModel extends Model
   public function video_info($article_id)
   {
               $objects = DB::table('t_video')  
-                ->select('id','source_img','source','video_url','video_text','video_desc','created_at','fk_game_id','tapid')
+                ->select('id','source_img','source','video_cover','video_url','video_text','video_desc','created_at','fk_game_id','tapid')
                 ->where('id',$article_id)
                 ->first();
  

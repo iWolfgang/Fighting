@@ -103,6 +103,7 @@ class Controller extends BaseController
      */
     public function checkUserToken($user_token = '')
     {
+        // echo 3;
        // echo $user_token;die;
         $tokenArr = explode("|", $user_token);
 
@@ -119,12 +120,12 @@ class Controller extends BaseController
 
 // echo $time_ago."以前";
         if($time_ago  + 1209600 < $time_now){//如果 token生成时间 + 两周的时间 小于 当前时间  就过期了
-            
+            // echo 1;die;
             return false;
         }
 
         if($secret != $cacheSecret){
-             
+             // echo 2;die;
             return false;
         }
 
