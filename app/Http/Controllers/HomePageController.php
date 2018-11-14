@@ -21,22 +21,20 @@ class HomePageController extends Controller
  */
   public function full(Request $request)
     {
-        // $game_id = $request->input("game_id");,$game_id
         $more = $request->input("more");
+        $page = $request->input("page");
         $HomePageModel = new HomePageModel();
-        $long_articlelist = $HomePageModel->long_articlelist($more);
-        $short_articlelist = $HomePageModel->short_articlelist($more);
+        $long_articlelist = $HomePageModel->long_articlelist($more,$page);
+        $short_articlelist = $HomePageModel->short_articlelist($more,$page);
 
-       // $videolist = $HomePageModel->videolist($more);,$videolist
         $ret = array_merge($long_articlelist,$short_articlelist);
         $orderFile = array();
-            foreach($ret as $vo){
-               $orderFile[]=$vo['created_at'];
-               }
-            array_multisort($orderFile ,SORT_DESC, $ret);
-            $order = array_values($ret);
-#	   print_r($order);die; 
-       if($ret == FALSE){
+        foreach($ret as $vo){
+           $orderFile[]=$vo['created_at'];
+           }
+        array_multisort($orderFile ,SORT_DESC, $ret);
+        $order = array_values($ret);
+        if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "系统错误"
@@ -60,7 +58,6 @@ class HomePageController extends Controller
      */
     public function slideshow(Request $request)
     {
-        // echo 1;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow();
@@ -93,9 +90,6 @@ class HomePageController extends Controller
         $slideshow_title = $request->input("title");
         $slideshow_type = $request->input("slideshow_type");
         $slideshow_url = $request->input("slideshow_url");
-        
-        
-
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->slideshow_add( $slideshow,  $slideshow_title, $slideshow_url, $slideshow_type);
@@ -118,12 +112,13 @@ class HomePageController extends Controller
  */
     public function long_articlelist(Request $request)
     {
-        // $game_id = $request->input("game_id");
+      
         $more = $request->input("more");
+        $page = $request->input("page");
         $HomePageModel = new HomePageModel();
 
-        $ret = $HomePageModel->long_articlelist($more);
-
+        $ret = $HomePageModel->long_articlelist($more,$page);
+        // print_r($ret);die;
             if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -144,12 +139,11 @@ class HomePageController extends Controller
     public function short_articlelist(Request $request)
     {
         $more = $request->input("more");
-        // echo $more;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->short_articlelist($more);
 
-            if($ret == FALSE){
+        if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "内容为空"
@@ -168,7 +162,6 @@ class HomePageController extends Controller
     public function Evaluation_list(Request $request)
     {
         $more = $request->input("more");
-        // echo $more;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->Evaluation_list($more);
@@ -194,8 +187,6 @@ class HomePageController extends Controller
     {
         // 
         $more = $request->input("more");
-        // $video_type = $request->input("video_type");,$video_type
-        // echo $more,$video_type;die;
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->videolist($more);
@@ -250,23 +241,7 @@ class HomePageController extends Controller
         $pinglun_type = "video";
         $formArticleComment = $ArticleModel->formArticleComment($article_id,$pinglun_type);//评论信息
 
-        // if($video_info == FALSE){
-        //     $res = array(
-        //         "errNo" => "0003",
-        //         "errMsg" => "没有此视频"
-        //     );
-        //     $this->_response($res);
-        // }
-        // if($formArticleComment == FALSE){
-        //     $res = array(
-        //         "errNo" => "0003",
-        //         "errMsg" => "暂无评论"
-        //     );
-        //     $this->_response($res);
-        // }
         $data = array(
-            // "errNo" => 0,
-            // 'errMsg' => 'success',
             "video_info" => $video_info,
             "game_info" => $game_info,
             "video_like" => $video_like,

@@ -431,17 +431,17 @@
     },
     {
         "name": "filp/whoops",
-        "version": "2.2.0",
-        "version_normalized": "2.2.0.0",
+        "version": "2.2.1",
+        "version_normalized": "2.2.1.0",
         "source": {
             "type": "git",
             "url": "https://github.com/filp/whoops.git",
-            "reference": "181c4502d8f34db7aed7bfe88d4f87875b8e947a"
+            "reference": "e79cd403fb77fc8963a99ecc30e80ddd885b3311"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/filp/whoops/zipball/181c4502d8f34db7aed7bfe88d4f87875b8e947a",
-            "reference": "181c4502d8f34db7aed7bfe88d4f87875b8e947a",
+            "url": "https://api.github.com/repos/filp/whoops/zipball/e79cd403fb77fc8963a99ecc30e80ddd885b3311",
+            "reference": "e79cd403fb77fc8963a99ecc30e80ddd885b3311",
             "shasum": ""
         },
         "require": {
@@ -457,11 +457,11 @@
             "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
             "whoops/soap": "Formats errors as SOAP responses"
         },
-        "time": "2018-03-03T17:56:25+00:00",
+        "time": "2018-06-30T13:14:06+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {
-                "dev-master": "2.1-dev"
+                "dev-master": "2.2-dev"
             }
         },
         "installation-source": "dist",
@@ -963,6 +963,51 @@
             "aliyun",
             "oss"
         ]
+    },
+    {
+        "name": "jpush/jpush",
+        "version": "v3.6.1",
+        "version_normalized": "3.6.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/jpush/jpush-api-php-client.git",
+            "reference": "a2250612a33ced6c3e565eb9807089b693111154"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/jpush/jpush-api-php-client/zipball/a2250612a33ced6c3e565eb9807089b693111154",
+            "reference": "a2250612a33ced6c3e565eb9807089b693111154",
+            "shasum": ""
+        },
+        "require": {
+            "ext-curl": "*",
+            "php": ">=5.3.3"
+        },
+        "require-dev": {
+            "phpunit/phpunit": "*"
+        },
+        "time": "2018-05-30T02:28:58+00:00",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "JPush\\": "src/JPush/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "JPush",
+                "email": "support@jpush.cn",
+                "homepage": "https://www.jpush.cn/",
+                "role": "Developer"
+            }
+        ],
+        "description": "JPush API PHP Client",
+        "homepage": "https://github.com/jpush/jpush-api-php-client"
     },
     {
         "name": "laravel/framework",
@@ -2312,17 +2357,17 @@
     },
     {
         "name": "phpunit/phpunit",
-        "version": "7.3.4",
-        "version_normalized": "7.3.4.0",
+        "version": "7.3.5",
+        "version_normalized": "7.3.5.0",
         "source": {
             "type": "git",
             "url": "https://github.com/sebastianbergmann/phpunit.git",
-            "reference": "0356331bf62896dc56e3a15030b23b73f38b2935"
+            "reference": "7b331efabbb628c518c408fdfcaf571156775de2"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/0356331bf62896dc56e3a15030b23b73f38b2935",
-            "reference": "0356331bf62896dc56e3a15030b23b73f38b2935",
+            "url": "https://api.github.com/repos/sebastianbergmann/phpunit/zipball/7b331efabbb628c518c408fdfcaf571156775de2",
+            "reference": "7b331efabbb628c518c408fdfcaf571156775de2",
             "shasum": ""
         },
         "require": {
@@ -2361,7 +2406,7 @@
             "ext-xdebug": "*",
             "phpunit/php-invoker": "^2.0"
         },
-        "time": "2018-09-05T09:58:53+00:00",
+        "time": "2018-09-08T15:14:29+00:00",
         "bin": [
             "phpunit"
         ],
@@ -4281,17 +4326,17 @@
     },
     {
         "name": "symfony/var-dumper",
-        "version": "v4.1.4",
-        "version_normalized": "4.1.4.0",
+        "version": "v4.1.6",
+        "version_normalized": "4.1.6.0",
         "source": {
             "type": "git",
             "url": "https://github.com/symfony/var-dumper.git",
-            "reference": "a05426e27294bba7b0226ffc17dd01a3c6ef9777"
+            "reference": "60319b45653580b0cdacca499344577d87732f16"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/a05426e27294bba7b0226ffc17dd01a3c6ef9777",
-            "reference": "a05426e27294bba7b0226ffc17dd01a3c6ef9777",
+            "url": "https://api.github.com/repos/symfony/var-dumper/zipball/60319b45653580b0cdacca499344577d87732f16",
+            "reference": "60319b45653580b0cdacca499344577d87732f16",
             "shasum": ""
         },
         "require": {
@@ -4313,7 +4358,7 @@
             "ext-intl": "To show region name in time zone dump",
             "symfony/console": "To use the ServerDumpCommand and/or the bin/var-dump-server script"
         },
-        "time": "2018-08-02T09:24:26+00:00",
+        "time": "2018-10-02T16:36:10+00:00",
         "bin": [
             "Resources/bin/var-dump-server"
         ],
@@ -4605,17 +4650,17 @@
     },
     {
         "name": "yansongda/supports",
-        "version": "v1.7.1",
-        "version_normalized": "1.7.1.0",
+        "version": "v1.8.3",
+        "version_normalized": "1.8.3.0",
         "source": {
             "type": "git",
             "url": "https://github.com/yansongda/supports.git",
-            "reference": "5fff920eb4205e783587c4725ee26061401f292d"
+            "reference": "2e295667942f7bb2453b09fba8f86a5a03cba55e"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/yansongda/supports/zipball/5fff920eb4205e783587c4725ee26061401f292d",
-            "reference": "5fff920eb4205e783587c4725ee26061401f292d",
+            "url": "https://api.github.com/repos/yansongda/supports/zipball/2e295667942f7bb2453b09fba8f86a5a03cba55e",
+            "reference": "2e295667942f7bb2453b09fba8f86a5a03cba55e",
             "shasum": ""
         },
         "require": {
@@ -4623,7 +4668,7 @@
             "monolog/monolog": "^1.23",
             "php": ">=5.5"
         },
-        "time": "2018-08-07T05:28:15+00:00",
+        "time": "2018-09-13T06:47:49+00:00",
         "type": "library",
         "installation-source": "source",
         "autoload": {

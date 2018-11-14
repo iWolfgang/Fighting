@@ -16,8 +16,7 @@ class tapgetModel extends Model{
  * Author Amber
  * Date 2018-10-10
  * Params [params]
- * @param string $value [description] // ->join('g_product','g_tapget.id','=','g_product.tapid')
-               // ->where(implode(',', json_decode('."g_product.tapid".')),'g_tapget.id')
+ * @param string 
 */
     public function TapAndGoods()
     {
@@ -34,10 +33,11 @@ class tapgetModel extends Model{
           $taps[$value['id']] = $value['tap_name'];
 
         }
-        // dump($taps);'description','goods_desc','sold_count','price','goods_postage',
+        
         $goods = DB::table('g_product')
                ->select('id','goods_name','goods_img','tapid')
                ->where('g_product.on_sale',1)
+               ->where("game_goods", 0)
                ->get();
         $goods = json_decode(json_encode($goods), true);
         $goodsinfo = array();
@@ -125,7 +125,9 @@ class tapgetModel extends Model{
                   }else{
                       
                   }                
-              }   
+              }
+              print_r($goodsinfo);die;
+   
         // }
          $res = array(); //想要的结果
         foreach ($goodku as $k => $v) {

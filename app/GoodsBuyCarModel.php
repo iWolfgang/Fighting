@@ -25,7 +25,7 @@ class GoodsBuyCarModel extends Model{
     	$isset = $this->check($user_id,$goods_id);
     	if($isset){
     		$bool = DB::table('g_buycar')->insert(
- 				['user_id'=>$user_id,'goods_id'=>$goods_id,'buy_num'=>$buy_num]
+ 				['user_id'=>$user_id,'productSku_id'=>$goods_id,'buy_num'=>$buy_num]
  			);
     	    return $bool;
     	}else{
@@ -45,38 +45,41 @@ class GoodsBuyCarModel extends Model{
  */
     public function check($user_id,$goods_id)
     {
-    	   $isset = DB::table($this->_tabName)
+    	$isset = DB::table($this->_tabName)
     	   	->select('id')
-            ->where("goods_id", $goods_id)
+            ->where("productSku_id", $goods_id)
             ->where("user_id", $user_id)
             ->first();
-         // print_r($isset);die;
-         // echo 1;die;
         $iss =  $isset ? get_object_vars($isset) : False;
-        // print_r($iss);die;
         $ids = $iss['id'];
-        // echo $ids;
         if($ids > 0){
-        
-            $num = DB::table('g_buycar')->where('id', '=', $ids)->delete();
+        $num = DB::table($this->_tabName)->where('id', '=', $ids)->delete();
 
-        	// echo $num;die;
-        	 return $num ? true : False;
+        	return $num ? true : False;
 	     }else{
-	     	// echo 2;die;
+	     	
 	     	return true;
 	     }
     }
-
+/**
+ * 展示购物车
+ * Author Amber
+ * Date 2018-10-23
+ * 涉及到三个表  商品表 商品sku表 购物车表
+ * @param  string $user_id [description]
+ * @return [type]          [description]
+ */
     public function show_buycar($user_id='')
     {
-        $objects = DB::table('g_goods')  
-             ->select('g_goods.id','g_buycar.buy_num','g_goods.goods_name','g_goods.goods_thumb','g_goods.ruling_price','g_goods.inventory')
-             ->join('g_buycar','g_goods.id','=','g_buycar.goods_id')
-             ->where('g_buycar.user_id',$user_id)
-             ->get();
+        
+        $objects = DB::table('g_productSkus')
+                ->join('g_buycar','g_productSkus.id','=','g_buycar.productSku_id')
+                ->join('g_product','g_productSkus.product_id','=','g_product.id')
+                ->select('g_product.goods_name','g_productSkus.sku_thumb','g_productSkus.title','g_buycar.buy_num')
+                ->get();
          $objects = json_decode(json_encode($objects), true);
          return $objects;
+         // print_r($objects);die;
     }
 /**
  * 删除购物车已经下单的商品 

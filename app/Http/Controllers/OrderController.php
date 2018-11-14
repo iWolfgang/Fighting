@@ -28,12 +28,13 @@ class OrderController extends Controller
         $order['remark'] = $request->input("remark");//留言
         $orders['total_amount_one'] = $request->input("total_amount");//购买总金额
         $order['total_amount'] = 0;//购买总金额
-        $order['creatorder_at'] = time();//购买总金额
-        $order['expiration_at'] = time()+24*3600;//购买总金额
-        $order['paid_status'] = "待支付";//购买总金额
+        $order['creatorder_at'] = time();//下单时间
+        $order['expiration_at'] = time()+24*3600;//订单关闭倒计时
+        $order['paid_status'] = "待支付";//订单状态
+        $order['refund_status'] = "未退款";//退款状态
+        $order['ship_status'] = "未发货";//物流状态
         $order['no'] = $this->creat_ordnum();//订单流水号
 	    	$is_car =  $request->input("is_car");//是否调用了购物车
-        // print_r($order);die;
         $isset = $this->check_address($order['user_id']);//检查地址是否存在
         if($isset == False){
              $res = array(

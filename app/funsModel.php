@@ -15,9 +15,9 @@ class funsModel extends Model{
     public function search($keyword = '',$user_id)
     {
 
-        $key = sprintf(self::HISTORY_SEARCH_KEY,$user_id);//存关键字
+        // $key = sprintf(self::HISTORY_SEARCH_KEY,$user_id);//存关键字
 
-        Redis::SADD($key,$keyword);
+        // Redis::SADD($key,$keyword);
 
     	$sql = "select id,g_thumb,g_name from t_game_main where g_name like '%".$keyword."%'";
  //or goods_en_name like '".$keyword."%'

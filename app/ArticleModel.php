@@ -11,6 +11,7 @@ class ArticleModel extends Model{
 
     public $_tabName = 't_article';
     const LIKE_ZAN_COUNT = 'Like_zan_%d_%s';//点赞功能
+    const Look_NUM_COUNT = 'Look_num_%d_%s';//浏览量功能
     /**
      * 用户点赞 功能
      * Author Amber
@@ -22,14 +23,14 @@ class ArticleModel extends Model{
      */
     public function Like_zan($user_id,$page,$type)
     {
-        
-        $isset = $this->Like_zan_isset($page,$user_id,$type);//判断是否点赞
+        $gongneng = 1;
+        $isset = $this->Like_zan_isset($page,$user_id,$type,$gongneng);
         if($isset){
-            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type);//取消点赞
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type,$gongneng);
             
         }else{
 
-            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type);//添加点赞
+            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type,$gongneng);
         
         }
 
@@ -37,6 +38,8 @@ class ArticleModel extends Model{
         $count = $this->Like_zan_count($page,$user_id,$type);//点赞数量
         $types = $type;
         $page_id = $page;
+        $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);
+        
         $data = array(
             "action" => $action,
             "type" => $types,
@@ -45,6 +48,38 @@ class ArticleModel extends Model{
         );
         return $data;
     }
+        /**
+     * 浏览量统计 
+     * Author Amber
+     * Date 2018-11-08
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function PageViews($page_id,$user_ip,$type)
+    {       
+       //判断这个IP是否浏览过，第一次浏览+1，第二次就不要加一了
+        $gongneng = 0;
+        $isset = $this->Like_zan_isset($page_id,$user_ip,$type,$gongneng);
+        if($isset){
+
+            $Like_zan_reduce = $this->Like_zan_reduce($page_id,$user_ip,$type,$gongneng);
+            
+        }else{
+
+            $Like_zan_add = $this->Like_zan_add($page_id,$user_ip,$type,$gongneng);
+        }
+
+        $action = $isset ? "刚来过" : "浏览+1";
+        $count = $this->Like_zan_count($page_id,$user_ip,$type,$gongneng);
+        
+        $data = array(
+            "action" => $action,
+            "count" => $count
+        );
+        return $data;
+
+    }
+
     /**
      * 判断用户是否点过赞 
      * Author Amber
@@ -53,11 +88,18 @@ class ArticleModel extends Model{
      * @param [type] $page    [description]
      * @param [type] $user_id [description]
      */
-    public function Like_zan_isset($page,$user_id,$type)
+   public function Like_zan_isset($page,$user_id,$type,$gongneng)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
-        $isset = Redis::SISMEMBER($key,$user_id);
-        return $isset;
+        if($gongneng == 1){
+            $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
+            $isset = Redis::SISMEMBER($key,$user_id);
+            return $isset;
+        }else{
+            $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+            $isset = Redis::SISMEMBER($key,$user_id);
+            return $isset;
+        }
+        
     }
 
     /**
@@ -67,11 +109,17 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_add($page,$user_id,$type)
+    public function Like_zan_add($page,$user_id,$type,$gongneng)
     {
-       $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
-        $Like_zan = Redis::SADD($key,$user_id);
-        return $Like_zan;
+        if($gongneng == 1 ){
+            $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
+            $Like_zan = Redis::SADD($key,$user_id);
+            return $Like_zan;
+        }else{
+            $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+            $Like_zan = Redis::SADD($key,$user_id);
+            return $Like_zan;
+        }
     }
 
     /**
@@ -81,11 +129,17 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_reduce($page,$user_id,$type)
+    public function Like_zan_reduce($page,$user_id,$type,$gongneng)
     {
-         $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
-        $Like_zan = Redis::SREM($key,$user_id);
-        return $Like_zan;
+         
+        if($gongneng == 1){
+            $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
+            $Like_zan = Redis::SREM($key,$user_id);
+            return $Like_zan;
+        }else{
+           
+            return true;  
+        }
     }
     /**
      * 统计点赞数量 
@@ -94,14 +148,19 @@ class ArticleModel extends Model{
      * Params [params]
      * @param string $value [description]
      */
-    public function Like_zan_count($page,$user_id,$type)
+    public function Like_zan_count($page,$user_id,$type,$gongneng)
     {
-        $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
-        $Like_zan = count(Redis::SMEMBERS($key));
-        return $Like_zan;        
+        if($gongneng == 1){
+          $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
+           $Like_zan = count(Redis::SMEMBERS($key));
+           return $Like_zan; 
+        }else{
+           $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+           $Like_zan = count(Redis::SMEMBERS($key));
+           return $Like_zan; 
+        }
+       
     }
-
-
 
     /**
      * 获取文章详情 
@@ -114,7 +173,6 @@ class ArticleModel extends Model{
     	$article = DB::table($this->_tabName)
             ->where("id", $id)
             ->first();
-         // print_r($article);die;
          
         return $article ? get_object_vars($article) : False;
     	
@@ -129,7 +187,7 @@ class ArticleModel extends Model{
  */
     public function getD_ArtInfo($article_id)
     {
-      $objects = DB::table('t_shorts_article')  
+       $objects = DB::table('t_shorts_article')  
         ->select('t_shorts_article.id','title','content','t_shorts_article.created_at','source','source_img','videourl','imageurl','fk_game_id')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('t_shorts_article.id',$article_id)
@@ -137,17 +195,16 @@ class ArticleModel extends Model{
        $data = get_object_vars($objects);
        $str = json_decode($data['imageurl']);
        $data['imageurl'] =  $str;
-        $fk_game_id = $data['fk_game_id'];
-        $game_info = $this->getGameInfoByGameId($fk_game_id);
-        $pinglun_type = 'shorta';
-        $comment_info = $this->formArticleComment($article_id,$pinglun_type);
-         if($comment_info == false){
+       $fk_game_id = $data['fk_game_id'];
+       $game_info = $this->getGameInfoByGameId($fk_game_id);
+       $pinglun_type = 'shorta';
+       $comment_info = $this->formArticleComment($article_id,$pinglun_type);
+       if($comment_info == false){
            $comment_info = "暂无评论";
-        }
-        if($game_info == False){
+       }
+       if($game_info == False){
             $res['game_info'] = '未关联游戏';
-            
-        }
+       }
 
         $res['shortdata'] = $data;
         $res['comment_info'] = $comment_info;
@@ -181,13 +238,9 @@ class ArticleModel extends Model{
         if($comment_info == false){
            $comment_info = "暂无评论";
         }
-        // if($articleInfo['fk_game_id'] == 1){
-        //     echo 1;die;
-        // }
         if(isset($articleInfo['fk_game_id'])){
             $gameInfo = $this->getGameInfoByGameId($articleInfo['fk_game_id']);//游戏信息
         }
-         // print_r($gameInfo);die;
         if($gameInfo == False){
             $gameInfo = "游戏信息不存在";
         }
@@ -229,7 +282,6 @@ class ArticleModel extends Model{
             ->get();
            $CommentInfos[$key]['comment_next']  = json_decode(json_encode($obj), true);
         }
-        // print_r($CommentInfos);die;
        return $CommentInfos;
     }
 
@@ -243,13 +295,13 @@ class ArticleModel extends Model{
      */
     public function ShortArticleComment($article_id,$pinglun_type)
     {
-            $Comment = DB::table('t_article_comment')
-            ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.head_portrait','t_user_infos.user_name','comment_content','create_time')
-            ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
-            ->where('fk_article_type',$pinglun_type)
-            ->where("fk_article_id", $article_id)
-            ->where("fk_comment_pid", 0)
-            ->get();
+        $Comment = DB::table('t_article_comment')
+        ->select('comment_id','fk_comment_pid','fk_user_id','t_user_infos.head_portrait','t_user_infos.user_name','comment_content','create_time')
+        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
+        ->where('fk_article_type',$pinglun_type)
+        ->where("fk_article_id", $article_id)
+        ->where("fk_comment_pid", 0)
+        ->get();
         
         $CommentInfos = json_decode(json_encode($Comment), true);
         // $CommentInfos是一级评论
@@ -308,7 +360,6 @@ class ArticleModel extends Model{
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
-        // $objects = json_decode(json_encode($objects), true);
         return empty($obj) ? false : $obj;
     }
 
@@ -343,7 +394,7 @@ class ArticleModel extends Model{
     public function addArticleRead($article_id = 0)
     {
       $students = DB::select('select article_reading from t_article where id = ?',[$article_id]); 
-     $articleInfos = json_decode(json_encode($students), true);
+      $articleInfos = json_decode(json_encode($students), true);
       $nums = $articleInfos[0]['article_reading'];
       $new = $nums+1;
 
@@ -355,6 +406,4 @@ class ArticleModel extends Model{
       }
       
     }
-
-
 }

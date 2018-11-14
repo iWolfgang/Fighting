@@ -17,7 +17,7 @@ class UserController extends Controller
     public function regist(Request $request)
     {
         $user_mobile = $request->input("user_mobile");
-        $user_passwd = $request->input("user_passwd");
+       // $user_passwd = $request->input("user_passwd");
 
         $sms_code = $request->input("sms_code");
 
@@ -32,13 +32,13 @@ class UserController extends Controller
             $this->_response($res);
         }
 
-        if(empty($user_passwd) || strlen($user_passwd) != 32){
-            $res = array(
-                "errNo" => "0002",
-                "errMsg" => "密码格式不正确"
-            );
-            $this->_response($res);
-        }
+        // if(empty($user_passwd) || strlen($user_passwd) != 32){
+        //     $res = array(
+        //         "errNo" => "0002",
+        //         "errMsg" => "密码格式不正确"
+        //     );
+        //     $this->_response($res);
+        // }
 
         if (empty($sms_code) || is_numeric($sms_code) == FALSE) {
             $res = array(
@@ -49,8 +49,7 @@ class UserController extends Controller
         }
 
         $UserModel = new UserModel();
-
-        $ret = $UserModel->regist($user_mobile, $user_passwd, $sms_code);
+        $ret = $UserModel->regist($user_mobile,$sms_code);
 
         if($ret == FALSE){
             $res = array(
@@ -64,7 +63,8 @@ class UserController extends Controller
 
         $res = array(
             "errNo" => 0,
-            "errMsg" => "注册成功"
+            "errMsg" => $ret
+
         );
 
         $this->_response($res);

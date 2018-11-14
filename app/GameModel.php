@@ -143,25 +143,26 @@ class GameModel extends Model{
         // var_dump($ids);die;
         $a = explode( ',',$ids);
         
-        // print_r($a);die;                           
+        // print_r($a);                           
         $arr =array();$result =array();
         foreach ($a as $k => $v) {
             $arr[] = DB::table('t_video')  
-            ->select('id','video_cover','video_text','video_type','created_at')
+            ->select('id','tapid','video_cover','video_text','video_type','created_at')
             ->where('tapid', 'like', '%'.$v.'%')
             ->limit(4)
             ->get();
         }
        $data = json_decode(json_encode($arr), true);
-     
+     // print_r($arr);
        foreach($data as $value){  
             foreach($value as $v){  
                 $result[]=$v;
             }  
         }
        $res = array_unique($result, SORT_REGULAR);
-       
+       // print_r($res);
        $re=array_splice($res,1);
+       // print_r($re);die;
        return empty($re) ? false : $re;
     }
 
@@ -175,7 +176,7 @@ class GameModel extends Model{
     public function shorta_correlation($game_id)
     {
        $objects = DB::table('t_shorts_article')  
-        ->select('t_shorts_article.id','source_img','title','content','imageurl','t_shorts_article.created_at')
+        ->select('t_shorts_article.id','source_img','source','title','content','imageurl','t_shorts_article.created_at')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->where('fk_game_id', 'like', '%'.$game_id.'%')
         ->get();

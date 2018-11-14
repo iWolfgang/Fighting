@@ -211,15 +211,19 @@ class SmsCodeModel extends Model
      */
     public function chenckCode($mobile = '', $code = ''){
         $ret = $this->getSmsCodeInfoByMobile($mobile);
-
+        // var_dump($ret);
         if(empty($ret) || time() > $ret['expire_time'])
         {
+            // echo 1;die;
             return false;
         }
         if($code != $ret['sms_code']){
+            // echo $code;die;
+            // echo $ret['sms_code'];
+              // echo 2;die;
             return false;
         }
-        
+          // echo 3;die;
         $this-> removeSmsCodeInfoByMobile($mobile);
         return true;
     }
