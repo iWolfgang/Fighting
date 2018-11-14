@@ -79,29 +79,19 @@ class HomePageModel extends Model
  */
    public function short_articlelist($more,$page)
     {
-      // if($more == 1){
+      if($more == 1){
         $objects = DB::table('t_shorts_article')
         ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->orderBy('created_at', 'desc')
         ->get();
-       // }else{
-       //  $objects = DB::table('t_shorts_article')  
-       //  ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-       //  ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-       //  ->orderBy('created_at', 'desc')
-       //  ->paginate(4);
-       // }
-
-        $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
-        print_r($data);die;
-
-        $imgArr = array();
-        foreach ($data['data'] as $key => $value) {
-           $imgArr[$value['id']] =  $this->getImageurlAttribute( $value['imageurl']);  
+         $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+         $imgArr = array();
+        foreach ($data as $key => $value) {
+           $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
            }
         $res = array();
-        foreach ($data['data'] as $key => $value) {
+        foreach ($data as $key => $value) {
           $res[$value['id']] = $value;
 
           $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
@@ -111,10 +101,56 @@ class HomePageModel extends Model
             if ($key === 'data')
                 unset($data[$key]);
         }
-       
-          $res['page'] = $data;
           return empty($res) ? false : $res;
-    }
+       
+     }else{
+      // echo 2;die;
+          $objects = DB::table('t_shorts_article')  
+          ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+          ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+          ->orderBy('created_at', 'desc')
+          ->limit(5)
+          ->get();
+          $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+           $imgArr = array();
+          foreach ($data as $key => $value) {
+             $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
+             }
+          $res = array();
+          foreach ($data as $key => $value) {
+            $res[$value['id']] = $value;
+
+            $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
+          }
+          foreach ($data as $key=>$value)
+          {
+              if ($key === 'data')
+                  unset($data[$key]);
+          }
+            return empty($res) ? false : $res;
+       }
+     }
+
+        // $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+        // $imgArr = array();
+        // foreach ($data as $key => $value) {
+        //    $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
+        //    }
+        // $res = array();
+        // foreach ($data as $key => $value) {
+        //   $res[$value['id']] = $value;
+
+        //   $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
+        // }
+        // foreach ($data as $key=>$value)
+        // {
+        //     if ($key === 'data')
+        //         unset($data[$key]);
+        // }
+       
+        //   $res['page'] = $data;
+        //   return empty($res) ? false : $res;
+    
   public function getImageurlAttribute($cover)
     {
         return json_decode($cover, true);

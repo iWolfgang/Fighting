@@ -68,7 +68,6 @@ class SmsCodeModel extends Model
 
         $add = DB::table($this->_tabName)
             ->insert($data);
-        //$add = true;
         if($add){
             $this->sendSmsCodeToAPI($data['sms_mobile'], $data['sms_code']);
         }
@@ -85,13 +84,13 @@ class SmsCodeModel extends Model
      */
     public function reCreateSmsCodeInfoByMobile($mobile = '', $create_time = 0)
     {
-        // if(time() - $create_time < 60){
-        //     $res = array(
-        //         "errNo" => "1001",
-        //         "errMsg" => "验证码发送过于频繁"
-        //     );
-        //     return $res;
-        // }
+        if(time() - $create_time < 60){
+            $res = array(
+                "errNo" => "1001",
+                "errMsg" => "验证码发送过于频繁"
+            );
+            return $res;
+        }
 
         $this->removeSmsCodeInfoByMobile($mobile);
 

@@ -78,6 +78,7 @@ Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buyc
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
 Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单
+Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 Route::post('/Order/wait_paylist', 'OrderController@wait_paylist');//待付款订单列表
 Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
 //===================================支付====================
