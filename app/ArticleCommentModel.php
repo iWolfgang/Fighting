@@ -115,12 +115,12 @@ class ArticleCommentModel extends Model
  * @param string $fk_user_id      [用户id]
  * @param string $comment_content [内容]
  */
-	public function addComment($fk_article_id = '',$fk_user_id = '',$comment_content = '',$fk_type_name)
+	public function addComment($fk_article_id = '',$fk_comment_id = '',$fk_user_id = '',$comment_content = '',$fk_type_name)
 	{
 		$data = array();
 
 		$data['fk_article_id'] = $fk_article_id;
-		$data['fk_comment_pid'] = 0;
+		$data['fk_comment_pid'] =$fk_comment_id ;
 		$data['fk_user_id'] = $fk_user_id;
 		$data['comment_content'] = $comment_content;
 		$data['fk_article_type'] = $fk_type_name;
@@ -148,72 +148,97 @@ class ArticleCommentModel extends Model
      * Params [params]
      * @param string $article_id [文章id]
      */
-    public function articleComment_list($article_id)
+    public function articleComment_list($article_id,$article_type)
     {
       
-        $article_1_list = $this->articleComment_list1($article_id);
-        if(empty($article_1_list)){
-            $res = array(
-                "errNo" => "0002",
-                "errMsg" => "缺少必要的参数"
-            );
-            $this->_response($res);
-        }
-        // print_r($article_1_list);die;
-        $article_list = $this->articleComment_list2($article_1_list);
-        if(empty($article_list)){
-            $res = array(
-                "errNo" => "0002",
-                "errMsg" => "缺少必要的参数"
-            );
-            $this->_response($res);
-        }
-		if(empty($article_list)){
-            $res = array(
-                "errNo" => 0,
-            	"errMsg" => "success",
-            	"data" => $article_list
-            );
-            $this->_response($res);
-        }
-        // print_r($article_list);die;
+        $Comment_list = $this->findComment_list($article_id,$article_type);//获取评论
+        // print_r($Comment_list);die;
+        return $Comment_list;
     }
 
-     public function articleComment_list1($article_id)
+     public function findComment_list($article_id,$article_type)
     {
-        $article_list = DB::table($this->_tabName)->select('fk_comment_id','comment_content','comment_level')->where('fk_article_id', $article_id)->where('comment_status', 1)->get(); 
+        $Comment_list = DB::table($this->_tabName)
+	        ->select('comment_id','comment_content','fk_comment_pid','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
+	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
+	        ->where('fk_article_id', $article_id)
+	        ->where('fk_comment_pid', 0)
+	        ->where('fk_article_type', $article_type)
+	        ->get(); 
+	        // print_r($Comment_list);die;
+        $Comment = json_decode(json_encode($Comment_list), true);
+        return $Comment;
+        // var_dump($Comment);die;
+    }
+    /**
+     * 通过文章id列出所有2级评论 
+     * Author Amber
+     * Date 2018-04-14
+     * Params [params]
+     * @param string $article_id [文章id]
+     */
+    public function articleComment_twoList($article_id,$comment_id)
+    {
+      
+        $Comment_list = $this->findComment_twolist($article_id,$comment_id);//获取评论
+        // print_r($Comment_list);die;
+        return $Comment_list;
+    }
+     public function findComment_twolist($article_id,$comment_id)
+    {
+    	// echo $article_id.'......'.$comment_id;die;
+        $Comment_list = DB::table($this->_tabName)
+	        ->select('comment_id','comment_content','fk_comment_pid','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
+	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
+	        ->where('fk_article_id', $article_id)
+	        ->where('fk_comment_pid', $comment_id)
+	        ->get(); 
+	        // print_r($Comment_list);die;
+        $Comment = json_decode(json_encode($Comment_list), true);
+        return $Comment;
+        // var_dump($Comment);die;
+    }
+
+     public function digui($Comment_list,$comment_pid = 0)
+    {
+    	// 
+    	// echo '---------------------------------';
+    	$list = array();
+        foreach ($Comment_list as $row) {
+        	
+        	if($row['fk_comment_pid'] == $comment_pid){
+        		$list[$row['fk_comment_pid']] = $row;
+        		print_r($list);die;
+        		$children = $this->digui($Comment_list,$row['comment_id']);
+        		$children && $list[$row['fk_comment_pid']]['children'] = $children;
+        	}
+        	// print_r($list);die; 65
+        }
+        // print_r($list);
        
-        return $article_list;
+        return $list;
     }
-    
 
-     public function articleComment_list2($article_1_list)
+     public function digu($Comment_list,$comment_pid = 0)
     {
-        // $article_list = DB::table($this->_tabName)->where('fk_article_id', $article_id)->get();
-        
-        $arr = array(
-
-        	"head_img" => "baidu.jpg",
-        	"nickname" => "然然然",
-        );
-
-        $data = array();
-        $data = array(
-        	""
-        );
-
-        foreach($article_list as $K => $v){
-
-        	$data[$k] = $v;
-        	$data['fk_comment_id'] = $v['fk_comment_id'];
-        	$data['fk_article_id'] = $v['fk_article_id'];
-        	$data['fk_article_id'] = $v['fk_article_id'];
-
+    	print_r($Comment_list);
+    	echo $comment_pid;die;
+    	$list = array();
+        foreach ($Comment_list as $row) {
+        	
+        	if($row['fk_comment_pid'] == $comment_pid){
+        		$list[$row['comment_id']] = $row;
+        		print_r($list);
+        		$children = $this->digui($Comment_list,$row['comment_id']);
+        		print_r($children);die;
+        	}
+        	else{
+        		echo 2;die;
+        	}
         }
-        return $article_list;
     }
 
-/**
+/**mn      
  * 回复评论列表
  * Author Amber
  * Date 2018-04-16

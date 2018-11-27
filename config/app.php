@@ -17,6 +17,7 @@ return [
 
     'api_secret' => env('API_SECRET', '88068e33c78eb72f1b371c7110846085'),
     'api_debug' => env('API_DEBUG', true),
+    'order_ttl' => 30,
     /*
     |--------------------------------------------------------------------------
     | Application Environment

@@ -355,6 +355,7 @@ class ArticleModel extends Model{
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
+                // print_r($objects);die;
         return empty($obj) ? false : $obj;
     }
 

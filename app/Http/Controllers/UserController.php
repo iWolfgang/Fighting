@@ -191,6 +191,38 @@ class UserController extends Controller
         $this->_response($res);
     }
 /**
+ * 修改手机号
+ * Author Amber
+ * Date 2018-11-26
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
+    public function update_mobile(Request $request)
+    {
+        // echo 1;die;
+        $user_id = $request->input("user_id");
+        $user_mobile = $request->input("user_mobile");
+        $GetPYModel = new UserModel();
+
+        $ret = $GetPYModel->update_mobile($user_id,$user_mobile);    
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "修改失败,请重新提交"
+            );
+            $this->_response($res);
+        }elseif(isset($ret['errNo'])){
+            $this->_response($ret);
+        }
+
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "修改成功"
+        );
+        $this->_response($res);   
+    }
+/**
  * 添加add用户信息 
  * Author Amber
  * Date 2018-06-26
@@ -200,12 +232,11 @@ class UserController extends Controller
  */
     public function userinfo_add(Request $request)
     {
-
-        $head_img = $request->file("head_img");
+        // echo 222;die;
         $user_id = $request->input("user_id"); 
-        $user_name = $request->input("user_name"); 
-        $sex = $request->input("sex"); 
-        $email = $request->input("email"); 
+        $user_name = $request->input("user_name");
+        $head_img = $request->file("head_img");
+        $signature = $request->input("signature"); 
         //=================收货地址=======================
         // $data['province'] = $request->input("province");
         // $data['city'] = $request->input("city");
@@ -215,15 +246,16 @@ class UserController extends Controller
         // $data['contact_phone'] = $request->input("contact_phone");
         // $data['district'] = $request->input("district");
         // echo $email;die;
+        // 
         $GetPYModel = new UserModel();
 
-        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$sex,$email);
+        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$signature);
 
         // $bool = $this->_response($res);
         if($bool == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errMsg" => "修改失败,请重新提交"
             );
             $this->_response($res);
         }

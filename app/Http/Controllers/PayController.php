@@ -30,11 +30,12 @@ class PayController extends Controller
         'mode' => 'dev', // optional,设置此参数，将进入沙箱模式
     ];
 
-    public function index()
+    public function index(Request $request)
     {
+        $total_amount = $request->input("total_amount");//支付金额
         $order = [
             'out_trade_no' => time(),
-            'total_amount' => '0.1',
+            'total_amount' => $total_amount,
             'subject' => 'test subject - 测试',
         ];
 
