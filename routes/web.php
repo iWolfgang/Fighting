@@ -15,6 +15,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+// Route::get('/', function () {
+//     return view('demo',['name' => '早上好']);
+// });
+
 Route::get('/ssl', array('https' => true, function() {
         return View('welcome');
     })
@@ -25,6 +29,7 @@ Route::post('/User/regist', 'UserController@regist');//用户注册
 Route::post('/User/login', 'UserController@login');//用户登录
 Route::post('/User/userinfo', 'UserController@userinfo');//用户信息
 Route::post('/User/userinfo_add', 'UserController@userinfo_add');//用户信息补全
+Route::post('/User/update_mobile', 'UserController@update_mobile');//用户修改手机号
 Route::get('/User/apijson', 'UserController@apijson');
 Route::post('/CheckCode/formatPY', 'ArticleController@formatPY');//搜索
 Route::post('/CheckCode/search', 'ArticleController@search');//搜索
@@ -39,7 +44,9 @@ Route::get('/HomePage/video_info', 'HomePageController@video_info');//视频资�
 
 Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addCommentLike');//点赞
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
-Route::post('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//评论列表
+Route::get('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//一级评论列表
+Route::get('/ArticleComment/ArticleComment_twoList', 'ArticleCommnetController@ArticleCommnet_twoList');//二级评论列表
+// ======
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');//删除文章
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
@@ -77,9 +84,13 @@ Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情�
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
 Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
-Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单
+
+
+Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 < -- 王杰看这个
+
+
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
-Route::post('/Order/wait_paylist', 'OrderController@wait_paylist');//待付款订单列表
+Route::post('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
 //===================================支付====================
 Route::get('alipay', function() {

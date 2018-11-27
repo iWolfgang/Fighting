@@ -131,14 +131,14 @@ class GoodsModel extends Model{
     public function cut_sku($item)
     {
        foreach ($item as $k => $v) {
-          $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
+          $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');
           $objects = json_decode(json_encode($sku), true);
-          if($objects[0]['inventory'] < $v['amout']){
+          if($objects[0]['stock'] < $v['amout']){
             return False;
           }
         } 
         foreach ($item as $key => $value) {
-           $cut_sku =  DB::update('update g_goods set inventory = inventory- '.$value['amout'].' where id = '.$value['goods_id'].'');
+           $cut_sku =  DB::update('update g_productSkus set stock = stock- '.$value['amout'].' where id = '.$value['goods_id'].'');
         }
         return $cut_sku;
     }
@@ -154,14 +154,14 @@ class GoodsModel extends Model{
     public function plus_sku($value='')
     {
        foreach ($item as $k => $v) {
-          $sku =   DB::select('select inventory from g_goods where id = '.$v['goods_id'].'');
+          $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');
           $objects = json_decode(json_encode($sku), true);
-          if($objects[0]['inventory'] < 0){
+          if($objects[0]['stock'] < 0){
             return False;
           }
         } 
         foreach ($item as $key => $value) {
-           $plus_sku =  DB::update('update g_goods set inventory = inventory+ '.$value['amout'].' where id = '.$value['goods_id'].'');
+           $plus_sku =  DB::update('update g_productSkus set stock = stock+ '.$value['amout'].' where id = '.$value['goods_id'].'');
         }
         return $plus_sku;
     }

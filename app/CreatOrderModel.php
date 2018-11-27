@@ -4,12 +4,16 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use DB;
+use Illuminate\Support\Facades\Redis;
+
 class CreatOrderModel extends Model
-{
-    protected $table = 'g_productSkus';
+{	public $_tabName = 'g_productSkus';
+    // protected $table
     public function SelectSkuItem($sku_id ='')
     {
-    	$flights = App\CreatOrder::where('id', $sku_id)->pluck('title','pricenow','stock');
+    	//$this_table->
+    	$flights = DB::table($this->_tabName)->select('title','pricenow','stock')->where('id', $sku_id);
     	print_r($flights);die;
     }
 

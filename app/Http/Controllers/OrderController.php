@@ -7,41 +7,12 @@ use Illuminate\Http\Redirect;
 use App\OrderModel;
 use App\GoodsBuyCarModel;
 use App\GoodsModel;
+use App\Jobs\CloseOrder;
 use DB;
 
 class OrderController extends Controller
 {
 
-/**
- * Function 
- * Author Amber
- * Date 2018-11-13
- * Params [params]
- * @param string $value [description]
- */
-  public function PlaceOrder(Request $request)
-  {
-    // echo 1;die;
-        $user_id = $request->input("user_id");
-        $sku_id = $request->input("sku_id");
-        $address = $request->input("address");//收货地址
-        $remark = $request->input("remark");//留言
-        $total_amount_one = $request->input("total_amount");//购买总金额
-        // $order = array();
-        // $user_id = $order['user_id'] = $request->input("user_id");
-        // $order['sku_id'] = $request->input("sku_id");//商品id
-        // $order['address'] = $request->input("address");//收货地址
-        // $order['remark'] = $request->input("remark");//留言
-        // $order['total_amount_one'] = $request->input("total_amount");//购买总金额
-        // dump($order);
-        //查询skuid对应的商品
-        $item = $this->SelectSkuItem($sku_id);
-  }
-
-  public function SelectSkuItem($sku_id)
-  {
-      
-  }
 /**
  * 创建订单
  * Author Amber
@@ -53,11 +24,16 @@ class OrderController extends Controller
    public function creat_orders(Request $request)
    {    
         $order = array();
-	      $user_id = $order['user_id'] = $request->input("user_id");
+        $items = array();
+	      $user_id = $order['user_id'] = $request->input("user_id");//用户id
+        $items = json_decode($request->input("items"),JSON_FORCE_OBJECT);//前端传过来的购买参数
         $order['address'] = $request->input("address");//收货地址
         $order['remark'] = $request->input("remark");//留言
         $orders['total_amount_one'] = $request->input("total_amount");//购买总金额
-        $order['total_amount'] = 0;//购买总金额
+// dump();die;
+        //=============================以上是需要前端传过来的===============================
+        
+        $order['total_amount'] = 0;//后端判断的总金额
         $order['creatorder_at'] = time();//下单时间
         $order['expiration_at'] = time()+24*3600;//订单关闭倒计时
         $order['paid_status'] = "待支付";//订单状态
@@ -73,26 +49,8 @@ class OrderController extends Controller
             );
             $this->_response($res);
         }
-        //模拟items数组
-        $items = array(
-
-          0 => array(
-                        "goods_id" => '9',
-                        "buy_num" => '5',
-                        "price" => '200'
-                      ),
-          1 => array(
-                        "goods_id" => '2',
-                        "buy_num" => '7',
-                        "price" => '250'
-                      ),
-          // 2 => array(2750
-          //               "goods_id" => '3',
-          //               "buy_num" => '7',
-          //               "price" => '252'
-          //             ),
-        );
-
+        
+      
         //循环商量items
         $item = array();
         foreach ($items as $key => $value) {
@@ -156,7 +114,7 @@ class OrderController extends Controller
         if($res){
          $res = array(
                 "errNo" => "success",
-                "errMsg" => "订单提交成功"
+                "errMsg" => "订单提交成功,进行支付"
             );
             $this->_response($res);
          }else{
@@ -275,6 +233,12 @@ class OrderController extends Controller
             $this->_response($res);
         
        }
-
    }
+       public function store(Request $request)
+    {
+        
+        $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
+
+        return $order;
+    }
 }
