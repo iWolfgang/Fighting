@@ -123,7 +123,8 @@ class SmsCodeModel extends Model
      */
     public function createSmsCode()
     {
-        return rand(111111,999999);
+        return $code = 23456;
+        // rand(111111,999999);
     }
 
     /**
@@ -182,7 +183,7 @@ class SmsCodeModel extends Model
 
             // 发起请求
             $acsResponse =  $acsClient->getAcsResponse($request);
-            
+            // var_dump($acsResponse);die;
             // 默认返回stdClass，通过返回值的Code属性来判断发送成功与否
             if($acsResponse && strtolower($acsResponse->Code) == 'ok')
             {
@@ -191,13 +192,6 @@ class SmsCodeModel extends Model
             }
            
             return false;
-        // // $appkey=26988;
-        // // $sign= 'f44b8678e5e926838ff8af54388a5adf';
-        // // $url="http://api.k780.com/?app=sms.send&tempid=51358&param=code%3D"
-        // //     .$code."&phone=".$mobile."&appkey=".$appkey."&sign=".$sign."&format=json";
-        // // $result = file_get_contents($url);
-        
-        // // return empty($result) ? false : true;
 
     }
 

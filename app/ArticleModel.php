@@ -35,7 +35,7 @@ class ArticleModel extends Model{
         }
 
         $action = $isset ? "un_like" : "like";
-        $count = $this->Like_zan_count($page,$user_id,$type);//点赞数量
+        $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);//点赞数量
         $types = $type;
         $page_id = $page;
         $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);
