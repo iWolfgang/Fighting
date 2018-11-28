@@ -47,6 +47,32 @@ class ArticleCommnetController extends Controller
 
         $this->_response($res);
 	}
+    /**
+     * 删除评论
+     * Author Amber
+     * Date 2018-11-27
+     * Params [params]
+     * @param string $value [description]
+     */
+    public function DeleteComment(Request $request)
+    {
+        $fk_comment_id = $request->input('comment_id');//评论id
+        // echo $fk_comment_id;die;
+        $ArticleComment = new ArticleCommentModel();
+        $ret = $ArticleComment->deleteComment($fk_comment_id);
+        if($ret == false){
+            $res = array(
+                'errNo' => "0003",
+                'errMsg' => "删除失败"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            'errNo' => 0,
+            'errMsg' => "删除成功"
+        );
+        $this->_response($res);
+    }
 
 /**
  *添加评论 
@@ -86,14 +112,6 @@ class ArticleCommnetController extends Controller
         }
         $ArticleComment = new ArticleCommentModel();
         $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_id,$fk_user_id,$comment_content,$fk_type_name);
-        // echo $fk_comment_id;die;
-        // if( >= 0){//评论
-
-            
-
-        // }
-        
-
         if($ret == false){
             $res = array(
                 'errNo' => "0003",

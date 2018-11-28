@@ -13,7 +13,20 @@ class ArticleCommentModel extends Model
 	const COMMENT_LIKE_REDIS_KEY = 'MYAPI_COMMENT_LIKE_%d'; //评论点赞的redis key
 
 	 public $_tabName = 't_article_comment';
-
+	/**
+	 * 删除评论 
+	 * Author Amber
+	 * Date 2018-11-27
+	 * Params [params]
+	 * @param  string $value [description]
+	 * @return [type]        [description]
+	 */
+	 public function deleteComment($comment_id = 0)
+	 {
+	 	// echo $comment_id;die;
+	 	$res = DB::table('t_article_comment')->where('comment_id', $comment_id)->delete();
+	 	return $res;
+	 }
 	/**
 	 * 评论点赞
 	 *  /usr/local/redis/bin/redis-cli 

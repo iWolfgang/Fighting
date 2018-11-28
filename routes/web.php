@@ -46,6 +46,7 @@ Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addComme
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
 Route::get('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//一级评论列表
 Route::get('/ArticleComment/ArticleComment_twoList', 'ArticleCommnetController@ArticleCommnet_twoList');//二级评论列表
+Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//二级评论列表
 // ======
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');//删除文章
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
