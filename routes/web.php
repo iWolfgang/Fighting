@@ -87,7 +87,7 @@ Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添
 Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
 
 
-Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 < -- 王杰看这个
+Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 
 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单

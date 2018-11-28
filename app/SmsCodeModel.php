@@ -122,7 +122,8 @@ class SmsCodeModel extends Model
      */
     public function createSmsCode()
     {
-        return rand(111111,999999);
+        return $code = 23456;
+        // rand(111111,999999);
     }
 
     /**
@@ -181,7 +182,7 @@ class SmsCodeModel extends Model
 
             // 发起请求
             $acsResponse =  $acsClient->getAcsResponse($request);
-            
+            // var_dump($acsResponse);die;
             // 默认返回stdClass，通过返回值的Code属性来判断发送成功与否
             if($acsResponse && strtolower($acsResponse->Code) == 'ok')
             {
@@ -190,13 +191,6 @@ class SmsCodeModel extends Model
             }
            
             return false;
-        // // $appkey=26988;
-        // // $sign= 'f44b8678e5e926838ff8af54388a5adf';
-        // // $url="http://api.k780.com/?app=sms.send&tempid=51358&param=code%3D"
-        // //     .$code."&phone=".$mobile."&appkey=".$appkey."&sign=".$sign."&format=json";
-        // // $result = file_get_contents($url);
-        
-        // // return empty($result) ? false : true;
 
     }
 
@@ -210,15 +204,19 @@ class SmsCodeModel extends Model
      */
     public function chenckCode($mobile = '', $code = ''){
         $ret = $this->getSmsCodeInfoByMobile($mobile);
-
+        // var_dump($ret);
         if(empty($ret) || time() > $ret['expire_time'])
         {
+            // echo 1;die;
             return false;
         }
         if($code != $ret['sms_code']){
+            // echo $code;die;
+            // echo $ret['sms_code'];
+              // echo 2;die;
             return false;
         }
-        
+          // echo 3;die;
         $this-> removeSmsCodeInfoByMobile($mobile);
         return true;
     }

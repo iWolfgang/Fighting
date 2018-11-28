@@ -35,10 +35,15 @@ class ArticleModel extends Model{
         }
 
         $action = $isset ? "un_like" : "like";
+        $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);//点赞数量
+        $types = $type;
+        $page_id = $page;
         $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);
         
         $data = array(
             "action" => $action,
+            "type" => $types,
+            "page_id" => $page_id,
             "count" => $count
         );
         return $data;
@@ -355,7 +360,7 @@ class ArticleModel extends Model{
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
-                // print_r($objects);die;
+
         return empty($obj) ? false : $obj;
     }
 
