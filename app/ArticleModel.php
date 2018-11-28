@@ -360,6 +360,7 @@ class ArticleModel extends Model{
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
+
         return empty($obj) ? false : $obj;
     }
 

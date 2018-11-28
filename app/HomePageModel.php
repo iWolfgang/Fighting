@@ -91,12 +91,21 @@ class HomePageModel extends Model
  */
  public function short_articlelist($more)
     {
-      if($more == true){
-        $data = DB::table('t_shorts_article')
+
+      if($more == 1){
+        $objects = DB::table('t_shorts_article')
         ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
         ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
         ->orderBy('created_at', 'desc')
         ->get();
+         $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+         $imgArr = array();
+        foreach ($data as $key => $value) {
+           $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
+           }
+        $res = array();
+        foreach ($data as $key => $value) {
+          $res[$value['id']] = $value;
 
         $data = json_decode(json_encode($data), true);
         $res = array();
@@ -119,10 +128,36 @@ class HomePageModel extends Model
              $value['imageurl'] = $this->getImageurlAttribute($value['imageurl']);
              $res[] = $value;
         }
-        return empty($res) ? false : $res;
-      }
-    }
 
+          return empty($res) ? false : $res;
+       
+     }else{
+      // echo 2;die;
+          $objects = DB::table('t_shorts_article')  
+          ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+          ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+          ->orderBy('created_at', 'desc')
+          ->limit(5)
+          ->get();
+          $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+           $imgArr = array();
+          foreach ($data as $key => $value) {
+             $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
+             }
+          $res = array();
+          foreach ($data as $key => $value) {
+            $res[$value['id']] = $value;
+
+            $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
+          }
+          foreach ($data as $key=>$value)
+          {
+              if ($key === 'data')
+                  unset($data[$key]);
+          }
+            return empty($res) ? false : $res;
+       }
+     }
   public function getImageurlAttribute($cover)
     {
         return json_decode($cover, true);

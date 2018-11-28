@@ -360,13 +360,29 @@ class UserModel extends Model
  */
     public function userinfo($user_id)
     {
-       $count = DB::table('t_user_info')
-        ->select('t_user_info.id','t_user_info.user_mobile','t_user_infos.head_portrait','t_user_infos.sex','t_user_infos.email','t_user_infos.id_attestation','t_user_infos.user_name','t_user_infos.shipping_address')
+       $user_item = DB::table('t_user_info')
+        ->select('t_user_info.id','t_user_info.user_mobile','t_user_infos.head_portrait','t_user_infos.signature','t_user_infos.user_name')
         ->where("user_id", $user_id)
         ->join('t_user_infos','user_id','t_user_info.id')
         ->first();
-        return $count ? get_object_vars($count) : False;
+        return $user_item ? get_object_vars($user_item) : False;
 
+    }
+
+/**
+ * 修改手机号
+ * Author Amber
+ * Date 2018-11-26
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
+    public function update_mobile($user_id,$user_mobile)
+    {
+      $res =  DB::table('t_user_info')
+        ->where('id', $user_id)
+        ->update(['user_mobile' => $user_mobile]);
+      return $res;
     }
 /**
  * 用户信息补全
@@ -374,51 +390,46 @@ class UserModel extends Model
  * Date 2018-08-01
  * Params [params]
  * @param  [type] $head_img  [description]
- * @param  [type] $user_name [description]
+ * @param  [type] $user_name [description]$head_img,$user_name,$user_id,$sex,$email
  */
-    public function userinfo_add($head_img,$user_name,$user_id,$sex,$email)
+    public function userinfo_add($head_img,$user_name,$user_id,$signature)
     {
-        // echo 1;die;
-       // $old_infos = $this->del_old_news($user_id);
-       // if($old_infos == false){
-       //  echo 1;die;
-       //  return false; 
-       // } 
-        $file = $head_img;
-        // print_r($file);die;`
-        if($file -> isValid()){  
-            //检验一下上传的文件是否有效  
-            $clientName = $file -> getClientOriginalName(); //获取文件名称  
-            $tmpName = $file -> getFileName();  //缓存tmp文件夹中的文件名，例如 php9372.tmp 这种类型的  
-            $realPath = $file -> getRealPath();  //
+      
+       //  $file = $head_img;
+       //  // print_r($file);die;`
+       //  if($file -> isValid()){  
+       //      //检验一下上传的文件是否有效  
+       //      $clientName = $file -> getClientOriginalName(); //获取文件名称  
+       //      $tmpName = $file -> getFileName();  //缓存tmp文件夹中的文件名，例如 php9372.tmp 这种类型的  
+       //      $realPath = $file -> getRealPath();  //
 
-            $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
+       //      $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
 
-            $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
-           // echo $mimeTye;
-            $newName = date('ymdhis').$clientName;
-            $path = $file -> move('services',$newName);  
-        }
-       $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
+       //      $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
+       //     // echo $mimeTye;
+       //      $newName = date('ymdhis').$clientName;
+       //      $path = $file -> move('services',$newName);  
+       //  }
+       // $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
 
-        $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
-        // echo $img;die;
-        $data = array();
-        $data['head_portrait'] = $img;
-        // $data['head_portrait'] = "https://mithril-capsule.oss-cn-beijing.aliyuncs.com/180604011231QQ%E5%9B%BE%E7%89%8720180118192436.jpg";
+       //  $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
+       //  $data = array();
+       //  $data['head_portrait'] = $img;
+        $data['head_portrait'] = "https://mithril-capsule.oss-cn-beijing.aliyuncs.com/180604011231QQ%E5%9B%BE%E7%89%8720180118192436.jpg";
         $data['user_id'] = $user_id;
         $data['user_name'] = $user_name;
-        $data['sex'] = $sex;
-        $data['email'] = $email; 
-        // var_dump($data);die;
-        $bool = DB::table('t_user_infos')->insert($data);
+        $data['signature'] = $signature;
+        $bool = DB::table('t_user_infos')
+        ->where('id', $user_id)
+        ->update($data);
+        // ->insert($data);
         return $bool;
     }
 
     public function del_old_news($user_id)
     {
       $res = DB::delete("delete from t_user_infos where user_id = $user_id");
-    echo $res;die;
+    // echo $res;die;
        return $res;
     }
 

@@ -84,15 +84,14 @@ class ArticleCommnetController extends Controller
             );
             $this->_response($res);
         }
+        $ArticleComment = new ArticleCommentModel();
+        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_id,$fk_user_id,$comment_content,$fk_type_name);
         // echo $fk_comment_id;die;
-        if($fk_comment_id == 0){//评论
+        // if( >= 0){//评论
 
-            $ArticleComment = new ArticleCommentModel();
-            $ret = $ArticleComment->addComment($fk_article_id,$fk_user_id,$comment_content,$fk_type_name);
+            
 
-        }else{//回复
-            echo 2;die;
-        }
+        // }
         
 
         if($ret == false){
@@ -120,25 +119,25 @@ class ArticleCommnetController extends Controller
      */
     public function ArticleCommnet_list(Request $request)
     {
+        // echo 1;die;
         
         $article_id = intval($request->input("article_id"));//文章id
+        $article_type = $request->input("article_type");//文章类型
 
-        if(empty($article_id)){
+        if(empty($article_id)|| empty($article_type)){
             $res = array(
                 "errNo" => "0002",
                 "errMsg" => "缺少必要的参数"
             );
             $this->_response($res);
-        }
-
-        
+        } 
         $ArticleModel = new ArticleCommentModel();
 
-        $ret = $ArticleModel->articleComment_list($article_id);
+        $ret = $ArticleModel->articleComment_list($article_id,$article_type);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "系统错误"
+                "errMsg" => "暂无评论"
             );
             $this->_response($res);
         }
@@ -150,7 +149,44 @@ class ArticleCommnetController extends Controller
 
         $this->_response($res);
 
-       // return $ret;
+    }
+    /**
+     * 文章评论列表
+     * Author Liuran
+     * Date 2018-04-10
+     * @param string $id [文章id]
+     */
+    public function ArticleCommnet_twoList(Request $request)
+    {
+        // echo 1;die;
+        
+        $article_id = intval($request->input("article_id"));//文章id
+        $comment_id = $request->input("comment_id");//文章类型
+
+        if(empty($article_id)|| empty($comment_id)){
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "缺少必要的参数"
+            );
+            $this->_response($res);
+        } 
+        $ArticleModel = new ArticleCommentModel();
+
+        $ret = $ArticleModel->articleComment_twoList($article_id,$comment_id);
+        if($ret == FALSE){
+            $res = array(
+                "errNo" => "0003",
+                "errMsg" => "暂无评论"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $ret
+        );
+
+        $this->_response($res);
 
     }
 
