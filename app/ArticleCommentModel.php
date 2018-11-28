@@ -163,7 +163,7 @@ class ArticleCommentModel extends Model
      */
     public function articleComment_list($article_id,$article_type)
     {
-      
+      	
         $Comment_list = $this->findComment_list($article_id,$article_type);//获取评论
         // print_r($Comment_list);die;
         return $Comment_list;
@@ -180,8 +180,14 @@ class ArticleCommentModel extends Model
 	        ->get(); 
 	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
+        // $this->getCommentLikeCnt($)
+        foreach ($Comment as $key => $value) {
+        	$Comment[$key]['like_num'] = $this->getCommentLikeCnt($value['comment_id']);
+        	$Comment[$key]['children'] = $this->articleComment_twoList($article_id,$value['comment_id']);
+        }
+         // var_dump($Comment);die;
         return $Comment;
-        // var_dump($Comment);die;
+        //
     }
     /**
      * 通过文章id列出所有2级评论 
@@ -208,6 +214,9 @@ class ArticleCommentModel extends Model
 	        ->get(); 
 	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
+        foreach ($Comment as $key => $value) {
+        	$Comment[$key]['like_num'] = $this->getCommentLikeCnt($value['comment_id']);
+        }
         return $Comment;
         // var_dump($Comment);die;
     }
