@@ -89,7 +89,8 @@ class ArticleCommnetController extends Controller
         
         $fk_type_name = $request->input('type_name');//评论类型名称
         $fk_article_id = $request->input('article_id');//文章id
-        $fk_comment_id = $request->input('comment_id');//评论id
+        $fk_comment_pid = $request->input('fk_comment_pid');//评论id
+        // echo $fk_comment_pid;die;
         $fk_user_id = $request->input('user_id');
 
         $comment_content = $request->input('comment_content');//评论信息
@@ -111,7 +112,7 @@ class ArticleCommnetController extends Controller
             $this->_response($res);
         }
         $ArticleComment = new ArticleCommentModel();
-        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_id,$fk_user_id,$comment_content,$fk_type_name);
+        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_pid,$fk_user_id,$comment_content,$fk_type_name);
         if($ret == false){
             $res = array(
                 'errNo' => "0003",

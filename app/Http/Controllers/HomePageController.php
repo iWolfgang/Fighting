@@ -108,18 +108,27 @@ class HomePageController extends Controller
  * Author Amber
  * Date 2018-06-04
  * Params [params]
- * @return [type] [description]
+ * @return [type] [description],$page
  */
     public function long_articlelist(Request $request)
     {
       
         $more = $request->input("more");
-        $page = $request->input("page");
-        $HomePageModel = new HomePageModel();
+        $type = 'long';
+        $user_id = 0;//是为了过去点赞数，临时添加的  想要点赞数就别去掉
+        $gongneng = 1;
 
-        $ret = $HomePageModel->long_articlelist($more,$page);
-        // print_r($ret);die;
-            if($ret == FALSE){
+        $HomePageModel = new HomePageModel();
+        $ArticleModel = new ArticleModel();
+
+        $data = $HomePageModel->long_articlelist($more);
+        foreach ($data as $key => $value) {
+          $data[$key]['like_num'] = $ArticleModel->Like_zan_count($value['id'],$user_id,$type,$gongneng);
+        }
+   
+
+        // print_r($data);die;
+            if($data == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "内容为空"
@@ -130,7 +139,7 @@ class HomePageController extends Controller
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
-            "data" => $ret
+            "data" => $data
         );
 
         $this->_response($res);
@@ -140,9 +149,15 @@ class HomePageController extends Controller
     {
         $more = $request->input("more");
         $HomePageModel = new HomePageModel();
-
+        $ArticleModel = new ArticleModel();
+        $type = 'short';
+        $user_id = 0;//是为了过去点赞数，临时添加的  想要点赞数就别去掉
+        $gongneng = 1;
         $ret = $HomePageModel->short_articlelist($more);
-
+        
+        foreach ($ret as $key => $value) {
+          $ret[$key]['like_num'] = $ArticleModel->Like_zan_count($value['id'],$user_id,$type,$gongneng);
+        }
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -165,8 +180,14 @@ class HomePageController extends Controller
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->Evaluation_list($more);
-
-            if($ret == FALSE){
+        $ArticleModel = new ArticleModel();
+        $type = 'long';
+        $user_id = 0;//是为了过去点赞数，临时添加的  想要点赞数就别去掉
+        $gongneng = 1;
+        foreach ($ret as $key => $value) {
+          $ret[$key]['like_num'] = $ArticleModel->Like_zan_count($value['id'],$user_id,$type,$gongneng);
+        }
+        if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
                 "errMsg" => "内容为空"
@@ -190,7 +211,13 @@ class HomePageController extends Controller
         $HomePageModel = new HomePageModel();
 
         $ret = $HomePageModel->videolist($more);
-
+        $ArticleModel = new ArticleModel();
+        $type = 'video';
+        $user_id = 0;//是为了过去点赞数，临时添加的  想要点赞数就别去掉
+        $gongneng = 1;
+        foreach ($ret as $key => $value) {
+          $ret[$key]['like_num'] = $ArticleModel->Like_zan_count($value['id'],$user_id,$type,$gongneng);
+        }            
             if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

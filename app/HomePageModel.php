@@ -32,9 +32,9 @@ class HomePageModel extends Model
  * Author Amber
  * Date 2018-06-19
  * Params `
- * @return [type] [description]
+ * @return [type] [description],$page
  */
-  public function long_articlelist($more,$page)//分页未完善  可以参考短资讯
+  public function long_articlelist($more)
     {
       if($more == true){
         $objects = DB::table('t_article')  
@@ -44,6 +44,7 @@ class HomePageModel extends Model
           ->get();
             
           $data = json_decode(json_encode($objects), true);
+          
           return empty($data) ? false : $data;
       }else{
           $objects = DB::table('t_article')  
