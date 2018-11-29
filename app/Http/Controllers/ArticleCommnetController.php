@@ -41,7 +41,6 @@ class ArticleCommnetController extends Controller
 
         $res = array(
             "errNo" => 0,
-            "errMsg" => "评论点赞成功",
             "data" => $ret
         );
 

@@ -26,7 +26,7 @@ class ArticleModel extends Model{
         $gongneng = 1;
         $isset = $this->Like_zan_isset($page,$user_id,$type,$gongneng);
         if($isset){
-            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type,$gongneng);
+            // $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type,$gongneng);
             
         }else{
 
@@ -34,11 +34,11 @@ class ArticleModel extends Model{
         
         }
 
-        $action = $isset ? "un_like" : "like";
+        $action = $isset ? "已经点过赞啦" : "like+1";
         $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);//点赞数量
         $types = $type;
         $page_id = $page;
-        $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);
+    //    $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);
         
         $data = array(
             "action" => $action,

@@ -41,13 +41,13 @@ class ArticleCommentModel extends Model
 		$hasLike = $this->checkHasCommentLike($comment_id, $user_id); //用户是否对该条评论有点赞记录
 
 		if($hasLike){
-			$this->unCommentLike($comment_id, $user_id); //取消点赞
+			//$this->unCommentLike($comment_id, $user_id); //取消点赞
 		}else{
 			$this->commentLike($comment_id, $user_id); //点赞
 		}
 
 
-		$action = $hasLike ? "un_like" : "like";
+		$action = $hasLike ? "已经点过赞啦" : "like+1";
 
 		$likeCnt = $this->getCommentLikeCnt($comment_id);
 
@@ -179,6 +179,7 @@ class ArticleCommentModel extends Model
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', 0)
 	        ->where('fk_article_type', $article_type)
+	        ->orderBy('create_time', 'desc')
 	        ->get(); 
 	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
@@ -213,6 +214,7 @@ class ArticleCommentModel extends Model
 	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', $comment_id)
+	        ->orderBy('create_time', 'desc')
 	        ->get(); 
 	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
