@@ -26,7 +26,7 @@ class WePayController extends Controller
         ];
     }
 
-    public function index($)
+    public function index()
     {
         // echo 1;die;
         $order = [
