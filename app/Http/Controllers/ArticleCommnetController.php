@@ -15,9 +15,9 @@ class ArticleCommnetController extends Controller
 	 */
 	public function addCommentLike(Request $request)
 	{
-		$user_id = $this->user_id;
-        
-		$comment_id = intval($request->input("comment_id"));
+		
+        $comment_id = intval($request->input("comment_id"));
+		$user_id = intval($request->input("user_id"));
 		if(empty($comment_id)){
             $res = array(
                 "errNo" => "0002",
@@ -91,14 +91,15 @@ class ArticleCommnetController extends Controller
         $fk_comment_pid = $request->input('fk_comment_pid');//评论id
         // echo $fk_comment_pid;die;
         $fk_user_id = $request->input('user_id');
+        $fk_user_name = $request->input('user_name');
         $fk_comment_puid = $request->input('comment_p_userid');//父级评论的userid
         $fk_comment_pusername = $request->input('comment_p_username');//父级评论的用户名
 
-        $comment_content = $request->input('comment_content');//评论信息
+        $comment_content = $request->input('comment_content');//评论信息||empty($fk_comment_puid)||empty($fk_comment_pusername)||empty($fk_comment_pid)
        
 
         //校验
-        if(empty($fk_article_id)||empty($fk_type_name)||empty($fk_comment_pid)||empty($fk_user_id)||empty($fk_comment_puid)||empty($fk_comment_pusername)){
+        if(empty($fk_article_id)||empty($fk_type_name)||empty($fk_user_id)||empty($fk_user_name)){
             $res = array(
                 'errNo' => "0002",
                 'errMsg' => "所传参数不能为空"
@@ -113,22 +114,15 @@ class ArticleCommnetController extends Controller
             $this->_response($res);
         }
         $ArticleComment = new ArticleCommentModel();
-        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_pid,$fk_comment_puid,$fk_comment_pusername,$fk_user_id,$comment_content,$fk_type_name);
+        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_pid,$fk_comment_puid,$fk_comment_pusername,$fk_user_id,$fk_user_name,$comment_content,$fk_type_name);
         if($ret == false){
             $res = array(
                 'errNo' => "0003",
                 'errMsg' => "系统错误"
             );
             $this->_response($res);
-        }else if(isset($ret['errNo'])){
-            $this->_response($ret);
         }
-
-        $res = array(
-            'errNo' => 0,
-            'errMsg' => "评论成功"
-        );
-        $this->_response($res);
+        $this->_response($ret);
     }
 
     /**

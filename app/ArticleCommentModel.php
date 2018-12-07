@@ -36,24 +36,27 @@ class ArticleCommentModel extends Model
 	 * @param integer $user_id    [点赞的用户id]
 	 * @param integer $comment_id [点赞的评论id]
 	 */
-	public function addCommentLike($user_id = 0, $comment_id = 0)
+	public function addCommentLike($user_id , $comment_id )
 	{
+		// echo 1;die;
+		// echo $user_id;die;
 		$hasLike = $this->checkHasCommentLike($comment_id, $user_id); //用户是否对该条评论有点赞记录
-
+		// dump($hasLike);die;
 		if($hasLike){
-			//$this->unCommentLike($comment_id, $user_id); //取消点赞
+			$this->unCommentLike($comment_id, $user_id); //取消点赞
 		}else{
 			$this->commentLike($comment_id, $user_id); //点赞
 		}
 
 
-		$action = $hasLike ? "已经点过赞啦" : "like+1";
+		$action = $hasLike ? false : true;
 
 		$likeCnt = $this->getCommentLikeCnt($comment_id);
 
 		$res = array(
 			"action" => $action,
-			"like_cnt" => $likeCnt
+			"like_cnt" => $likeCnt,
+			"comment_id" => $comment_id
 		);
 
 		return $res;
@@ -71,7 +74,7 @@ class ArticleCommentModel extends Model
 	{
 		$key = sprintf(self::COMMENT_LIKE_REDIS_KEY, $comment_id);
 
-		return Redis::SISMEMBER($key, $user_id);
+		return Redis::SISMEMBER($key, $user_id);//sismember
 	}
 
 	/**
@@ -128,7 +131,7 @@ class ArticleCommentModel extends Model
  * @param string $fk_user_id      [用户id]
  * @param string $comment_content [内容]
  */
-	public function addComment($fk_article_id = '',$fk_comment_pid = '',$fk_comment_puid='',$fk_comment_pusername='',$fk_user_id = '',$comment_content = '',$fk_type_name)
+	public function addComment($fk_article_id = '',$fk_comment_pid = '',$fk_comment_puid='',$fk_comment_pusername='',$fk_user_id = '',$fk_user_name = '',$comment_content = '',$fk_type_name)
 	{
 		$data = array();
 
@@ -137,16 +140,16 @@ class ArticleCommentModel extends Model
 		$data['fk_comment_puid'] =$fk_comment_puid;
 		$data['fk_comment_pusername'] =$fk_comment_pusername;
 		$data['fk_user_id'] = $fk_user_id;
+		$data['fk_user_name'] = $fk_user_name;
 		$data['comment_content'] = $comment_content;
 		$data['fk_article_type'] = $fk_type_name;
 		$data['create_time'] = date('Y-m-d H:i:s');
-
-		// SQLSTATE[23000]: Integrity constraint violation: 1048 Column 'fk_comment_pid' cannot be null (SQL: 
-		// insert into `t_article_comment` (`fk_article_id`, `fk_comment_pid`, `fk_user_id`, `comment_content`, `fk_article_type`, `create_time`) values (76, , 3, 我是小公主, short, 2018-11-29 10:51:37))
-
+ 
 		$add = DB::table($this->_tabName)
             ->insert($data);
-
+        if($add){
+        	$arr = $this->articleComment_list($fk_article_id,$fk_type_name);
+        }
 		if($add == false){
             $res = array(
                 "errNo" => "1004",
@@ -154,8 +157,15 @@ class ArticleCommentModel extends Model
             );
 
             return $res;
+        }else{
+            $res = array(
+                "errNo" => "0",
+                "errMsg" => "评论成功",
+                "data" => $arr
+            );
+
+            return $res;
         }
-        return $add;
 	}
 
     /**
@@ -167,7 +177,7 @@ class ArticleCommentModel extends Model
      */
     public function articleComment_list($article_id,$article_type)
     {
-      	
+      	// echo $article_id."...........".$article_type;
         $Comment_list = $this->findComment_list($article_id,$article_type);//获取评论
         // print_r($Comment_list);die;
         return $Comment_list;
@@ -176,23 +186,20 @@ class ArticleCommentModel extends Model
      public function findComment_list($article_id,$article_type)
     {
         $Comment_list = DB::table($this->_tabName)
-	        ->select('comment_id','comment_content','fk_comment_pid','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
+	        ->select('comment_id','comment_content','fk_comment_pid','fk_comment_puid','fk_comment_pusername','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
+
 	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', 0)
 	        ->where('fk_article_type', $article_type)
 	        ->orderBy('create_time', 'desc')
 	        ->get(); 
-	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
-        // $this->getCommentLikeCnt($)
         foreach ($Comment as $key => $value) {
         	$Comment[$key]['like_num'] = $this->getCommentLikeCnt($value['comment_id']);
         	$Comment[$key]['children'] = $this->articleComment_twoList($article_id,$value['comment_id']);
         }
-         // var_dump($Comment);die;
         return $Comment;
-        //
     }
     /**
      * 通过文章id列出所有2级评论 
@@ -205,32 +212,27 @@ class ArticleCommentModel extends Model
     {
       
         $Comment_list = $this->findComment_twolist($article_id,$comment_id);//获取评论
-        // print_r($Comment_list);die;
         return $Comment_list;
     }
      public function findComment_twolist($article_id,$comment_id)
     {
-    	// echo $article_id.'......'.$comment_id;die;
         $Comment_list = DB::table($this->_tabName)
 	        ->select('comment_id','comment_content','fk_comment_pid','fk_comment_puid','fk_comment_pusername','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
-	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
+	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', $comment_id)
 	        ->orderBy('create_time', 'desc')
 	        ->get(); 
-	        // print_r($Comment_list);die;
         $Comment = json_decode(json_encode($Comment_list), true);
         foreach ($Comment as $key => $value) {
         	$Comment[$key]['like_num'] = $this->getCommentLikeCnt($value['comment_id']);
         }
         return $Comment;
-        // var_dump($Comment);die;
     }
 
      public function digui($Comment_list,$comment_pid = 0)
     {
-    	// 
-    	// echo '---------------------------------';
+    	
     	$list = array();
         foreach ($Comment_list as $row) {
         	
@@ -240,9 +242,7 @@ class ArticleCommentModel extends Model
         		$children = $this->digui($Comment_list,$row['comment_id']);
         		$children && $list[$row['fk_comment_pid']]['children'] = $children;
         	}
-        	// print_r($list);die; 65
         }
-        // print_r($list);
        
         return $list;
     }
