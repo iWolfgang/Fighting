@@ -128,12 +128,14 @@ class ArticleCommentModel extends Model
  * @param string $fk_user_id      [用户id]
  * @param string $comment_content [内容]
  */
-	public function addComment($fk_article_id = '',$fk_comment_pid = '',$fk_user_id = '',$comment_content = '',$fk_type_name)
+	public function addComment($fk_article_id = '',$fk_comment_pid = '',$fk_comment_puid='',$fk_comment_pusername='',$fk_user_id = '',$comment_content = '',$fk_type_name)
 	{
 		$data = array();
 
 		$data['fk_article_id'] = $fk_article_id;
 		$data['fk_comment_pid'] =$fk_comment_pid ;
+		$data['fk_comment_puid'] =$fk_comment_puid;
+		$data['fk_comment_pusername'] =$fk_comment_pusername;
 		$data['fk_user_id'] = $fk_user_id;
 		$data['comment_content'] = $comment_content;
 		$data['fk_article_type'] = $fk_type_name;
@@ -175,7 +177,7 @@ class ArticleCommentModel extends Model
     {
         $Comment_list = DB::table($this->_tabName)
 	        ->select('comment_id','comment_content','fk_comment_pid','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
-	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
+	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.user_id')
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', 0)
 	        ->where('fk_article_type', $article_type)
@@ -210,7 +212,7 @@ class ArticleCommentModel extends Model
     {
     	// echo $article_id.'......'.$comment_id;die;
         $Comment_list = DB::table($this->_tabName)
-	        ->select('comment_id','comment_content','fk_comment_pid','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
+	        ->select('comment_id','comment_content','fk_comment_pid','fk_comment_puid','fk_comment_pusername','create_time','t_user_infos.user_id','t_user_infos.user_name','t_user_infos.head_portrait')
 	        ->join('t_user_infos','t_article_comment.fk_user_id','=','t_user_infos.id')
 	        ->where('fk_article_id', $article_id)
 	        ->where('fk_comment_pid', $comment_id)

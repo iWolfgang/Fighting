@@ -91,15 +91,17 @@ class ArticleCommnetController extends Controller
         $fk_comment_pid = $request->input('fk_comment_pid');//评论id
         // echo $fk_comment_pid;die;
         $fk_user_id = $request->input('user_id');
+        $fk_comment_puid = $request->input('comment_p_userid');//父级评论的userid
+        $fk_comment_pusername = $request->input('comment_p_username');//父级评论的用户名
 
         $comment_content = $request->input('comment_content');//评论信息
        
 
         //校验
-        if(empty($fk_article_id)){
+        if(empty($fk_article_id)||empty($fk_type_name)||empty($fk_comment_pid)||empty($fk_user_id)||empty($fk_comment_puid)||empty($fk_comment_pusername)){
             $res = array(
                 'errNo' => "0002",
-                'errMsg' => "文章不存在"
+                'errMsg' => "所传参数不能为空"
             );
             $this->_response($res);
         }
@@ -111,7 +113,7 @@ class ArticleCommnetController extends Controller
             $this->_response($res);
         }
         $ArticleComment = new ArticleCommentModel();
-        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_pid,$fk_user_id,$comment_content,$fk_type_name);
+        $ret = $ArticleComment->addComment($fk_article_id,$fk_comment_pid,$fk_comment_puid,$fk_comment_pusername,$fk_user_id,$comment_content,$fk_type_name);
         if($ret == false){
             $res = array(
                 'errNo' => "0003",
