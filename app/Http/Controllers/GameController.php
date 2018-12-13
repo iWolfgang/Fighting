@@ -23,7 +23,7 @@ class GameController extends Controller
         $GameModel = new GameModel();
 
         $ret = $GameModel->game_info($game_id);
-
+        $ret['id'] = intval($game_id);
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

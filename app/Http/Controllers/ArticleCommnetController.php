@@ -150,8 +150,8 @@ class ArticleCommnetController extends Controller
         $ret = $ArticleModel->articleComment_list($article_id,$article_type);
         if($ret == FALSE){
             $res = array(
-                "errNo" => "0003",
-                "errMsg" => "暂无评论"
+                "errNo" => 0,
+                "data" => 'null'
             );
             $this->_response($res);
         }

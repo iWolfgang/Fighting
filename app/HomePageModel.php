@@ -174,20 +174,49 @@ class HomePageModel extends Model
       
           if($more){
 
-            $objects = DB::table('t_video')  
-              ->select('id','video_type','source_img','video_cover','source','video_text','video_url','created_at')
+            $object = DB::table('t_video')  
+              ->select('id','video_type','video_desc','source_img','video_cover','source','video_text','video_url','created_at')
               ->orderBy('created_at', 'desc')
               ->get();
+               $objects = json_decode(json_encode($object), true);
+              foreach ($objects as $key => $value) {
+                if($value['video_type'] == 'prepve'){
+                  $objects[$key]['video_type'] = '预告片';
+                }if ($value['video_type'] == 'appraisal') {
+                   $objects[$key]['video_type'] = '测评片';
+                }if ($value['video_type'] == 'funny') {
+                   $objects[$key]['video_type'] = '欢乐集锦';
+                } else {
+                  $objects[$key]['video_type'] = '其它';
+                }
+                
+              }
+
           }else{
-            $objects = DB::table('t_video')
-              ->select('id','video_type','source_img','video_cover','source','video_text','video_url','created_at')
+            $object = DB::table('t_video')
+              ->select('id','video_type','video_desc','source_img','video_cover','source','video_text','video_url','created_at')
               ->limit(5)
               ->orderBy('created_at', 'desc')
               ->get();
+              // print_r((array)$objects);die;
+               $objects = json_decode(json_encode($object), true);
+                  foreach ($objects as $key => $value) {
+                if($value['video_type'] == 'prepve'){
+                  $objects[$key]['video_type'] = '预告片';
+                }if ($value['video_type'] == 'appraisal') {
+                   $objects[$key]['video_type'] = '测评片';
+                }if ($value['video_type'] == 'funny') {
+                   $objects[$key]['video_type'] = '欢乐集锦';
+                } else {
+                  $objects[$key]['video_type'] = '视频新闻';
+                }
+                
+              }
 
           }
-          $data = json_decode(json_encode($objects), true);
-          return empty($data) ? false : $data;
+          // $data = json_decode(json_encode($objects), true);
+          // print_r($objects);die;
+          return empty($objects) ? false : $objects;
     }
 
   /**

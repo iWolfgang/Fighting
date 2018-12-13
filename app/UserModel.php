@@ -260,7 +260,7 @@ class UserModel extends Model
      * @param  string  $user_mobile [手机号码]
      * @param  integer $sms_code    [短信验证码]
      */
-    public function checkSmsCode($user_mobile = '', $sms_code = 0)
+    public function checkSmsCode($user_mobile = '', $sms_code = '')
     {
         // echo $user_mobile."............".$sms_code;die;
         // echo $sms_code;die;
@@ -377,8 +377,17 @@ class UserModel extends Model
  * @param  Request $request [description]
  * @return [type]           [description]
  */
-    public function update_mobile($user_id,$user_mobile)
+    public function update_mobile($user_id,$user_mobile,$sms_code)
     {
+      $checkSmsCode = $this->checkSmsCode($user_mobile, $sms_code);
+        if($checkSmsCode == FALSE){
+            $res = array(
+                "errNo" => "1002",
+                "errMsg" => "短信验证码错误"
+            );
+
+            return $res;
+        }
       $res =  DB::table('t_user_info')
         ->where('id', $user_id)
         ->update(['user_mobile' => $user_mobile]);
@@ -394,37 +403,37 @@ class UserModel extends Model
  */
     public function userinfo_add($head_img,$user_name,$user_id,$signature)
     {
-      
-       //  $file = $head_img;
-       //  // print_r($file);die;`
-       //  if($file -> isValid()){  
-       //      //检验一下上传的文件是否有效  
-       //      $clientName = $file -> getClientOriginalName(); //获取文件名称  
-       //      $tmpName = $file -> getFileName();  //缓存tmp文件夹中的文件名，例如 php9372.tmp 这种类型的  
-       //      $realPath = $file -> getRealPath();  //
+      // echo  "dfsdf".$head_img;die;
+        if(!empty($head_img)){
+            // echo 1;die;
+           $file = $head_img;
+                if($file -> isValid()){//检验一下上传的文件是否有效  
+                    $clientName = $file -> getClientOriginalName(); //获取文件名称  
+                    $tmpName = $file -> getFileName();  //缓存tmp文件夹中的文件名，例如 php9372.tmp 这种类型的  
+                    $realPath = $file -> getRealPath();  
+                    $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
+                    $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
+                    $newName = date('ymdhis').$clientName;
+                    $path = $file -> move('services',$newName);  
+                }
+            $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
 
-       //      $entension = $file -> getClientOriginalExtension();  //上传文件的后缀  
+            $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
 
-       //      $mimeTye = $file -> getMimeType();  //大家对MimeType应该不陌生了，我得到的结果是 video/mp4   
-       //     // echo $mimeTye;
-       //      $newName = date('ymdhis').$clientName;
-       //      $path = $file -> move('services',$newName);  
-       //  }
-       // $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
-
-       //  $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
-       //  $data = array();
-       //  $data['head_portrait'] = $img;
-        $data['head_portrait'] = "https://mithril-capsule.oss-cn-beijing.aliyuncs.com/180604011231QQ%E5%9B%BE%E7%89%8720180118192436.jpg";
-        $data['user_id'] = $user_id;
-        $data['user_name'] = $user_name;
-        $data['signature'] = $signature;
-        $bool = DB::table('t_user_infos')
-        ->where('id', $user_id)
-        ->update($data);
-        // ->insert($data);
-        return $bool;
+            $bool = DB::table('t_user_infos')
+                    ->where('user_id', $user_id)
+                    ->update(['head_portrait' => $img,'user_name' => $user_name,'signature' => $signature]);
+            return $bool;
+        }else{
+              // echo 2;die;
+            $bool = DB::table('t_user_infos')
+                ->where('user_id', $user_id)
+                ->update(['user_name' => $user_name,'signature' => $signature]);
+                // dd($bool);die;
+             return $bool;
+        }
     }
+      
 
     public function del_old_news($user_id)
     {

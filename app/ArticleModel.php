@@ -352,13 +352,16 @@ class ArticleModel extends Model{
     public function getArticleInfoById($article_id)
     {
 
+      $query =   DB::update('UPDATE `t_article` SET `article_content`=replace (`article_content`,\'contenteditable="true"\',\'contenteditable="false"\') WHERE id = ?;',[$article_id]);
+
+
         $objects = DB::table('t_article')  
                 ->select('id','article_title','article_content','fk_game_id','created_at')
                 ->orderBy('created_at', 'desc')
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
-
+                // print_r($obj);die;
         return empty($obj) ? false : $obj;
     }
 

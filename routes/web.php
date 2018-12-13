@@ -93,6 +93,9 @@ Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订�
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 Route::post('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
+Route::post('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
+Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
+Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
 //===================================支付====================
 Route::get('alipay', function() {
     return app('alipay')->web([
