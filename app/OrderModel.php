@@ -43,49 +43,51 @@ class OrderModel extends Model{
 
     public function wait_paylist($user_id='')
     {
-
     	$bool = DB::table('g_orders')
-            // ->select('g_orders.id','g_orders.no','g_orders.address','g_orders.total_amount','g_orders.remark','g_orders.paid_status','g_orders.creatorder_at','g_orders.expiration_at')
-        ->select('id','no','total_amount','remark','paid_status','creatorder_at','expiration_at')
+            ->select('id','no','total_amount','remark','paid_status','creatorder_at','expiration_at')
             ->where('user_id',$user_id)
             ->where('paid_status',"待支付")
             ->get();
-        $objects = json_decode(json_encode($bool), true);
-        $list = array();
-        if(!empty($objects)){
-            // echo 1;
-            foreach ($objects as $key => $val) {
-
-            if(time() > $val['expiration_at']){
+        $objects = json_decode(json_encode($bool), true);//未支付的订单列表
+        
+        $CloseOrder = array();
+        foreach ($objects as $key => $value) {//关闭支付超时的订单
+            if(time() > $value['expiration_at']){
                 //判断订单过期时间是否小于当前时间
-                $del_order =  DB::delete('delete from g_orders where id = '.$val['id'].'');
-                if($del_order){//删除skuid商品
-                    $small_order = DB::table('g_order_items')
-                     ->select()
-                     ->where('order_id',$val['id'])
-                     ->get();
-                     $small = json_decode(json_encode($small_order), true);
-                     foreach ($small as $key => $value) {
-                            $del_item =  DB::update('update  g_goods set inventory = inventory + '.$value['amout'].' where id = '.$value['goods_id'].'');
-                            $del_items =  DB::delete('delete from g_order_items where order_id = '.$val['id'].'');  
-                     }
-                }
-            }
-          else{
-                foreach ($objects as $key => $value) {
-                    
+                // $del_order =  DB::delete('delete from g_orders where id = '.$val['id'].'');
+                $del_order = DB::table('g_orders')
+                    ->where('id', $value['id'])
+                    ->update(['paid_status' => '已关闭']);
+                if($del_order){//修改skuid商品的状态 订单状态改为已关闭，并还原对应的库存
                     $small_order = DB::table('g_order_items')
                      ->select()
                      ->where('order_id',$value['id'])
                      ->get();
                      $small = json_decode(json_encode($small_order), true);
-                     print_r($small);
-                    foreach ($small as $k => $v) {
-
+                     foreach ($small as $k => $v) {
+                            $del_item =  DB::update('update  g_goods set inventory = inventory + '.$v['amout'].' where id = '.$v['goods_id'].'');
+                            // $del_items =  DB::delete('delete from g_order_items where order_id = '.$value['id'].'');  
+                     }
+                }
+            }
+            else{//未支付订单的详细商品列表
+                $pay_items = collect([]);
+                foreach ($objects as $key => $value) {
+                   $arr = DB::table('g_order_items')
+                    ->where('order_id',$value['id'])
+                    ->get(); 
+                    // $arrs = json_decode(json_encode($arr), true);
+                    // print_r($arrs);die;
+                     $pay_items->push($arr);
+                }
+				$pay_items = $pay_items->flatten();
+                $pay_items = json_decode(json_encode($pay_items), true);
+                $list = array();
+                foreach ((array)$pay_items as $k => $v) {
                          $goods = DB::table('g_productSkus')
                             ->select('g_product.id','g_product.goods_thumb','g_product.goods_name','g_productSkus.title')
                             ->join('g_product','g_productSkus.product_id','=','g_product.id')
-                            ->where('g_productSkus.i',$v['goods_id'])
+                            ->where('g_productSkus.id',$v['goods_id'])
                             ->first();
                             $list[$k]['goods'] = (array)$goods;
                             $list[$k]['amout'] = $v['amout'];
@@ -93,17 +95,15 @@ class OrderModel extends Model{
                             $list[$k]['total_amount'] = $v['price']*$v['amout'];
                
                  }
-                  
-             }
-              
-                    return $list ? $list : False; 
+                 // print_r($list);die;
             }
-        }
 
-    }else{
-            return False;
-        }  
-    }
+        }
+       return $list;
+    
+}
+
+        
 /**
  * 待支付详情页
  * Author Amber
@@ -123,18 +123,20 @@ class OrderModel extends Model{
             return False;
         }
         $orders = get_object_vars($order);
-        
+
+        //上边查的是收货地址
+        //、、下边我们要查的是相关的订单
         $order_item = DB::table('g_order_items')
-            ->select('amout','g_order_items.price','g_goods.goods_thumb','g_order_items.goods_id','g_goods.goods_name')
-            ->join('g_goods','g_order_items.goods_id','=','g_goods.id')
-            ->where('order_id', $order_id)
-            ->where('goods_id',$goods_id)
-            ->first();
+                ->select('g_order_items.price','g_product.goods_thumb','g_order_items.goods_id','g_product.goods_name','g_order_items.amout')
+                ->join('g_product','g_order_items.goods_id','=','g_product.id')
+                ->where('order_id',$order_id)
+                ->where('goods_id',$goods_id)
+                ->first();          
         if(empty($order_item)){
             return False;
         }
         $order_items = get_object_vars($order_item);
-        
+        // print_r($order_item);die;
         $arr = array_merge($orders,$order_items);
         return $arr ? $arr : False; 
     }

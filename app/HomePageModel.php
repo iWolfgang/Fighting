@@ -40,6 +40,7 @@ class HomePageModel extends Model
         $objects = DB::table('t_article')  
           ->select('id','all_type','article_thumb','article_title','article_type','created_at')
           ->where('its_type','2')
+          ->where('article_status','1')
           ->orderBy('created_at', 'desc')
           ->get();
             
@@ -50,6 +51,7 @@ class HomePageModel extends Model
           $objects = DB::table('t_article')  
           ->select('id','all_type','article_thumb','article_title','article_type','created_at')
           ->where('its_type','2')
+          ->where('article_status','1')
           ->orderBy('created_at', 'desc')
           ->limit(9)
           ->get();
@@ -72,12 +74,14 @@ class HomePageModel extends Model
         $objects = DB::table('t_article')  
               ->select('id','ceping_type','article_thumb','article_title','article_type','created_at')
               ->where('its_type','1')
+              ->where('article_status','1')
               ->orderBy('created_at', 'desc')
               ->get();
       }else{
          $objects = DB::table('t_article')  
               ->select('id','ceping_type','article_thumb','article_title','article_type','created_at')
               ->where('its_type','1')
+              ->where('article_status','1')
               ->limit(9)
               ->orderBy('created_at', 'desc')
               ->get();
