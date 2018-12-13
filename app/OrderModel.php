@@ -80,7 +80,7 @@ class OrderModel extends Model{
                     // print_r($arrs);die;
                      $pay_items->push($arr);
                 }
-				$pay_items = $pay_items->flatten();
+			     	$pay_items = $pay_items->flatten();
                 $pay_items = json_decode(json_encode($pay_items), true);
                 $list = array();
                 foreach ((array)$pay_items as $k => $v) {
@@ -140,4 +140,74 @@ class OrderModel extends Model{
         $arr = array_merge($orders,$order_items);
         return $arr ? $arr : False; 
     }
+
+    /**
+     * 待发货列表 
+     * Author Amber
+     * Date 2018-12-07
+     * Params [params]
+     * @param  string $user_id [description]
+     * @return [type]          [description]
+     */
+    public function wait_sendlist($user_id='')
+    {
+        $bool = DB::table('g_orders')
+            ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
+            ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
+            ->where('user_id',$user_id)
+            ->where('paid_status',"待发货")
+            ->get();
+        $objects = json_decode(json_encode($bool), true);
+        // print_r($objects);die;
+        $goods_item = array();
+        foreach ($objects as $key => $value) {
+          $bool = DB::table('g_productSkus')
+            ->select('g_productSkus.id','g_productSkus.sku_thumb','g_product.goods_name','g_productSkus.title','g_productSkus.pricenow')
+            ->join('g_product','g_productSkus.product_id','=','g_product.id')
+            ->where('g_productSkus.id',$value['goods_id'])
+            ->first();
+          $goods_item[$key] = json_decode(json_encode($bool), true);//未发货列表
+          $goods_item[$key]['order_id'] = $value['order_id'];
+          $goods_item[$key]['order_itemid'] = $value['id'];
+          $goods_item[$key]['total_amount'] = $value['total_amount'];
+          $goods_item[$key]['amout'] = $value['amout'];
+          $goods_item[$key]['address'] = $value['address'];
+          $goods_item[$key]['creatorder_at'] = $value['creatorder_at'];
+
+        }
+        return $goods_item;
+    }
+
+/*
+  待发货详情页
+ */
+    public function wait_senditem($order_id='')
+    {
+
+        $bool = DB::table('g_orders')
+          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
+          ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
+          ->where('g_orders.id',$order_id)
+          ->get();
+        $objects = json_decode(json_encode($bool), true);
+        $goods_item = array();
+        foreach ($objects as $key => $value) {
+          $bool = DB::table('g_productSkus')
+            ->select('g_productSkus.id','g_productSkus.sku_thumb','g_product.goods_name','g_productSkus.title','g_productSkus.pricenow')
+            ->join('g_product','g_productSkus.product_id','=','g_product.id')
+            ->where('g_productSkus.id',$value['goods_id'])
+            ->first();
+          $goods_item[$key] = json_decode(json_encode($bool), true);
+          $goods_item[$key]['order_itemid'] = $value['id'];
+          $goods_item[$key]['amout'] = $value['amout'];
+
+        }
+          $goods_item['order_id'] = $value['order_id'];
+          $goods_item['no'] = $value['no'];
+          $goods_item['address'] = $value['address'];
+          $goods_item['total_amount'] = $value['total_amount'];
+          $goods_item['creatorder_at'] = $value['creatorder_at'];
+        return $goods_item;
+    }
 }
+

@@ -203,9 +203,11 @@ class UserController extends Controller
         // echo 1;die;
         $user_id = $request->input("user_id");
         $user_mobile = $request->input("user_mobile");
+        $sms_code = $request->input("sms_code");
+        
         $GetPYModel = new UserModel();
 
-        $ret = $GetPYModel->update_mobile($user_id,$user_mobile);    
+        $ret = $GetPYModel->update_mobile($user_id,$user_mobile,$sms_code);    
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -234,9 +236,22 @@ class UserController extends Controller
     {
         // echo 222;die;
         $user_id = $request->input("user_id"); 
+        // echo $user_id;die;
         $user_name = $request->input("user_name");
         $head_img = $request->file("head_img");
         $signature = $request->input("signature"); 
+              // echo  "dfsdf".$head_img;die;
+               $GetPYModel = new UserModel();
+        if(!empty($head_img)){
+             $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$signature);
+        }else{
+             $bool = $GetPYModel->userinfo_add($head_img = null,$user_name,$user_id,$signature);
+        }
+
+        // echo "this头像".$head_img."this user_id".$user_id;die;
+        // dump($head_img);die;
+        
+        // dump($request->all());die;
         //=================收货地址=======================
         // $data['province'] = $request->input("province");
         // $data['city'] = $request->input("city");
@@ -246,10 +261,10 @@ class UserController extends Controller
         // $data['contact_phone'] = $request->input("contact_phone");
         // $data['district'] = $request->input("district");
         // echo $email;die;
-        // 
-        $GetPYModel = new UserModel();
+        // // 
+        // $GetPYModel = new UserModel();
 
-        $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$signature);
+        // $bool = $GetPYModel->userinfo_add($head_img,$user_name,$user_id,$signature);
 
         // $bool = $this->_response($res);
         if($bool == FALSE){

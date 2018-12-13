@@ -234,11 +234,56 @@ class OrderController extends Controller
         
        }
    }
-       public function store(Request $request)
-    {
-        
-        $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
 
-        return $order;
-    }
+   /**
+    * 待发货列表 
+    * Author Amber
+    * Date 2018-12-07
+    * Params [params]
+    * @param string $value [description]
+    */
+   public function wait_sendlist(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->wait_sendlist($user_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+
+   public function wait_senditem(Request $request)
+   {
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->wait_senditem($order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+
 }

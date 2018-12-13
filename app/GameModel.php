@@ -47,7 +47,7 @@ class GameModel extends Model{
     public function game_info_msg($game_id)
     {
         // echo $game_id;die;
-    	$users = DB::table('t_game_main')->select('g_cover','imageurl','g_name','g_price','g_content','likeid')->where('id',$game_id)->first();
+    	$users = DB::table('t_game_main')->select('id','g_cover','imageurl','g_name','g_price','g_content','likeid')->where('id',$game_id)->first();
 
     	 return $users ? get_object_vars($users) : False;
     }
