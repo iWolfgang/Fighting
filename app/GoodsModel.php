@@ -42,12 +42,12 @@ class GoodsModel extends Model{
     }
     public function only_this_goodslist($classify_id='')
     {
-        $article = DB::table($this->_tabName)
-            ->select('id','goods_name','goods_thumb')
+        $goodslist = DB::table($this->_tabName)
+            ->select('id','goods_name','goods_thumb','price')
             ->where("goods_cat", $classify_id)
-            ->where("game_goods", 0)
+            ->where("game_goods", 1)
             ->get();
-        $data = json_decode(json_encode($article), true);
+        $data = json_decode(json_encode($goodslist), true);
 
         return $data ? $data : False;        
     }
@@ -61,11 +61,24 @@ class GoodsModel extends Model{
  */
     public function detail_page($goods_id='')
     {
-        $data = DB::table('g_productSkus')
-            ->select()
+        //根据商品
+        $data = DB::table('g_product')
+            ->select('goods_name','goods_thumb','goods_img','sold_count','price','goods_postage','created_at')
             ->where("id", $goods_id)
             ->first();
-        return $data ? get_object_vars($data): False;     
+         $datas =    get_object_vars($data);
+        // dd($data);die;
+        $dataa = DB::table('g_productSkus')
+         ->select('title','sku_thumb','pricenow','stock','product_id')
+            ->where("product_id", $goods_id)
+            ->get();   
+           $dataite = json_decode(json_encode($dataa), true);   
+           // print_r($dataite);die;
+             foreach ($dataite as $key => $value) {
+                  $datas['sku'][] = $value;
+               }  
+                // dd($datas);die;  
+        return $datas;
     }
 /**
  * 查询SKu商品  

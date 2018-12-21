@@ -57,4 +57,9 @@ class GoodsCatController extends Controller
         $this->_response($res);
 
     }
+
+    public function PC_DIY(Request $request)
+    {
+        
+    }
 }

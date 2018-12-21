@@ -75,9 +75,11 @@ Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 �
 
 Route::get('/Lpush/push', 'LpushController@push');//推送
 // ===========================================电商=========电商================================================================
+Route::get('/Goods/goods_full', 'GoodsController@goods_full');//商品页合成接口
 Route::get('/Goods/slideshow', 'GoodsController@slideshow');//商品页的轮播图
 Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
-Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//商品列表
+Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//专栏商品列表
+Route::get('/Goods/subject_goodsitem', 'GoodsController@subject_goodsitem');//惟一专栏商品列表
 
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
@@ -96,6 +98,8 @@ Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详�
 Route::post('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
 Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
 Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
+Route::get('/Logistics/ReceiptList', 'LogisticsController@ReceiptList');//待收货列表页
+Route::get('/Logistics/Receiptitem', 'LogisticsController@Receiptitem');//待收货详情页
 //===================================支付====================
 Route::get('alipay', function() {
     return app('alipay')->web([

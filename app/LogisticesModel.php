@@ -18,36 +18,35 @@ class LogisticesModel extends Model{
      * 查看物流
      * Author Liuran
      * Date 2018-12-13
-     * @param  [type] $id [接受的文章id]
+     * @param  [type] $id [接受的文章id]$ShipperCode
      */
-    public function selectLog()
+    public function selectLog($OrderCode,$ShipperCode,$LogisticCode)
     {
-        $logisticResult = $this->getOrderTracesByJson();
+        $logisticResult = $this->getOrderTracesByJson($OrderCode,$ShipperCode,$LogisticCode);
         echo $logisticResult;
     }
-
-
-    /**
+/**
  * Json方式 查询订单物流轨迹
  */
-   function getOrderTracesByJson(){
-        $requestData= "{'OrderCode':'','ShipperCode':'ZTO','LogisticCode':'75114124635543'}";
-        $appkey = '294c2737-4e63-4e20-90e9-852d3cc5e1db';
-        $sign = urlencode(base64_encode(md5($requestData.$appkey)));
+   function getOrderTracesByJson($OrderCode,$ShipperCode,$LogisticCode){
 
+    $requestData= "{'OrderCode':'$OrderCode','ShipperCode':'$ShipperCode','LogisticCode':'$LogisticCode'}";
+
+    $appkey = '294c2737-4e63-4e20-90e9-852d3cc5e1db';
+    $datas['DataSign'] = encrypt($requestData,$appkey);
+    $sign = urlencode(base64_encode(md5($requestData.$appkey)));
     $datas = array(
-        'EBusinessID' => '1415349',//14153494d3964ec-705d-4702-8783-45acaf1cfb63
+        'EBusinessID' => '1415349',
         'RequestType' => '1002',
         'RequestData' => urlencode($requestData) ,
         'DataType' => '2-json',
         'DataSign' => $sign,
     );
-    $datas['DataSign'] = encrypt($requestData,$appkey);//
+   
 
 	$result=$this->sendPost('http://api.kdniao.com/Ebusiness/EbusinessOrderHandle.aspx', $datas);	
 	
 	//根据公司业务处理返回的信息......
-	// dd($result);die;
 	return $result;
 }
 
@@ -63,7 +62,6 @@ class LogisticesModel extends Model{
     foreach ($datas as $key => $value) {
         $temps[] = sprintf('%s=%s', $key, $value);		
     }	
-    print_r($url);die;
     $post_data = implode('&', $temps);
     $url_info = parse_url($url);
 	if(empty($url_info['port']))
@@ -102,4 +100,82 @@ class LogisticesModel extends Model{
     function encrypt($data, $appkey) {
         return urlencode(base64_encode(md5($data.$appkey)));
     }
+
+    public function ReceiptList($user_id='')
+    {
+        $bool = DB::table('g_orders')
+            ->select('id','no','total_amount','remark','paid_status','creatorder_at','expiration_at')
+            ->where('user_id',$user_id)
+            ->where('paid_status',"待收货")
+            ->get();
+        $objects = json_decode(json_encode($bool), true);//未支付的订单列表
+        // dd($objects);die;
+         $pay_items = collect([]);
+                foreach ($objects as $key => $value) {
+                   $arr = DB::table('g_order_items')
+                    ->where('order_id',$value['id'])
+                    ->get(); 
+                    // $arrs = json_decode(json_encode($arr), true);
+                    // print_r($arrs);die;
+                     $pay_items->push($arr);
+                }
+                $pay_items = $pay_items->flatten();
+                $pay_items = json_decode(json_encode($pay_items), true);
+                $list = array();
+                foreach ((array)$pay_items as $k => $v) {
+                         $goods = DB::table('g_productSkus')
+                            ->select('g_product.id','g_product.goods_thumb','g_product.goods_name','g_productSkus.title')
+                            ->join('g_product','g_productSkus.product_id','=','g_product.id')
+                            ->where('g_productSkus.id',$v['goods_id'])
+                            ->first();
+                            $list[$k]['goods'] = (array)$goods;
+                            $list[$k]['amout'] = $v['amout'];
+                            $list[$k]['price'] = $v['price'];
+                            $list[$k]['total_amount'] = $v['price']*$v['amout'];
+               
+                 }
+        // $CloseOrder = array();
+        // foreach ($objects as $key => $value) {//关闭支付超时的订单
+            
+        //     else{//未支付订单的详细商品列表
+               
+                 // dd($list);die;
+        //     }
+
+        // }
+       return $list;
+    
+}
+    public function Receiptitem($user_id,$order_id,$goods_id)
+    {
+       $bool = DB::table('g_orders')
+          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
+          ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
+          ->where('g_orders.id',$order_id)
+          ->get();
+        $objects = json_decode(json_encode($bool), true);
+        $goods_item = array();
+        foreach ($objects as $key => $value) {
+          $bool = DB::table('g_productSkus')
+            ->select('g_productSkus.id','g_productSkus.sku_thumb','g_product.goods_name','g_productSkus.title','g_productSkus.pricenow')
+            ->join('g_product','g_productSkus.product_id','=','g_product.id')
+            ->where('g_productSkus.id',$value['goods_id'])
+            ->first();
+          $goods_item[$key] = json_decode(json_encode($bool), true);
+          $goods_item[$key]['order_itemid'] = $value['id'];
+          $goods_item[$key]['amout'] = $value['amout'];
+
+        }
+          $goods_item['order_id'] = $value['order_id'];
+          $goods_item['no'] = $value['no'];
+          $goods_item['address'] = $value['address'];
+          $goods_item['total_amount'] = $value['total_amount'];
+          $goods_item['creatorder_at'] = $value['creatorder_at'];
+        return $goods_item;
+ }
+
+
+
+
+
 }

@@ -65,6 +65,7 @@ class PayController extends Controller
     
         try{
             $data = $alipay->verify(); // 是的，验签就这么简单！
+            // dd($data);die;
             $orders = json_decode(json_encode($data), true);
             $out_trade_no = $orders['out_trade_no'];// 订单号
             $trade_no = $orders['trade_no'];// 支付宝交易号
