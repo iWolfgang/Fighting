@@ -15,11 +15,11 @@ class GameModel extends Model{
     public function game_info($game_id)
     {
         // echo $game_id;die;
-    	$game_info = $this->game_info_msg($game_id);
-        $likeid = $game_info['likeid'];
-        $ids = explode(',',$likeid);
-    	$game_correlation = $this->game_correlation($ids);
-        $longa_correlation = $this->longa_correlation($game_id);
+    	$game_info = $this->game_info_msg($game_id);//游戏信息
+        // $likeid = $game_info['likeid'];
+        // $ids = explode(',',$likeid);
+    	// $game_correlation = $this->game_correlation($ids);//相关游戏
+        $longa_correlation = $this->longa_correlation($game_id);//相关长资讯
         $shorta_correlation = $this->shorta_correlation($game_id);//相关的短资讯
         $appraisala_correlation = $this->appraisala_correlation($game_id);//相关的测评
         $video_correlation = $this->video_correlation($game_id);//相关的视频
@@ -28,7 +28,7 @@ class GameModel extends Model{
 //liuran    	
     	$data = array(
             "game_info" => $game_info,
-            "game_correlation" => $game_correlation,
+            // "game_correlation" => $game_correlation,
             "longa_correlation" => $longa_correlation,
             "shorta_correlation" => $shorta_correlation,
             "appraisala_correlation" => $appraisala_correlation,
@@ -44,12 +44,29 @@ class GameModel extends Model{
  * @param  [type] $user_id [description]
  * @param  [type] $game_id [description]$user_id,
  */
-    public function game_info_msg($game_id)
+    public function game_info_msg($goods_id)
     {
         // echo $game_id;die;
-    	$users = DB::table('t_game_main')->select('id','g_cover','imageurl','g_name','g_price','g_content','likeid')->where('id',$game_id)->first();
+    	// $users = DB::table('t_game_main')->select('id','g_cover','imageurl','g_name','g_price','g_content','likeid')->where('id',$game_id)->first();
 
-    	 return $users ? get_object_vars($users) : False;
+    	//  return $users ? get_object_vars($users) : False;
+          $data = DB::table('g_product')
+            ->select('goods_name','goods_thumb','goods_img','sold_count','price','goods_postage','created_at')
+            ->where("id", $goods_id)
+            ->first();
+         $datas = get_object_vars($data);
+        // dd($data);die;
+        $dataa = DB::table('g_productSkus')
+         ->select('title','sku_thumb','pricenow','stock','product_id')
+            ->where("product_id", $goods_id)
+            ->get();   
+           $dataite = json_decode(json_encode($dataa), true);   
+           // print_r($dataite);die;
+             foreach ($dataite as $key => $value) {
+                  $datas['sku'][] = $value;
+               }  
+                // dd($datas);die;  
+        return $datas; 
     }
 
 
@@ -222,20 +239,26 @@ class GameModel extends Model{
 //精品
     public function in_vogue()
     {
-       $rate = DB::table($this->_tabName) 
-        ->select('id','g_slideshow')
+       $rate = DB::table('g_product') 
+        ->select('id','goods_banner')
+        ->where('game_goods',0)
         ->where('is_sift',1)
         ->get();
+        // $rate = DB::table('g_product') 
+        // ->select('id','g_slideshow')
+        // ->where('is_sift',1)
+        // ->get();
 
         $data = json_decode(json_encode($rate), true);
-
+        // dd($data);die;
         return empty($data) ? false : $data;
     }
 //上新品
     public function new_Arrival()
     {
-       $rate = DB::table($this->_tabName) 
-        ->select('id','g_thumb')
+       $rate = DB::table('g_product') 
+        ->select('id','goods_thumb')
+        ->where('game_goods',0)
         ->where('id','!=','1')
         ->orderBy('created_at', 'desc')
         ->get();
@@ -248,9 +271,10 @@ class GameModel extends Model{
     public function discounts()
     {
         // echo 1;die;
-       $rate = DB::table($this->_tabName) 
-        ->select('id','g_horizontal')
-        ->where('g_discount','>','0')
+       $rate = DB::table('g_product') 
+        ->select('id','goods_horizontal')
+        ->where('game_coupon',1)
+        ->where('game_goods',0)
         ->get();
         $data = json_decode(json_encode($rate), true);
         return empty($data) ? false : $data;
@@ -259,10 +283,11 @@ class GameModel extends Model{
 //热销
     public function sell_hot()
     {
-       $rate = DB::table($this->_tabName) 
-        ->select('id','g_thumb')
-        ->where('price_out','>',0)
+       $rate = DB::table('g_product') 
+        ->select('id','goods_thumb')
+        ->where('game_goods',0)
         ->where('id','!=','1')
+        ->orderBy('sold_count', 'desc')
         ->get();
         $data = json_decode(json_encode($rate), true);
         return empty($data) ? false : $data;

@@ -6,11 +6,39 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\GoodsModel;
 use App\TapgetModel;
+use App\GoodsCatModel;
+
 // use App\HomePageModel;
 
 class GoodsController extends Controller
 {
 
+
+    public function goods_full(Request $request)
+    {
+        $Tapmodel = new TapgetModel();
+        $GoodsModel = new GoodsCatModel();
+        $HomePageModel = new GoodsModel();
+
+        $data['slideshow'] = $HomePageModel->slideshow();
+        $data['homepage_list'] = $GoodsModel->only_this_homelist();
+        $data['subject_goods'] = $Tapmodel->TapAndGoods();//里边是标签的基本信息
+        if(empty($data)){
+             $res = array(
+            "errNo" => 0,
+            'errMsg' => '没有拿到数据'
+           );
+
+          $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $data
+        );
+
+        $this->_response($res);
+    }
 /**
  * 专题商品列表 
  * Author Amber
@@ -32,6 +60,21 @@ class GoodsController extends Controller
 
         $this->_response($res);
 
+    }
+
+    public function subject_goodsitem(Request $request)
+    {
+        $tap_id = $request->input("tap_id");
+        $Tapmodel = new TapgetModel();
+        $taps = $Tapmodel->subject_goodsitem($tap_id);
+        // print_r($taps);die;
+        $res = array(
+            "errNo" => 0,
+            'errMsg' => 'success',
+            "data" => $taps
+        );
+
+        $this->_response($res);
     }
 
  /**

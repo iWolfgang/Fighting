@@ -21,70 +21,81 @@ class tapgetModel extends Model{
     public function TapAndGoods()
     {
        $tap = DB::table('g_tapget')
-              ->select('g_tapget.id','tap_name')
-              ->where('g_tapget.tap_status',1)
-              ->where('g_tapget.tap_type','goods')
+              ->select('id','tap_name','tap_img')
+              ->where('tap_status',1)
+              ->where('tap_type','goods')
               ->get();
           
         $goods_tagid = json_decode(json_encode($tap), true);
-        
-        $taps = array();
-        foreach ($goods_tagid as $key => $value) {
-          $taps[$value['id']] = $value['tap_name'];
-
-        }
-        
         $goods = DB::table('g_product')
-               ->select('id','goods_name','goods_img','tapid')
+               ->select('id','goods_name','price','goods_thumb','tapid')
                ->where('g_product.on_sale',1)
-               ->where("game_goods", 0)
+               ->where("game_goods", 1)
                ->get();
         $goods = json_decode(json_encode($goods), true);
+        // dd($goods);die;
+      
         $goodsinfo = array();
         foreach ($goods as $key => $value) {
             $goodsinfo[$key]['id'] = $value['id'];
             $goodsinfo[$key]['goods_name'] = $value['goods_name'];
-            $goodsinfo[$key]['goods_img'] = $value['goods_img'];
+            $goodsinfo[$key]['price'] = $value['price'];
+            $goodsinfo[$key]['goods_thumb'] = $value['goods_thumb'];
             $goodsinfo[$key]['tapid'] =  json_decode($value['tapid']);
-            foreach($goodsinfo[$key]['tapid'] as $i){
-                $goodsinfo[$key]['tags'][] = $taps[$i];
-            }
+
         }
-        // print_r($goodsinfo);die;
-        return $goodsinfo;
+        $arr = array();
+        foreach ($goods_tagid as $key => $value) {
+          foreach ($goodsinfo as $k => $v) {
+            foreach ($v['tapid'] as $ke => $va) {
+                if($value['id'] == $va){
+                  $arr[$key]['tap_name'] = $value['tap_name'];
+                  $arr[$key]['tap_img'] = $value['tap_img'];
+                  $arr[$key]['tap_id'] =  $value['id'];
+                  $arr[$k]['tap_id'] =  $value['id'];
+                  $arr[$k]['goods_id'] = $v['id'];
+                  $arr[$k]['goods_thumb'] = $v['goods_thumb'];
+                  $arr[$k]['price'] = $v['price'];
+                }
+            }
+          }         
+        }
+              
+        $liu = array();
+        foreach ($arr as $key => $value) {
+          if(!empty($value['tap_name'])){
+             $liu[] = $value;
+             
+            }
+          }
+        $ran = array();
+        foreach ($liu as $key => $value) {
+          $ran[$key]['tap_name'] = $value['tap_name'];
+          $ran[$key]['tap_img'] = $value['tap_img'];
+          $ran[$key]['tap_id'] = $value['tap_id'];     
+        }
+        $ra = array();
+        foreach ($arr as $key => $value) {
+          $ra[$key]['goods_id'] = $value['goods_id'];
+          $ra[$key]['goods_thumb'] = $value['goods_thumb'];
+          $ra[$key]['price'] = $value['price'];     
+          $ra[$key]['tap_id'] = $value['tap_id'];     
+        }
+        $over = array();
+        foreach ($ran as $key => $value) {
+          foreach ($ra as $k => $v) {
+            if($value['tap_id'] =$v['tap_id']){
+                $ran[$key]['goods_info'][] = $v;
+            }
+          }
+        }
 
-
-
-
-
-
-
-       
-
-
-
-
-
-        // $goodsinfo = array();
-      
-        // foreach ($goods as $goods_tagid) {
-        //     foreach ($goods as $key => $value) {
-
-        //       print_r($goods_tagid['id']);die;
-        //       print_r($value['tapid']);die;
-        //      if(in_array($goods_tagid['id'], $value['tapid'])){
-        //         $goodsinfo[$key]['id'] = $value['id'];
-        //         $goodsinfo[$key]['goods_name'] = $value['goods_name'];
-        //         $goodsinfo[$key]['goods_img'] = $value['goods_img'];
-        //       }else{
-
-        //       }
-        //   }
-        // }
-        
-        // print_r($goodsinfo);die; 
+     // dd($ran);die;
+        return $ran;
       
   }
+
+
 
   public function aaa($value='')
   {
@@ -165,32 +176,71 @@ class tapgetModel extends Model{
   }
 
 
+  public function subject_goodsitem($tap_id='')
+  {
+           $tap = DB::table('g_tapget')
+              ->select('id','tap_name','tap_img')
+              // ->where('tap_status',1)
+              // ->where('tap_type','goods')
+              ->where('id',$tap_id)
+              ->first();
+          
+        $goods_tapid = json_decode(json_encode($tap), true);
+        // dd($goods_tagid);die;
+        $goods = DB::table('g_product')
+               ->select('id','goods_name','price','goods_img','tapid')
+               ->where('g_product.on_sale',1)
+               ->where("game_goods", 1)
+               ->get();
+        $goods = json_decode(json_encode($goods), true);
+        $goodsinfo = array();
+        foreach ($goods as $key => $value) {
+            $goodsinfo[$key]['id'] = $value['id'];
+            $goodsinfo[$key]['goods_name'] = $value['goods_name'];
+            $goodsinfo[$key]['price'] = $value['price'];
+            $goodsinfo[$key]['goods_img'] = $value['goods_img'];
+            $goodsinfo[$key]['tapid'] =  json_decode($value['tapid']);
 
+        }
+        $arr = array();
+        // foreach ($goods_tagid as $key => $goods_tapid) {
+        // dd($goods_tapid);die;
+          foreach ($goodsinfo as $k => $v) {
+
+            foreach ($v['tapid'] as $ke => $va) {
+
+                if($goods_tapid['id'] == $va){
+                  $arr['tap_name'] = $goods_tapid['tap_name'];
+                  $arr['tap_img'] = $goods_tapid['tap_img'];
+                  $arr['tap_id'] =  $goods_tapid['id'];
+                  $arr[$k]['tap_id'] =  $goods_tapid['id'];
+                  $arr[$k]['goods_id'] = $v['id'];
+                  $arr[$k]['goods_name'] = $v['goods_name'];
+                  $arr[$k]['price'] = $v['price'];
+                  $arr[$k]['goods_img'] = $v['goods_img'];
+                }
+            }       
+        }
+        $liu = array();
+        $liu['tap_name'] = $arr['tap_name'];
+        $liu['tap_img'] = $arr['tap_img'];
+        $liu['tap_id'] = $arr['tap_id'];
+
+        $liu['goods_info'] = array();
+         unset($arr['tap_name']);
+         unset($arr['tap_img']);
+         unset($arr['tap_id']);
+        foreach ($arr as $key => $value) {
+          $liu['goods_info'][] = $value;
+        }
+
+   
+        return $liu;
+  }
 
 
 
 }
-
-
-   
-
-    // public function goods($taps)
-    // {
-
-    //       // $taps = $this->TapAndGoods();
-    //       // print_r($taps);die;
-    //       $goods = array();
-    //       foreach ($taps as $key => $value) {
-    //       	$goods[] = DB::table('g_product')
-    //         ->select('id','goods_name','tapid')
-    //         ->where('tapid',$value['id'])
-    //         // ->where('tap_type','goods')
-    //         ->get();
-    //       }
-    //       print_r($goods);die;
-    //       ->select('g_product.id','g_product.goods_name','g_product.goods_desc','g_product.goods_img','g_product.price','g_product.sold_count','g_product.goods_postage','g_productSkus.id','g_productSkus.title','g_productSkus.priceone','g_productSkus.pricenow','g_productSkus.title','g_productSkus.title','g_productSkus.title','g_productSkus.stock')
-               // ->join('g_productSkus','g_product.id','=','g_productSkus.product_id')
-    // }
 
 
 

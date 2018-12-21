@@ -16,7 +16,7 @@ class PayModel extends Model{
      * Date 2018-04-17
      * @param  [type] $id [接受的文章id]
      */
-    public function alipay)
+    public function (alipay)
     {
 			$aop = new AopClient;
 			$aop->gatewayUrl = "https://openapi.alipay.com/gateway.do";
