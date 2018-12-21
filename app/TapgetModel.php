@@ -65,30 +65,52 @@ class tapgetModel extends Model{
         foreach ($arr as $key => $value) {
           if(!empty($value['tap_name'])){
              $liu[] = $value;
-             
-            }
           }
+        }
+        $wei = array();
+        foreach ($arr as $key => $value) {
+          if(!isset($value['tap_name'])){
+             $wei[] = $value;
+          }
+        }
+        // dd($wei);die;
+
         $ran = array();
         foreach ($liu as $key => $value) {
           $ran[$key]['tap_name'] = $value['tap_name'];
           $ran[$key]['tap_img'] = $value['tap_img'];
           $ran[$key]['tap_id'] = $value['tap_id'];     
         }
-        $ra = array();
-        foreach ($arr as $key => $value) {
-          $ra[$key]['goods_id'] = $value['goods_id'];
-          $ra[$key]['goods_thumb'] = $value['goods_thumb'];
-          $ra[$key]['price'] = $value['price'];     
-          $ra[$key]['tap_id'] = $value['tap_id'];     
-        }
-        $over = array();
-        foreach ($ran as $key => $value) {
-          foreach ($ra as $k => $v) {
+       foreach ($ran as $key => $value) {
+          foreach ($wei as $k => $v) {
             if($value['tap_id'] =$v['tap_id']){
                 $ran[$key]['goods_info'][] = $v;
             }
           }
         }
+        
+// print_r($ran);
+
+
+        // $ra = array();
+        
+        // foreach ($arr as $k => $v) {
+        //   echo $v['goods_id'];
+        //  // $ra[$k]['goods_id'] = $v['goods_id'];
+        //  // // dd($v);die;
+      
+        //  // $ra[$k]['goods_thumb'] = $v['goods_thumb'];
+        //  // $ra[$k]['price'] = $v['price'];     
+        //  // $ra[$k]['tap_id'] = $v['tap_id'];     
+        //  //    // print_r($ra[$key]['tap_id']);
+        //  // print_r($v['tap_id']);die;
+         
+        // }
+        // // print_r($ra);
+        // die;
+        
+
+   
 
      // dd($ran);die;
         return $ran;
@@ -137,14 +159,14 @@ class tapgetModel extends Model{
                       
                   }                
               }
-              print_r($goodsinfo);die;
+              // print_r($goodsinfo);die;
    
         // }
          $res = array(); //想要的结果
         foreach ($goodku as $k => $v) {
           $res[$v['product_id']][] = $v;
         }
-        print_r($goodsinfo);die;
+        // print_r($goodsinfo);die;
 
 
 
