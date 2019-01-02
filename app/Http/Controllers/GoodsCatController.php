@@ -5,17 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\GoodsCatModel;
-// use App\HomePageModel;
-
 class GoodsCatController extends Controller
 {
-
-
 	public function homepage_list(Request $request)
 	{
-
         $GoodsModel = new GoodsCatModel();
-
         $res = $GoodsModel->only_this_homelist();
         if($res == FALSE){
             $res = array(
@@ -29,12 +23,10 @@ class GoodsCatController extends Controller
             "errMsg" => "success",
             "data" => $res
         );
-
         $this->_response($res);
-
 	}
 
-        public function homepagetwo_list(Request $request)
+    public function homepagetwo_list(Request $request)
     {
         $cat_id = $request->input("cat_id");
 
@@ -56,10 +48,5 @@ class GoodsCatController extends Controller
 
         $this->_response($res);
 
-    }
-
-    public function PC_DIY(Request $request)
-    {
-        
     }
 }

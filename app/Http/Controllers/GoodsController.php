@@ -7,13 +7,8 @@ use Illuminate\Http\Redirect;
 use App\GoodsModel;
 use App\TapgetModel;
 use App\GoodsCatModel;
-
-// use App\HomePageModel;
-
 class GoodsController extends Controller
 {
-
-
     public function goods_full(Request $request)
     {
         $Tapmodel = new TapgetModel();
@@ -36,7 +31,6 @@ class GoodsController extends Controller
             'errMsg' => 'success',
             "data" => $data
         );
-
         $this->_response($res);
     }
 /**
@@ -51,13 +45,11 @@ class GoodsController extends Controller
     {
         $Tapmodel = new TapgetModel();
         $taps = $Tapmodel->TapAndGoods();//里边是标签的基本信息
-        // print_r($taps);die;
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
             "data" => $taps
         );
-
         $this->_response($res);
 
     }
@@ -67,13 +59,11 @@ class GoodsController extends Controller
         $tap_id = $request->input("tap_id");
         $Tapmodel = new TapgetModel();
         $taps = $Tapmodel->subject_goodsitem($tap_id);
-        // print_r($taps);die;
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
             "data" => $taps
         );
-
         $this->_response($res);
     }
 
@@ -84,11 +74,8 @@ class GoodsController extends Controller
  */
     public function slideshow(Request $request)
     {
-        // echo 1;die;
         $HomePageModel = new GoodsModel();
-
         $ret = $HomePageModel->slideshow();
-     
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -96,25 +83,22 @@ class GoodsController extends Controller
             );
             $this->_response($res);
         }
-
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',
             "data" => $ret
         );
-
         $this->_response($res);
-
     }
 
-    /**
-     * 商品列表页 
-     * Author Amber
-     * Date 2018-10-10
-     * Params [params]
-     * @param  Request $request [description]
-     * @return [type]           [description]
-     */
+/**
+ * 商品列表页 
+ * Author Amber
+ * Date 2018-10-10
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
 	public function goods_list(Request $request)
 	{
 		$classify_id = $request->input("classify_id");
@@ -126,7 +110,8 @@ class GoodsController extends Controller
         if($res == FALSE){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "此分类下暂无商品"
+                "errMsg" => "此分类下暂无商品",
+                "data" => null
             );
             $this->_response($res);
         }
@@ -154,7 +139,6 @@ class GoodsController extends Controller
         $GoodsModel = new GoodsModel();
 
         $res = $GoodsModel->detail_page($goods_id);
-        // print_r($res);die;
         if($res == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -170,6 +154,33 @@ class GoodsController extends Controller
 
         $this->_response($res);
     }
+/**
+ * 电商列表----全部列表
+ * Author Amber
+ * Date 2018-12-25
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
+    public function all_goodslist(Request $request)
+    {
+        $goods_catid = $request->input("goods_catid");
+        $GoodsModel = new GoodsModel();
+        $res = $GoodsModel->all_goodslist($goods_catid);
+        if($res == FALSE){
+            $res = array(
+                "errNo" => 0,
+                "errMsg" => "success",
+                "errMsg" => "暂无商品"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "success",
+            "data" => $res
+        );
 
-
+        $this->_response($res);
+    }
 }

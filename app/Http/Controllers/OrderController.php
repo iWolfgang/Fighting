@@ -263,12 +263,96 @@ class OrderController extends Controller
         
        }
    }
+   public function ReceiptList(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->ReceiptList($user_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+      public function Overlist(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->Overlist($user_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+   public function Overitem(Request $request)
+   {
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->Overitem($order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
 
    public function wait_senditem(Request $request)
    {
       $order_id = $request->input('order_id');
       $orderModel = new orderModel();
       $ret = $orderModel->wait_senditem($order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+  public function Receiptitem(Request $request)
+   {
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->Receiptitem($order_id);
       if($ret){
          $res = array(
                 "errNo" => "success",
