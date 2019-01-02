@@ -34,11 +34,7 @@ class OrderModel extends Model{
     	   $order = DB::table('g_order_items')
             ->insert($value);
     	}
-// dump($order);die;
-         // $this->dispatch(new CloseOrder($order, config('app.order_ttl')));
-      
-
-    	return $order;
+     	return $order;
     }
 
     public function wait_paylist($user_id='')
@@ -52,9 +48,7 @@ class OrderModel extends Model{
         
         $CloseOrder = array();
         foreach ($objects as $key => $value) {//关闭支付超时的订单
-            if(time() > $value['expiration_at']){
-                //判断订单过期时间是否小于当前时间
-                // $del_order =  DB::delete('delete from g_orders where id = '.$val['id'].'');
+            if(time() > $value['expiration_at']){//判断订单过期时间是否小于当前时间
                 $del_order = DB::table('g_orders')
                     ->where('id', $value['id'])
                     ->update(['paid_status' => '已关闭']);
@@ -66,7 +60,6 @@ class OrderModel extends Model{
                      $small = json_decode(json_encode($small_order), true);
                      foreach ($small as $k => $v) {
                             $del_item =  DB::update('update  g_goods set inventory = inventory + '.$v['amout'].' where id = '.$v['goods_id'].'');
-                            // $del_items =  DB::delete('delete from g_order_items where order_id = '.$value['id'].'');  
                      }
                 }
             }
@@ -76,11 +69,9 @@ class OrderModel extends Model{
                    $arr = DB::table('g_order_items')
                     ->where('order_id',$value['id'])
                     ->get(); 
-                    // $arrs = json_decode(json_encode($arr), true);
-                    // print_r($arrs);die;
                      $pay_items->push($arr);
                 }
-			     	$pay_items = $pay_items->flatten();
+			          $pay_items = $pay_items->flatten();
                 $pay_items = json_decode(json_encode($pay_items), true);
                 $list = array();
                 foreach ((array)$pay_items as $k => $v) {
@@ -95,7 +86,6 @@ class OrderModel extends Model{
                             $list[$k]['total_amount'] = $v['price']*$v['amout'];
                
                  }
-                 // print_r($list);die;
             }
 
         }
@@ -123,9 +113,8 @@ class OrderModel extends Model{
             return False;
         }
         $orders = get_object_vars($order);
-
         //上边查的是收货地址
-        //、、下边我们要查的是相关的订单
+        //下边我们要查的是相关的订单
         $order_item = DB::table('g_order_items')
                 ->select('g_order_items.price','g_product.goods_thumb','g_order_items.goods_id','g_product.goods_name','g_order_items.amout')
                 ->join('g_product','g_order_items.goods_id','=','g_product.id')
@@ -136,26 +125,23 @@ class OrderModel extends Model{
             return False;
         }
         $order_items = get_object_vars($order_item);
-        // print_r($order_item);die;
         $arr = array_merge($orders,$order_items);
         return $arr ? $arr : False; 
     }
-
     /**
-     * 待发货列表 
+     * 订单列表页 
      * Author Amber
-     * Date 2018-12-07
+     * Date 2018-12-24
      * Params [params]
-     * @param  string $user_id [description]
-     * @return [type]          [description]
+     * @param string $value [description]
      */
-    public function wait_sendlist($user_id='')
+    public function goods_orderlist($user_id='',$paid_status='')
     {
-        $bool = DB::table('g_orders')
+       $bool = DB::table('g_orders')
             ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
             ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
             ->where('user_id',$user_id)
-            ->where('paid_status',"待发货")
+            ->where('paid_status',$paid_status)
             ->get();
         $objects = json_decode(json_encode($bool), true);
         // print_r($objects);die;
@@ -177,19 +163,72 @@ class OrderModel extends Model{
         }
         return $goods_item;
     }
-
-/*
-  待发货详情页
+/**
+ * 待发货列表 
+ * Author Amber
+ * Date 2018-12-07
+ * Params [params]
+ * @param  string $user_id [description]
+ * @return [type]          [description]
  */
-    public function wait_senditem($order_id='')
+    public function wait_sendlist($user_id='')
     {
-
+      
+        $paid_status = "待发货";
+        $res = $this->goods_orderlist($user_id,$paid_status);
+        return $res;
+      }
+/**
+ * 待收货列表 
+ * Author Amber
+ * Date 2018-12-07
+ * Params [params]
+ * @param  string $user_id [description]
+ * @return [type]          [description]
+ */
+    public function ReceiptList($user_id='')
+    {
+      
+        $paid_status = "待收货";
+        $res = $this->goods_orderlist($user_id,$paid_status);
+        return $res;
+    }
+/**
+ * 已完成列表 
+ * Author Amber
+ * Date 2018-12-07
+ * Params [params]
+ * @param  string $user_id [description]
+ * @return [type]          [description]
+ */
+    public function Overlist($user_id='')
+    {
+      
+        $paid_status = "已完成";
+        $res = $this->goods_orderlist($user_id,$paid_status);
+        return $res;
+    }
+/**
+ * 订单详情页 
+ * Author Amber
+ * Date 2018-12-24
+ * Params [params]
+ * @param  [type] $order_id    [description]
+ * @param  [type] $paid_status [description]
+ * @return [type]              [description]
+ */
+    public function goods_orderitem($order_id,$paid_status)
+    {
         $bool = DB::table('g_orders')
           ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
           ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
           ->where('g_orders.id',$order_id)
+          ->where('g_orders.paid_status',$paid_status)
           ->get();
         $objects = json_decode(json_encode($bool), true);
+        if(empty($objects)){
+          return False;
+        }
         $goods_item = array();
         foreach ($objects as $key => $value) {
           $bool = DB::table('g_productSkus')
@@ -209,5 +248,32 @@ class OrderModel extends Model{
           $goods_item['creatorder_at'] = $value['creatorder_at'];
         return $goods_item;
     }
+/*
+  待发货详情页
+ */
+    public function wait_senditem($order_id='')
+    {
+        $paid_status = "待发货";
+        $res = $this->goods_orderitem($order_id,$paid_status);
+        return $res;
+    }
+/*
+  待收货详情页
+ */
+    public function Receiptitem($order_id='')
+    {
+        $paid_status = "待收货";
+        $res = $this->goods_orderitem($order_id,$paid_status);
+        return $res;
+    }
+/*
+  已完成详情页
+ */
+    public function Overitem($order_id='')
+    {
+        $paid_status = "已完成";
+        $res = $this->goods_orderitem($order_id,$paid_status);
+        return $res;
+    }    
 }
 

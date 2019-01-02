@@ -21,7 +21,7 @@ class tapgetModel extends Model{
     public function TapAndGoods()
     {
        $tap = DB::table('g_tapget')
-              ->select('id','tap_name','tap_img')
+              ->select('id','tap_name','tap_img','tap_desc','tap_logo')
               ->where('tap_status',1)
               ->where('tap_type','goods')
               ->get();
@@ -33,7 +33,6 @@ class tapgetModel extends Model{
                ->where("game_goods", 1)
                ->get();
         $goods = json_decode(json_encode($goods), true);
-        // dd($goods);die;
       
         $goodsinfo = array();
         foreach ($goods as $key => $value) {
@@ -44,6 +43,7 @@ class tapgetModel extends Model{
             $goodsinfo[$key]['tapid'] =  json_decode($value['tapid']);
 
         }
+        // dd($goodsinfo);die;
         $arr = array();
         foreach ($goods_tagid as $key => $value) {
           foreach ($goodsinfo as $k => $v) {
@@ -52,6 +52,8 @@ class tapgetModel extends Model{
                   $arr[$key]['tap_name'] = $value['tap_name'];
                   $arr[$key]['tap_img'] = $value['tap_img'];
                   $arr[$key]['tap_id'] =  $value['id'];
+                  $arr[$key]['tap_desc'] = $value['tap_desc'];     
+                  $arr[$key]['tap_logo'] = $value['tap_logo'];    
                   $arr[$k]['tap_id'] =  $value['id'];
                   $arr[$k]['goods_id'] = $v['id'];
                   $arr[$k]['goods_thumb'] = $v['goods_thumb'];
@@ -60,6 +62,7 @@ class tapgetModel extends Model{
             }
           }         
         }
+        // dd($arr);die;
               
         $liu = array();
         foreach ($arr as $key => $value) {
@@ -80,10 +83,12 @@ class tapgetModel extends Model{
           $ran[$key]['tap_name'] = $value['tap_name'];
           $ran[$key]['tap_img'] = $value['tap_img'];
           $ran[$key]['tap_id'] = $value['tap_id'];     
+          $ran[$key]['tap_desc'] = $value['tap_desc'];     
+          $ran[$key]['tap_logo'] = $value['tap_logo'];     
         }
        foreach ($ran as $key => $value) {
           foreach ($wei as $k => $v) {
-            if($value['tap_id'] =$v['tap_id']){
+            if($value['tap_id'] == $v['tap_id']){
                 $ran[$key]['goods_info'][] = $v;
             }
           }
@@ -131,7 +136,7 @@ class tapgetModel extends Model{
         // print_r($goods_tagid);die;
         $ids = array_column($goods_tagid, 'id');//所有tapid
         $goods = DB::table('g_product')
-               ->select('id','goods_name','goods_img','tapid')
+               ->select('id','goods_name','goods_thumb','tapid')
                ->where('g_product.on_sale',1)
                ->get();
         $all_goods = json_decode(json_encode($goods), true);//所有商品
@@ -142,7 +147,7 @@ class tapgetModel extends Model{
               $allgoods[$key]['id'] =  $value['id'];
               $allgoods[$key]['goods_name'] =  $value['goods_name'];
               // $allgoods[$key]['description'] =  $value['description'];
-              $allgoods[$key]['goods_img'] =  $value['goods_img'];
+              $allgoods[$key]['goods_thumb'] =  $value['goods_thumb'];
               // $allgoods[$key]['goods_desc'] =  $value['goods_desc'];
               //$allgoods[$key]['tapid'] =  json_decode($value['tapid']);
               $allgoods[$key]['tapid'] =  implode(',',json_decode($value['tapid']));
@@ -153,7 +158,7 @@ class tapgetModel extends Model{
                   if(in_array($value['tapid'], $ids)){
                       $goodsinfo[$key]['id'] =  $value['id'];
                       $goodsinfo[$key]['goods_name'] =  $value['goods_name'];
-                      $goodsinfo[$key]['goods_img'] =  $value['goods_img'];             
+                      $goodsinfo[$key]['goods_thumb'] =  $value['goods_thumb'];             
                       $goodsinfo[$key]['tapid'] =  $value['tapid'];             
                   }else{
                       
@@ -201,7 +206,7 @@ class tapgetModel extends Model{
   public function subject_goodsitem($tap_id='')
   {
            $tap = DB::table('g_tapget')
-              ->select('id','tap_name','tap_img')
+              ->select('id','tap_name','tap_img','tap_desc','tap_logo')
               // ->where('tap_status',1)
               // ->where('tap_type','goods')
               ->where('id',$tap_id)
@@ -210,7 +215,7 @@ class tapgetModel extends Model{
         $goods_tapid = json_decode(json_encode($tap), true);
         // dd($goods_tagid);die;
         $goods = DB::table('g_product')
-               ->select('id','goods_name','price','goods_img','tapid')
+               ->select('id','goods_name','price','goods_thumb','tapid')
                ->where('g_product.on_sale',1)
                ->where("game_goods", 1)
                ->get();
@@ -220,7 +225,7 @@ class tapgetModel extends Model{
             $goodsinfo[$key]['id'] = $value['id'];
             $goodsinfo[$key]['goods_name'] = $value['goods_name'];
             $goodsinfo[$key]['price'] = $value['price'];
-            $goodsinfo[$key]['goods_img'] = $value['goods_img'];
+            $goodsinfo[$key]['goods_thumb'] = $value['goods_thumb'];
             $goodsinfo[$key]['tapid'] =  json_decode($value['tapid']);
 
         }
@@ -235,11 +240,13 @@ class tapgetModel extends Model{
                   $arr['tap_name'] = $goods_tapid['tap_name'];
                   $arr['tap_img'] = $goods_tapid['tap_img'];
                   $arr['tap_id'] =  $goods_tapid['id'];
+                  $arr['tap_desc'] = $goods_tapid['tap_desc'];     
+                  $arr['tap_logo'] = $goods_tapid['tap_logo']; 
                   $arr[$k]['tap_id'] =  $goods_tapid['id'];
                   $arr[$k]['goods_id'] = $v['id'];
                   $arr[$k]['goods_name'] = $v['goods_name'];
                   $arr[$k]['price'] = $v['price'];
-                  $arr[$k]['goods_img'] = $v['goods_img'];
+                  $arr[$k]['goods_thumb'] = $v['goods_thumb'];
                 }
             }       
         }
@@ -247,11 +254,15 @@ class tapgetModel extends Model{
         $liu['tap_name'] = $arr['tap_name'];
         $liu['tap_img'] = $arr['tap_img'];
         $liu['tap_id'] = $arr['tap_id'];
+        $liu['tap_logo'] = $arr['tap_logo'];
+        $liu['tap_desc'] = $arr['tap_desc'];
 
         $liu['goods_info'] = array();
          unset($arr['tap_name']);
          unset($arr['tap_img']);
          unset($arr['tap_id']);
+         unset($arr['tap_logo']);
+         unset($arr['tap_desc']);
         foreach ($arr as $key => $value) {
           $liu['goods_info'][] = $value;
         }

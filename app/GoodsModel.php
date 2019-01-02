@@ -45,10 +45,9 @@ class GoodsModel extends Model{
         $goodslist = DB::table($this->_tabName)
             ->select('id','goods_name','goods_thumb','price')
             ->where("goods_cat", $classify_id)
-            ->where("game_goods", 1)
+            ->where("game_goods", 0)
             ->get();
         $data = json_decode(json_encode($goodslist), true);
-
         return $data ? $data : False;        
     }
 /**
@@ -63,21 +62,18 @@ class GoodsModel extends Model{
     {
         //根据商品
         $data = DB::table('g_product')
-            ->select('goods_name','goods_thumb','goods_img','sold_count','price','goods_postage','created_at')
+            ->select('goods_name','goods_thumb','goods_img','goods_cat','goods_desc','sold_count','price','goods_postage','created_at')
             ->where("id", $goods_id)
             ->first();
-         $datas =    get_object_vars($data);
-        // dd($data);die;
+        $datas = get_object_vars($data);
         $dataa = DB::table('g_productSkus')
-         ->select('title','sku_thumb','pricenow','stock','product_id')
-            ->where("product_id", $goods_id)
-            ->get();   
-           $dataite = json_decode(json_encode($dataa), true);   
-           // print_r($dataite);die;
-             foreach ($dataite as $key => $value) {
-                  $datas['sku'][] = $value;
-               }  
-                // dd($datas);die;  
+           ->select('title','sku_thumb','pricenow','stock','product_id')
+           ->where("product_id", $goods_id)
+           ->get();   
+        $dataite = json_decode(json_encode($dataa), true);   
+           foreach ($dataite as $key => $value) {
+               $datas['sku'][] = $value;
+            }  
         return $datas;
     }
 /**
@@ -116,8 +112,8 @@ class GoodsModel extends Model{
                 $dev['productSku'][$key]['stock'] = $value['stock'];
             }
         }
-            return  $dev;
-      }
+       return  $dev;
+    }
 /**
  * 检查库存
  */
@@ -151,7 +147,7 @@ class GoodsModel extends Model{
           }
         } 
         foreach ($item as $key => $value) {
-           $cut_sku =  DB::update('update g_productSkus set stock = stock- '.$value['amout'].' where id = '.$value['goods_id'].'');
+          $cut_sku =  DB::update('update g_productSkus set stock = stock- '.$value['amout'].' where id = '.$value['goods_id'].'');
         }
         return $cut_sku;
     }
@@ -178,4 +174,47 @@ class GoodsModel extends Model{
         }
         return $plus_sku;
     }
+/**
+ * 电商列表----全部列表
+ * Author Amber
+ * Date 2018-12-25
+ * Params [params]
+ * @param  string $goods_catid [description]
+ * @return [type]              [description]
+ */
+    public function all_goodslist($goods_catid='')
+    {
+      //先查标签表 查出一级标签对应的二级标签
+      //根据二级标签拿到对应的商品,'goods_thumb'
+        $cat_two = DB::table('g_classify')
+            ->select('id','cat_name','cat_imageUrl','cat_imageUrlCor')
+            ->where("pid", $goods_catid)
+            ->get();
+         
+        $data = json_decode(json_encode($cat_two), true);
+        $all = array();
+        foreach ($data as $key => $value) {
+            $goodslist  = DB::table($this->_tabName)
+            ->select('id','goods_name','goods_thumb','price')
+            ->where("goods_cat", $value['id'])
+            ->where("game_goods", 0)
+            ->get();
+            $all[]= $goodslist;
+        }
+          
+         $newarray = json_decode(json_encode($all), true);
+         dd($newarray);die;
+
+        $array=array();
+        foreach ($newarray as $key => $value) {
+            // print_r($value);die;
+            foreach ($value as $k => $v) {
+                $array[] = $v;
+            }
+        }
+           $newarrays = json_decode(json_encode($array), true);
+        return $newarrays ? $newarrays : False;  
+    }
+     
+
 }

@@ -14,11 +14,6 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Route::get('/', function () {
-//     return view('demo',['name' => '早上好']);
-// });
-
 Route::get('/ssl', array('https' => true, function() {
         return View('welcome');
     })
@@ -71,13 +66,12 @@ Route::get('/Game/in_vogue', 'GameController@in_vogue');//游戏列表 精品 �
 Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 新品 页展示
 Route::get('/Game/discounts', 'GameController@discounts');//游戏列表 优惠 页展示
 Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 页展示
-
-
 Route::get('/Lpush/push', 'LpushController@push');//推送
 // ===========================================电商=========电商================================================================
 Route::get('/Goods/goods_full', 'GoodsController@goods_full');//商品页合成接口
 Route::get('/Goods/slideshow', 'GoodsController@slideshow');//商品页的轮播图
 Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
+Route::get('/Goods/all_goodslist', 'GoodsController@all_goodslist');//电商列表----全部列表
 Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//专栏商品列表
 Route::get('/Goods/subject_goodsitem', 'GoodsController@subject_goodsitem');//惟一专栏商品列表
 
@@ -87,19 +81,17 @@ Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情�
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
 Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
-
-
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
-
-
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 Route::post('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::post('/Order/wait_pay', 'OrderController@wait_pay');//待付款订单详情页
 Route::post('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
 Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
 Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
-Route::get('/Logistics/ReceiptList', 'LogisticsController@ReceiptList');//待收货列表页
-Route::get('/Logistics/Receiptitem', 'LogisticsController@Receiptitem');//待收货详情页
+Route::get('/Order/ReceiptList', 'OrderController@ReceiptList');//待收货列表页
+Route::get('/Order/Receiptitem', 'OrderController@Receiptitem');//待收货详情页
+Route::get('/Order/Overlist', 'OrderController@Overlist');//已完成列表页
+Route::get('/Order/Overitem', 'OrderController@Overitem');//已完成详情页
 //===================================支付====================
 Route::get('alipay', function() {
     return app('alipay')->web([
@@ -114,12 +106,7 @@ Route::get('/WePay/index', 'WePayController@index');//微信支付
 Route::get('/WePay/rollback', 'WePayController@rollback');//微信回调
 Route::get('/WePay/getkeys', 'WePayController@getkeys');//sign
 
-
-
-
-
-
-
+// ==================================中台========================================================
 Route::get('/Rbac/index', 'RbacController@index');//管理登陆界面
 Route::post('/Rbac/login', 'RbacController@login');//管理登陆模块
 Route::get('/Rbac/main', 'RbacController@main');//管理主模块
