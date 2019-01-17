@@ -22,15 +22,17 @@ class OrderController extends Controller
  * @return [type]           [description]
  */
    public function creat_orders(Request $request)
-   {    
+   { 
+      // dump($request);die;
         $order = array();
         $items = array();
-	      $user_id = $order['user_id'] = $request->input("user_id");//用户id
-        $items = json_decode($request->input("items"),JSON_FORCE_OBJECT);//前端传过来的购买参数
+        $user_id = $order['user_id'] = $request->input("user_id");//用户id
+	      // $items = $request->input("items");//前端传过来的购买参数
+        $items = json_decode( $request->input("items"),JSON_FORCE_OBJECT);//前端传过来的购买参数
         $order['address'] = $request->input("address");//收货地址
         $order['remark'] = $request->input("remark");//留言
-        $orders['total_amount_one'] = $request->input("total_amount");//购买总金额
-// dump();die;
+        $orders['total_amount_one'] = $request->input("total_amount");//前端传过来的购买总金额
+        // $goods_postage = $request->input("goods_postage");//前端传过来的购买总金额
         //=============================以上是需要前端传过来的===============================
         
         $order['total_amount'] = 0;//后端判断的总金额
@@ -42,27 +44,27 @@ class OrderController extends Controller
         $order['no'] = $this->creat_ordnum();//订单流水号
 	    	$is_car =  $request->input("is_car");//是否调用了购物车
         $isset = $this->check_address($order['user_id']);//检查地址是否存在
-        if($isset == False){
+        if($isset == ''){
              $res = array(
                 "errNo" => "7001",
                 "errMsg" => "用户地址不存在"
             );
             $this->_response($res);
         }
-        
-      
-        //循环商量items
+     /**
+     * 判断前后端接收的价格是否一致
+     */
+    
         $item = array();
         foreach ($items as $key => $value) {
-            $item[$key]['price']  = $value['price'];
-            $item[$key]['goods_id'] = $value['goods_id'];
+            $item[$key]['price']  = $value['pricenow'];
+            $item[$key]['goods_id'] = $value['id'];
             $item[$key]['amout']  = $value['buy_num'];
-            $order['total_amount'] +=  $item[$key]['amout'] * $item[$key]['price'];
+            $item[$key]['goods_postage']  = $value['goods_postage'];
+            $order['total_amount'] +=  $item[$key]['amout'] * $item[$key]['price']+$item[$key]['goods_postage'];
 
         }
-        /**
-         * 判断前后端接收的价格是否一致
-         */
+        // $order['total_amount'] = $goods_amount + $goods_postage;
         if($orders['total_amount_one'] != $order['total_amount']){
             $res = array(
                 "errNo" => "7002",
@@ -72,8 +74,7 @@ class OrderController extends Controller
         }
         //将下单商品从购物车中删除
         if($is_car){
-          // echo $is_car;die;
-          $skuIds = collect($item)->pluck('goods_id');
+          $skuIds = collect($items)->pluck('goods_id');
           $GoodsBuyCarModel = new GoodsBuyCarModel();
           $del = $GoodsBuyCarModel->delcar($user_id,$skuIds);
           if($del == False){
@@ -84,13 +85,9 @@ class OrderController extends Controller
               $this->_response($res);
           }
         }
-        
-
-        //减少库存
-     //   print_r($item);die;
-        // echo 2;die;
+       //  //减少库存
         $GoodsModel = new GoodsModel();
-        $cut_sku = $GoodsModel->cut_sku($item);
+        $cut_sku = $GoodsModel->cut_sku($items);
         if($cut_sku == False){
              $res = array(
                 "errNo" => "7004",
@@ -100,21 +97,24 @@ class OrderController extends Controller
         } 
      
         $order_id = $this->orderstore($order);
-        //循环商量items
         $itemnew = array();
+        // $itemss =  json_decode($items,true);
         foreach ($items as $key => $value) {
-            $itemnew[$key]['goods_id'] = $value['goods_id'];
-            $itemnew[$key]['price']  = $value['price'];
+            $itemnew[$key]['goods_id'] = $value['id'];
+            $itemnew[$key]['price']  = $value['pricenow'];
             $itemnew[$key]['amout']  = $value['buy_num'];
             $itemnew[$key]['order_id']  = $order_id;
 
         }
         $OrdersModel = new OrderModel();
         $res = $OrdersModel->store_items($itemnew);
+        $arr = array('order_id'=>$order_id, 'total_amount'=>$order['total_amount']);
+        // dd($arr);die;
         if($res){
          $res = array(
                 "errNo" => "success",
-                "errMsg" => "订单提交成功,进行支付"
+                "errMsg" => "订单提交成功,进行支付",
+                "data"=>$arr
             );
             $this->_response($res);
          }else{
@@ -164,10 +164,9 @@ class OrderController extends Controller
  */
    public function creat_ordnum()
    {
-      // 订单流水号前缀
+      // 订单流水号前缀 随机生成 6 位的数字
         $prefix = date('YmdHis');
         for ($i = 0; $i < 10; $i++) {
-            // 随机生成 6 位的数字
             $no = $prefix.str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
             return $no;
         }
@@ -234,14 +233,13 @@ class OrderController extends Controller
         
        }
    }
-
-   /**
-    * 待发货列表 
-    * Author Amber
-    * Date 2018-12-07
-    * Params [params]
-    * @param string $value [description]
-    */
+ /**
+  * 待发货列表 
+  * Author Amber
+  * Date 2018-12-07
+  * Params [params]
+  * @param string $value [description]
+  */
    public function wait_sendlist(Request $request)
    {
       $user_id = $request->input('user_id');

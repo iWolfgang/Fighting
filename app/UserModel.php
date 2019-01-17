@@ -446,15 +446,34 @@ class UserModel extends Model
  * 添加收货地址
  * Author Amber
  * Date 2018-08-01
- * Params [params]
- * @param string $value [description]
  */
-    public function add_user_address($value='')
+    public function add_user_address($order)
     {
-        // $user_id = $order['user_id'] = $request->input("user_id");
-       // $order['contact_name'] = $request->input("contact_name");//收件人
-       //$order['contact_phone'] = $request->input("contact_phone");//收件人号码
-       //$order['last_used_at'] = date('Y-m-d H:i:s');//最后下单时间
-        // $order['address'] = $request->input("address");//收货地址
+       
+       $res = DB::table('g_user_address')->insert($order);
+       return $res;
+    }
+/**
+ * 查询用户收货列表 
+ * Author Amber
+ * Date 2019-01-09
+ * Params [params]
+ */
+    public function select_user_address($user_id)
+    {
+         // echo $user_id;die;
+        $list = DB::table('g_user_address')
+                ->where('user_id',$user_id)
+                ->orderby('last_used_at','desc')
+                ->get();
+        $address_list = json_decode(json_encode($list), true); 
+        return $address_list ? $address_list : FALSE;
+    }
+   public function del_user_address($user_id)
+    {
+        $res = DB::table('g_user_address')
+                ->where('user_id',$user_id)
+                ->delete();
+        return $res;
     }
 }

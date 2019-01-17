@@ -21,6 +21,7 @@ class OrderModel extends Model{
  */
     public function store($order)
     {
+      
     	$bool = DB::table('g_orders')
             ->insertGetId($order);
 

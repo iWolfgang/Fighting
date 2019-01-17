@@ -14,7 +14,8 @@ class CreatOrderModel extends Model
     {
     	//$this_table->
     	$flights = DB::table($this->_tabName)->select('title','pricenow','stock')->where('id', $sku_id);
-    	print_r($flights);die;
+    	// print_r($flights);die;
+    	return $flights;
     }
 
 }

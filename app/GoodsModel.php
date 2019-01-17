@@ -67,13 +67,33 @@ class GoodsModel extends Model{
             ->first();
         $datas = get_object_vars($data);
         $dataa = DB::table('g_productSkus')
-           ->select('title','sku_thumb','pricenow','stock','product_id')
+           ->select('id','title','sku_name','sku_thumb','pricenow','stock','product_id')
            ->where("product_id", $goods_id)
            ->get();   
-        $dataite = json_decode(json_encode($dataa), true);   
+        $dataite = json_decode(json_encode($dataa), true);  
+        // dd($dataite);die; 
            foreach ($dataite as $key => $value) {
                $datas['sku'][] = $value;
             }  
+        return $datas;
+    }
+    /**
+     * 根据skuid查询商品sku 
+     * Author Amber
+     * Date 2019-01-08
+     * Params [params]
+     * @param  string $goods_id [description]
+     * @return [type]           [description]
+     */
+ public function detail_buycar($goods_id='')
+    {
+        //根据商品
+       
+        $dataa = DB::table('g_productSkus')
+           ->select('id','title','sku_name','sku_thumb','pricenow','stock','product_id')
+            ->where("id", $goods_id)
+            ->first();
+        $datas = get_object_vars($dataa); 
         return $datas;
     }
 /**
@@ -119,7 +139,8 @@ class GoodsModel extends Model{
  */
     public function check_sku($goods_id,$buy_num)
     {
-        $data = $this->detail_page($goods_id);
+        $data = $this->detail_buycar($goods_id);
+        // dd($data);die;
         $sku = $data['stock'];
         if($buy_num > $sku){
             return False;
@@ -139,16 +160,23 @@ class GoodsModel extends Model{
  */
     public function cut_sku($item)
     {
-       foreach ($item as $k => $v) {
-          $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');
+     // $item =  json_decode($arr,true);
+      // explode(',',$arr);
+// print_r($item);
+//       if(is_array($item)){
+        // echo 1;die;
+        foreach ($item as $k => $v) {
+          $sku =   DB::select('select stock from g_productSkus where id = '.$v['id'].'');
           $objects = json_decode(json_encode($sku), true);
-          if($objects[0]['stock'] < $v['amout']){
+          if($objects[0]['stock'] < $v['buy_num']){
             return False;
           }
         } 
         foreach ($item as $key => $value) {
-          $cut_sku =  DB::update('update g_productSkus set stock = stock- '.$value['amout'].' where id = '.$value['goods_id'].'');
+          $cut_sku =  DB::update('update g_productSkus set stock = stock- '.$value['buy_num'].' where id = '.$value['id'].'');
         }
+     
+       
         return $cut_sku;
     }
 
@@ -195,7 +223,7 @@ class GoodsModel extends Model{
         $all = array();
         foreach ($data as $key => $value) {
             $goodslist  = DB::table($this->_tabName)
-            ->select('id','goods_name','goods_thumb','price')
+            ->select('id','goods_name','goods_thumb','price','goods_cat')
             ->where("goods_cat", $value['id'])
             ->where("game_goods", 0)
             ->get();
@@ -203,7 +231,7 @@ class GoodsModel extends Model{
         }
           
          $newarray = json_decode(json_encode($all), true);
-         dd($newarray);die;
+         // dd($newarray);die;
 
         $array=array();
         foreach ($newarray as $key => $value) {

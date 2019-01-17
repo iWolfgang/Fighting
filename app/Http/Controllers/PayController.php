@@ -33,12 +33,13 @@ class PayController extends Controller
 
     public function index(Request $request)
     {
+        // dd($request);die;
         $total_amount = $request->input("total_amount");//支付金额
         $order_id = $request->input("order_id");//支付金额
         session_start();
         session(['order_id' => $order_id]);
         // $total_amount = 20;//支付金额
-      //  $order_id = 1;//
+       // $order_id = 1;//
 
         $order = [
             'out_trade_no' => time(),
@@ -46,9 +47,9 @@ class PayController extends Controller
             'subject' => 'test subject - 测试',
         ];
 
-        $alipay = Pay::alipay($this->config)->web($order);
+        $alipay = Pay::alipay($this->config)->Web($order);
 
-        return $alipay;// laravel 框架中请直接 `return $alipay`
+        return $alipay;
     }
 
     public function return()

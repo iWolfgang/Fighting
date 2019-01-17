@@ -80,7 +80,7 @@ Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
-Route::post('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
+Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 Route::post('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
@@ -92,6 +92,9 @@ Route::get('/Order/ReceiptList', 'OrderController@ReceiptList');//待收货列�
 Route::get('/Order/Receiptitem', 'OrderController@Receiptitem');//待收货详情页
 Route::get('/Order/Overlist', 'OrderController@Overlist');//已完成列表页
 Route::get('/Order/Overitem', 'OrderController@Overitem');//已完成详情页
+Route::get('/User/select_user_address', 'UserController@select_user_address');//收货地址列表
+Route::post('/User/add_user_address', 'UserController@add_user_address');//添加收货地址
+Route::delete('/User/del_user_address', 'UserController@del_user_address');//添加收货地址
 //===================================支付====================
 Route::get('alipay', function() {
     return app('alipay')->web([
@@ -101,6 +104,7 @@ Route::get('alipay', function() {
     ]);
 });
 Route::get('/Pay/index', 'PayController@index');//支付宝
+Route::get('/PayPhone/index', 'PayPhoneController@index');//支付宝
 Route::get('/Pay/notify', 'PayController@notify');//支付宝回调
 Route::get('/WePay/index', 'WePayController@index');//微信支付
 Route::get('/WePay/rollback', 'WePayController@rollback');//微信回调

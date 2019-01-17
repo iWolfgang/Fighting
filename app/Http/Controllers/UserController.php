@@ -281,4 +281,76 @@ class UserController extends Controller
         $this->_response($res);
 
     }
+
+    public function select_user_address(Request $request)
+    {
+        $user_id = $request->input("user_id"); 
+            // echo $user_id;
+        $UserModel = new UserModel();
+
+        $bool = $UserModel->select_user_address($user_id);
+        if($bool == FALSE){
+            $res = array(
+                "errNo" => 0,
+                "errMsg" => "没有收货地址,去添加吧"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "data" => $bool
+        );
+        $this->_response($res);    
+
+    }
+    public function del_user_address(Request $request)
+    {
+        $user_id = $request->input("user_id"); 
+            // echo $user_id;
+        $UserModel = new UserModel();
+
+        $bool = $UserModel->del_user_address($user_id);
+        if($bool == FALSE){
+            $res = array(
+                "errNo" => '0003',
+                "errMsg" => "删除失败"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "删除成功"
+        );
+        $this->_response($res);   
+
+    }
+    public function add_user_address(Request $request)
+    {
+       $order['user_id'] = $request->input("user_id");
+       $order['contact_name'] = $request->input("contact_name");//收件人
+       $order['contact_phone'] = $request->input("contact_phone");//收件人
+       $order['province'] = $request->input("province");//收件人号码
+       $order['city'] = $request->input("city");//收件人号码
+       $order['district'] = $request->input("district");//收件人号码
+       $order['address'] = $request->input("address");//收件人号码
+       $order['last_used_at'] = date('Y-m-d H:i:s');//最后下单时间
+       $order['zip'] = $request->input("zip");//收货地址
+            // echo $user_id;
+        $UserModel = new UserModel();
+
+        $bool = $UserModel->add_user_address($order);
+        if($bool == FALSE){
+            $res = array(
+                "errNo" => '0003',
+                "errMsg" => "添加失败"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "添加成功"
+        );
+        $this->_response($res);    
+
+    }
 }

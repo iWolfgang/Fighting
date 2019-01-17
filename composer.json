@@ -28,7 +28,8 @@
         "classmap": [
             "database/seeds",
             "database/factories",
-            "app/services"
+            "app/services",
+            "app/alipay/aop"
         ],
         "psr-4": {
             "App\\": "app/"

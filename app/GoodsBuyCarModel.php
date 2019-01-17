@@ -75,7 +75,8 @@ class GoodsBuyCarModel extends Model{
         $objects = DB::table('g_productSkus')
                 ->join('g_buycar','g_productSkus.id','=','g_buycar.productSku_id')
                 ->join('g_product','g_productSkus.product_id','=','g_product.id')
-                ->select('g_product.goods_name','g_productSkus.sku_thumb','g_productSkus.title','g_buycar.buy_num')
+                ->select('g_product.goods_name','g_product.goods_postage','g_productSkus.sku_thumb','g_productSkus.title','g_productSkus.pricenow','g_buycar.buy_num','g_productSkus.stock','g_buycar.user_id','g_buycar.id')
+                ->where('g_buycar.user_id',$user_id)
                 ->get();
          $objects = json_decode(json_encode($objects), true);
          return $objects;
