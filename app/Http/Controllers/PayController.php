@@ -10,13 +10,13 @@ use DB;
 class PayController extends Controller
 {
 
-  protected $config = [
-        'app_id' => '2016091700532476',
+   protected $config = [
+        'app_id' => '2019011062842792',
         'notify_url' => 'http://api.mithrilgaming.com:7777/Pay/notify',//notify_url 代表服务器端回调地址，return_url 代表前端回调地址
-        'return_url' => 'http://api.mithrilgaming.com:7777/Pay/notify',//http://yansongda.cn/return.php
-        'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoLddXIoQegGcJidCazdCkAP+uGXj4jnuRakg6rhyBchdzyWDd4nbStuzEF2XlyrZsECm8ew2BQh2DJrS0xQ291a4FwJzeqW3kQVNsbfy7gJ005n856jGQwBoXgqGZpGGrK+6b7XIIMYlqWNAMmReCfs8YwgO8KSRO+7QfRxVZQ9jIVlSiecHGoQ7JUjAgTyf64IjxPUdDM13pVG8ChnIxDTG2V/zal/fWHJ+IBkq1z8Ld027VxMf6rqwqmgQfUpuS/fU2uMZu7d87PgQiYpWZX53KPompaxOn+ziWmInnTpeHSZ9uRQO3ckSbZR3b7dZEKhkopcxohiPkL3vzvSVTwIDAQAB',
+        'return_url' => '',//http://yansongda.cn/return.php
+        'ali_public_key' => 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjHrWWgUm0nmDbxf/0zobPwRFWZaEpWPo1OqxAa5RhwgAfnvZn+AdFIUIXFEUjsV0PfoOrNSyFuM2zSusMtJWer1xX6rUDbhrRpnaxuibyCJUPWr4zZ4WChRGpgIYp3+7NJeRHkWM24cbkKvdPl4432kpmlh29A0armcKEke5PwzTaV+T+r2VduVGAIezHL0w0APdJFOgsqG+JnO+7rS08y86OOFTYZ2V3xJma5qg4E1UmtCmCQBqC9+MFKgrMzVeQqySw4I6WAFCfe7z5SoioeeFXCuFTekLC8XPmcTZH6wByWzF1nDBzlW2oEEUy5bGhj19d91LaCls5TOTEVJ7SwIDAQAB',
         // 加密方式： **RSA2**  
-        'private_key' => 'MIIEpAIBAAKCAQEAxoKOeLL15+5Q3rvk3o3TSBh7Jm7Vc9qe3+MUCZLJXA2fxY40Slj1CRjJpCpw7Ima8yOzk5Jromkl0FsL1Sis+IpzItn8p920LD2nA2GOj30hhGPX8RZdpYHu1TiIFAoSPxppf/8Bl+cbhuluvHWdkFg9KuHH59kgCGTjTt+H+nnbDg09FalnIuVYfIHbRF3XghrbjG2gXJwvnbv5G/vn/cn8XNQd/kh0cFegYRnuM4Ytv1l12+oU//n4TUZiPEwRhQE1rKTfFWssmo1+pjKPHDzbcHKOZ5P5XXJmVQUXGHmFEZ1zwcTtcUxCvxubaAq9QjBCMD7yAHLP2FPOnAE1CwIDAQABAoIBAQCLr/Fbg+tAstWbdrKd3UUw9XErYVC4/r1PpLZD6lPhgADO/rtTGfgL17KE4AyolkhAEf5auO0e00j1rivMapwVJS/R9X0yDvOrMhMlcO/ljtMYGz4oe2mYfq82wVoYZ+HhH8/fbu2LG+il7furiERA/6bDVy/ZuVMuNPgzV16TZQ/31jDqELGEQuZNicEEVM58ycVw21LeXKup5EhAT4F6/LS7n8db+gHI+VutY3n9yajrWKagDsKEAC2tnuvEMOr5PdS9o5qRTKpauhExJ5rA9q1sEr+Uy2XS6qQkzgwBZCY7pRCj+UlBjbQaty241909PZpdLtSBQzrjiF35snE5AoGBAPQeuTDaMPiwUNoPWRdsbev6kSkJ7wa+lXEjNnfOMnmP0SQdGxWCG5mzuTvhU3RhZCC/zuugoK0bch4dVFzskQwQN2Uv5Np8jLEuCvcitEW+Ji2TR6mD5kepL4uYfesglHx5Zg2ODE2VQJGyH+RKmc+f0L1R6hnpGGMuOJrtPntVAoGBANArni8gBb4VeYdu87GE075hCiG9OfkuYp1V3i7fT2tc1bPIK+bw7e8e2w/9mHufm92ems92AQ4gkUejsCHy7dXMlH2bVxtKYufOj+hvQVBXlI8sXTd7LHM2tC4Fy8BGTCn5eFFXPjodRt+u4/zK0iTpWa/fwF10skfmn3cPwK7fAoGAefzEU+okYJFSxbS3s2HGiA487YH+RKOF7/RFqpaKWH6KZv54Y0YR3ruVi5usZVKpg0f18X7h6770RqInXwwD60BLPjAxrxBgCcXVSuu3o8ZCM7IONGIp95NOo/Y+rfko2g6b9ZgPA9HaYzPcherVc5AL8h712Z7GRgF53clB2MUCgYEAgkd59PYugdrAtwC6JJQDTHdAtwLM4GSmNN9DcMQy2Pc9iwkwaJTJ48fEw0orftrR2i3jpwir+mJpaZNIrMZzEEW7fKyWJC82nOpKZ+YQ0y4sfDoAkLNWizhmJRNdg5S7H93P7eASwp4F+AFlD5UDVTRw+7+ljRd2Z8cub339UbMCgYBDNvPQ26jnEQfVHaFyPRPfsHsgUfWZJjv22/8a++9F5rpzrJ692aHLL6CaxbQTAAclcPQQ+EJNn3VktLtK+KgSvCCLX37pZNl+rbVPRMagzyKJayKa9XBvf3p1JR2ZCJUn7GBVYKKIQd1TRuayaeZy5RtExlCfdGgbMURikBknrw==',
+        'private_key' => 'MIIEowIBAAKCAQEA0eaUU8GLz93lCunIq+1mECFpABRPFE32+4Gri2PLRGI9ndbrQLpsQhqZNfxnJ1/cvI2kLNDs3/ZUkB/yi4OjRtHoCeRnzVZYnnsszweCxckPFr4BauSgsTGygpVrVbo2dIzBsBW2EWBHVi/ohWijEDs7kMLpsIFKJ4ug1qq5e5DGNHrv+cW/k+Goor6pWPoj6R8sjhfPuZYrN+JzgFnstvEBGL7yR2MrgKj84vzbgVLaX+CqRGe87fI9JquPhuNGB+cWoxuyqK2YSMzmXDTP+Tym/kDZytRtSODmZli6Ksny+MCMOr1qpuMPQ6bc0tTkKes6oFdO4fryvkRWWU/x3wIDAQABAoIBABN8WGC+IwCVFOJCecKcM1FkCJ9dQ0obQsZub0JtbT1X8Whpv0UvCUXJuldsqxbYq2FFtOwEKTlRYOBQVu/ktI+qhOQGNCy3y1pLDQnbJKS/2Yq+8Nq/hrtsZaoBvQkkVFHVj1WNbm2GhpjVsbxQznJ/TTRPI+qi1gN9ztye1MFHsDMsf4E5gWOnuiBoLZjDXRvit05Ow2XUbjHzqhtudErLFc8ZuokUuZC/Iz1w8VHVnVPK5v3kj0jcPwnDhkK8kRk3sa8nXLGQKO8H/eKSMPtFuXtOmNFU6+aIt7F3S6YzSq7Tz4Fta9x18My/WlmWqmRoGKFUUW+giDcJ3JYy8uECgYEA+ptyA6IfBZxW493clEyUS1DulAKpHuflI6FYy09yS/Vn7kL7++vhzvIruq86f+tpNOT/QnArH4zpE+z3zP9dGPoeDphtlS9tEqb/2M7BXgpZx9qJZHcERDJBecPp3bFabMo7rKiEMorh/eMZAtSzpCFX2Fi62WWcmD93DSDNJBsCgYEA1mrjchOchJBSJDIFAacz8ou+ArSU00w6icKOiRd3YGixnGu+2qLmZ5po5MP+VBAmnCnp30vBh8aL8UMFDYAq9W+1YqQil6DE4I27ra0XD78j+duCGUPAHoH6jglQLov+jP5HAVl2xDuSGSy1Ri02y2741NbNqFFd2u8lU/10HY0CgYBzqWCSqrVUmpZDrrbKPxnGNQEXkK7LU82ehy37D5y5z/Z6sbGo0HI0V/K0w4DlXxn8TqA84pYUhq1gA+NOWqF2EKHkrJcO3oehry+vuaTnKTHMmmEE3CU88FDlyPTb26nXQfMOuevhg9XPnouBkfejDbyEXldGVK5UWh4xEe179wKBgD6CVuCQ+xZihK/srSz4M9rIBpL/Vkvrcz1qLOemobTHkNALUU6oIwedKmtXADQ9qSPpzDa+/SK6LV4ercBr1xpKgNTLCRKvWfYlG8vcJFcA4FodNmZrK/0443S5HlkTkxhDoSuxi0BWJZeVQxu8XrccGQrjvH0Pi48iHP3JbCqZAoGBAOUIvrezFowg8ftSHj68h7138fnw3lS+C37GmQwv96ifl+WLD6RuBZNwauImutBS8LSrU+R4X86VB9yI89PXRUnwm/ZDdKxjtlIcWRbKdqcp6EyjU7NstHNc3CkpA7mEgVQeKJ2am2byCq8WQukYxGU1c5HQwJmveZkAc4hutKEW',
         'log' => [ // optional
             'file' => './logs/alipay.log',
             'level' => 'debug', // 建议生产环境等级调整为 info，开发环境为 debug
@@ -28,7 +28,7 @@ class PayController extends Controller
             'connect_timeout' => 5.0,
             // 更多配置项请参考 [Guzzle](https://guzzle-cn.readthedocs.io/zh_CN/latest/request-options.html)
         ],
-        'mode' => 'dev', // optional,设置此参数，将进入沙箱模式
+        // 'mode' => '', // optional,设置此参数，将进入沙箱模式
     ];
 
     public function index(Request $request)
@@ -38,6 +38,7 @@ class PayController extends Controller
         $order_id = $request->input("order_id");//支付金额
         session_start();
         session(['order_id' => $order_id]);
+        session(['total_amount' => $total_amount]);
         // $total_amount = 20;//支付金额
        // $order_id = 1;//
 
@@ -46,11 +47,22 @@ class PayController extends Controller
             'total_amount' => $total_amount,
             'subject' => 'test subject - 测试',
         ];
+          return Pay::alipay($this->config)->app($order);
+        // $alipay = Pay::alipay($this->config)->Web($order);
 
-        $alipay = Pay::alipay($this->config)->Web($order);
-
-        return $alipay;
+        // return $alipay;
     }
+
+    public function creat_sign($value='')
+    {
+            session_start();
+            $order_id =session('order_id');
+            $total_amount =session('total_amount');
+            
+    }
+
+
+
 
     public function return()
     {

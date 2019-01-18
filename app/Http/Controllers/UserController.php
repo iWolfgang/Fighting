@@ -292,7 +292,8 @@ class UserController extends Controller
         if($bool == FALSE){
             $res = array(
                 "errNo" => 0,
-                "errMsg" => "没有收货地址,去添加吧"
+                "errMsg" => "没有收货地址,去添加吧",
+                "data" =>array()
             );
             $this->_response($res);
         }
