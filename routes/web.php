@@ -104,8 +104,8 @@ Route::get('alipay', function() {
     ]);
 });
 Route::get('/Pay/index', 'PayController@index');//支付宝
-// Route::get('/PayPhone/index', 'PayPhoneController@index');//支付宝
-Route::post('/Pay/notify', 'PayController@notify');//支付宝回调
+Route::get('/PayPhone/index', 'PayPhoneController@index');//支付宝
+Route::get('/PayPhone/notify', 'PayPhoneController@notify');//支付宝回调
 Route::get('/WePay/index', 'WePayController@index');//微信支付
 Route::get('/WePay/rollback', 'WePayController@rollback');//微信回调
 Route::get('/WePay/getkeys', 'WePayController@getkeys');//sign

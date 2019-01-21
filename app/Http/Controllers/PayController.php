@@ -47,7 +47,7 @@ class PayController extends Controller
             'total_amount' => $total_amount,
             'subject' => 'test subject - 测试',
         ];
-          return Pay::alipay($this->config)->app($order);
+          return Pay::alipay($this->config)->web($order);
         // $alipay = Pay::alipay($this->config)->Web($order);
 
         // return $alipay;
