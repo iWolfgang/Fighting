@@ -29,9 +29,8 @@
             "database/seeds",
             "database/factories",
             "app/services",
-	    "vendor/alipay/aop",
-	    "vendor/alipay/aop/request"
-        ],
+            "app/Packages/alipay"
+	],
         "psr-4": {
             "App\\": "app/"
         }

@@ -1,0 +1,12 @@
+GET /PayPhone/notify HTTP/1.1
+Accept:                    text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+Accept-Encoding:           gzip, deflate
+Accept-Language:           zh-CN,zh;q=0.9,en;q=0.8,zh-TW;q=0.7
+Cache-Control:             max-age=0
+Cookie:                    XSRF-TOKEN=eyJpdiI6Imo0ZkJBMDVwc1NidFk3V1UzN1UxY0E9PSIsInZhbHVlIjoiZE00ZFhLRE1SZ0d5SXdFVGxYMk9MK0kxRFJLZkQ2dWIydk1ROTlNeFNadlZZYkNxdkxvRE1NVzF6ZGpTMEpuaSIsIm1hYyI6IjgzZThhYmEyMWI4MDdmZTM4NzAxYTAwNTdjNDAwZjFmZDkyNDk0OTlhMDgzMWEyNTliNzk0MzgxMjViNzE5YTkifQ%3D%3D; laravel_session=eyJpdiI6Ik9taDMrQmVGMXo4UkFEZ0NtZ20xaXc9PSIsInZhbHVlIjoic3hsYWFmSGFFVTV6ZmUwWlF1WFpGM0M1QTdpOWl5Y0hPUVwvQ05kRUF4WkQzaTNrVk1LNlRYUEdUU1JOMnYrVFgiLCJtYWMiOiJlNjZiN2QxYzZmNjBjNTVhNjE1NDU2NDQ5MjRhNTkwOGY0YzFhNzlkZTZmNjY5ZWQ5YTJiZjM3M2VmYTU0ZDE4In0%3D
+Dnt:                       1
+Host:                      api.mithrilgaming.com:7777
+Upgrade-Insecure-Requests: 1
+User-Agent:                Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
+Cookie: XSRF-TOKEN=hMCyc2BMtSdCqghbT0TZepOHlbzQo4BcN45amS4Z; laravel_session=K1i2NeyRdbiCu6RrfU3zsS2MQTEiNcJFRRp27Z5b
+

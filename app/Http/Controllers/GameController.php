@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use App\GameModel;
 use App\HomePageModel;
+use App\GoodsModel;
 
 class GameController extends Controller
 {
@@ -17,13 +18,16 @@ class GameController extends Controller
  */
 	public function game_info(Request $request)
 	{
-        // echo 1;die;
         $game_id =  $request->input('game_id');
       
         $GameModel = new GameModel();
 
         $ret = $GameModel->game_info($game_id);
-        $ret['id'] = intval($game_id);
+        // $ret['id'] = intval($game_id);
+        $GoodsModel = new GoodsModel();
+
+        $ret['game_info'] = $GoodsModel->detail_page($game_id);
+        $ret['game_correlation'] = [];
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

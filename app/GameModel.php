@@ -15,10 +15,10 @@ class GameModel extends Model{
     public function game_info($game_id)
     {
         // echo $game_id;die;
-        $game_info = $this->game_info_msg($game_id);
-        $likeid = $game_info['likeid'];
-        $ids = explode(',',$likeid);
-        $game_correlation = $this->game_correlation($ids);
+        // $game_info = $this->game_info_msg($game_id);
+        // $likeid = $game_info['likeid'];
+        // $ids = explode(',',$likeid);
+        // $game_correlation = $this->game_correlation($ids);
         $longa_correlation = $this->longa_correlation($game_id);
         $shorta_correlation = $this->shorta_correlation($game_id);//相关的短资讯
         $appraisala_correlation = $this->appraisala_correlation($game_id);//相关的测评
@@ -27,8 +27,8 @@ class GameModel extends Model{
 
 //liuran        
         $data = array(
-            "game_info" => $game_info,
-            "game_correlation" => $game_correlation,
+            // "game_info" => $game_info,
+            // "game_correlation" => $game_correlation,
             "longa_correlation" => $longa_correlation,
             "shorta_correlation" => $shorta_correlation,
             "appraisala_correlation" => $appraisala_correlation,

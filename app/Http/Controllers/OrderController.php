@@ -40,7 +40,7 @@ class OrderController extends Controller
         $order['expiration_at'] = time()+24*3600;//订单关闭倒计时
         $order['paid_status'] = "待支付";//订单状态
         $order['refund_status'] = "未退款";//退款状态
-        $order['ship_status'] = "未发货";//物流状态
+        $order['ship_status'] = "待支付";//物流状态
         $order['no'] = $this->creat_ordnum();//订单流水号
 	    	$is_car =  $request->input("is_car");//是否调用了购物车
         $isset = $this->check_address($order['user_id']);//检查地址是否存在
@@ -171,6 +171,66 @@ class OrderController extends Controller
             return $no;
         }
    }
+/**
+ * 全部订单 
+ * Author Amber
+ * Date 2019-01-24
+ * Params [params]
+ * @param string $value [description]
+ */
+
+    public function all_orderlist(Request $request)
+    {
+      // echo 1;die;
+      $user_id = $request->input('user_id');
+      $orderModel = new orderModel();
+      // $data['wait_paylist'] = $orderModel->wait_paylist($user_id);
+      // $data['wait_sendlist'] = $orderModel->wait_sendlist($user_id);
+      // $data['ReceiptList'] = $orderModel->ReceiptList($user_id);
+      // $data['Overlist'] = $orderModel->Overlist($user_id);
+      $ret = $orderModel->all_orderlist($user_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret
+            );
+            $this->_response($res);
+         }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单",
+                "data" => $ret
+            );
+            $this->_response($res);
+         }
+    }
+  /**
+   * 取消订单 
+   * Author Amber
+   * Date 2019-01-24
+   * Params [params]
+   * @param string $value [description]
+   */
+    public function cancel_order(Request $request)
+    {
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->cancel_order($order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+          $this->_response($res);
+         }else{
+           $res = array(
+                "errNo" => "8003",
+                "errMsg" => "取消订单异常"
+            );
+          $this->_response($res);
+       }
+    }
 
 /**
  * 未支付订单列表
@@ -195,7 +255,8 @@ class OrderController extends Controller
           
            $res = array(
                 "errNo" => "success",
-                "errMsg" => "您还没有相关的订单"
+                "errMsg" => "您还没有相关的订单",
+                "data" => $ret
             );
             $this->_response($res);
         
@@ -217,17 +278,15 @@ class OrderController extends Controller
       $orderModel = new orderModel();
       $ret = $orderModel->wait_pay($user_id,$order_id,$goods_id);
       if($ret){
-        // echo 1;die;
          $res = array(
                 "errNo" => "success",
-                "data" => $ret,
+                "data" => $ret
             );
             $this->_response($res);
          }else{
-          // echo 2;die;
            $res = array(
                 "errNo" => "7008",
-                "errMsg" => "您还没有相关的订单"
+                "errMsg" => "请求超时"
             );
             $this->_response($res);
         
@@ -255,12 +314,20 @@ class OrderController extends Controller
           
            $res = array(
                 "errNo" => "success",
-                "errMsg" => "您还没有相关的订单"
+                "errMsg" => "您还没有相关的订单",
+                "data" => $ret
             );
             $this->_response($res);
         
        }
    }
+   /**
+    * 待收货列表页 
+    * Author Amber
+    * Date 2019-01-24
+    * Params [params]
+    * @param Request $request [description]
+    */
    public function ReceiptList(Request $request)
    {
       $user_id = $request->input('user_id');
@@ -276,12 +343,49 @@ class OrderController extends Controller
           
            $res = array(
                 "errNo" => "success",
-                "errMsg" => "您还没有相关的订单"
+                "errMsg" => "您还没有相关的订单",
+                "data" => $ret
             );
             $this->_response($res);
         
        }
    }
+/**
+ * 确认收货 
+ * Author Amber
+ * Date 2019-01-24
+ * Params [params]
+ * @param string $value [description]
+ */
+   public function Confirm_Order(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->Confirm_Order($user_id,$order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => "确认收货成功",
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "8001",
+                "errMsg" => "确认收货失败，请重新确认"
+            );
+            $this->_response($res);
+        
+       }
+   }
+    /**
+    * 已经完成的订单列表 
+    * Author Amber
+    * Date 2019-01-24
+    * Params [params]
+    * @param Request $request [description]
+    */
       public function Overlist(Request $request)
    {
       $user_id = $request->input('user_id');
@@ -303,6 +407,7 @@ class OrderController extends Controller
         
        }
    }
+  
    public function Overitem(Request $request)
    {
       $order_id = $request->input('order_id');
