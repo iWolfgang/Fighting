@@ -86,7 +86,7 @@ Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订�
 //=====================================订单状态=======================================================================
 //
 Route::get('/Order/all_orderlist', 'OrderController@all_orderlist');//全部订单列表页
-
+Route::get('/Order/goods_orderitem', 'OrderController@goods_orderitem');//订单详情页
 Route::get('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::get('/Order/wait_pay', 'OrderController@wait_pay');//订单详情页
 

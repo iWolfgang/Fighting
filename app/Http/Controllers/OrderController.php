@@ -37,7 +37,7 @@ class OrderController extends Controller
         
         $order['total_amount'] = 0;//后端判断的总金额
         $order['creatorder_at'] = time();//下单时间
-        $order['expiration_at'] = time()+24*3600;//订单关闭倒计时
+        $order['expiration_at'] = time()+1800;//订单关闭倒计时
         $order['paid_status'] = "待支付";//订单状态
         $order['refund_status'] = "未退款";//退款状态
         $order['ship_status'] = "待支付";//物流状态
@@ -231,7 +231,36 @@ class OrderController extends Controller
           $this->_response($res);
        }
     }
-
+    /**
+     * 订单详情页 
+     * Author Amber
+     * Date 2019-01-28
+     * Params [params]
+     * @param  Request $request [description]
+     * @return [type]           [description]
+     */
+  public function goods_orderitem(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->goods_orderitem($user_id,$order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
 /**
  * 未支付订单列表
  * Author Amber
