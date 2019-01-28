@@ -292,7 +292,7 @@ class OrderModel extends Model{
     {
 
         $bool = DB::table('g_orders')
-          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.expiration_at','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
+          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.expiration_at','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price','g_orders.ship_status')
           ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
           ->where('g_orders.id',$order_id)
           ->where('g_orders.user_id',$user_id)
@@ -316,6 +316,7 @@ class OrderModel extends Model{
         }
           $goods_item['order_id'] = $value['order_id'];
           $goods_item['no'] = $value['no'];
+          $goods_item['ship_status'] = $value['ship_status'];
           $goods_item['address'] = $value['address'];
           $goods_item['total_amount'] = $value['total_amount'];
           $goods_item['creatorder_at'] = $value['creatorder_at'];
