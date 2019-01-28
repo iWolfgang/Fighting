@@ -107,6 +107,7 @@ class OrderModel extends Model{
     public function all_orderlist($user_id)
     {
       $bool = DB::table('g_orders')
+            // ->select('id','no','total_amount','remark','paid_status','creatorder_at','expiration_at')
             ->select('id','no','total_amount','remark','ship_status','creatorder_at','expiration_at')
             ->where('user_id',$user_id)
             ->get();
@@ -287,18 +288,20 @@ class OrderModel extends Model{
  * @param  [type] $paid_status [description]
  * @return [type]              [description]
  */
-    public function goods_orderitem($order_id,$paid_status)
+    public function goods_orderitem($user_id,$order_id)
     {
+
         $bool = DB::table('g_orders')
-          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
+          ->select('g_order_items.id','g_order_items.order_id','no','g_orders.total_amount','g_orders.address','g_orders.expiration_at','g_orders.creatorder_at','g_order_items.goods_id','g_order_items.amout','g_order_items.price')
           ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
           ->where('g_orders.id',$order_id)
-          ->where('g_orders.paid_status',$paid_status)
+          ->where('g_orders.user_id',$user_id)
           ->get();
         $objects = json_decode(json_encode($bool), true);
         if(empty($objects)){
           return False;
         }
+        // print_r($objects);
         $goods_item = array();
         foreach ($objects as $key => $value) {
           $bool = DB::table('g_productSkus')
@@ -306,9 +309,9 @@ class OrderModel extends Model{
             ->join('g_product','g_productSkus.product_id','=','g_product.id')
             ->where('g_productSkus.id',$value['goods_id'])
             ->first();
-          $goods_item[$key] = json_decode(json_encode($bool), true);
-          $goods_item[$key]['order_itemid'] = $value['id'];
-          $goods_item[$key]['amout'] = $value['amout'];
+          $goods_item['goods_item'][$key] = json_decode(json_encode($bool), true);
+          $goods_item['goods_item'][$key]['order_itemid'] = $value['id'];
+          $goods_item['goods_item'][$key]['amout'] = $value['amout'];
 
         }
           $goods_item['order_id'] = $value['order_id'];
@@ -316,6 +319,8 @@ class OrderModel extends Model{
           $goods_item['address'] = $value['address'];
           $goods_item['total_amount'] = $value['total_amount'];
           $goods_item['creatorder_at'] = $value['creatorder_at'];
+          $goods_item['expiration_at'] = $value['expiration_at'];
+          // print_r($goods_item);die;
         return $goods_item;
     }
 /*

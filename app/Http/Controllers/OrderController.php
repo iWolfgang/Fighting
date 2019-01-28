@@ -473,4 +473,27 @@ class OrderController extends Controller
        }
    }
 
+   public function goods_orderitem(Request $request)
+   {
+      $user_id = $request->input('user_id');
+      $order_id = $request->input('order_id');
+      $orderModel = new orderModel();
+      $ret = $orderModel->goods_orderitem($user_id,$order_id);
+      if($ret){
+         $res = array(
+                "errNo" => "success",
+                "data" => $ret,
+            );
+            $this->_response($res);
+      }else{
+          
+           $res = array(
+                "errNo" => "success",
+                "errMsg" => "您还没有相关的订单"
+            );
+            $this->_response($res);
+        
+       }
+   }
+
 }
