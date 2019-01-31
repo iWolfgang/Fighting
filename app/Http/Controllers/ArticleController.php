@@ -81,6 +81,7 @@ class ArticleController extends Controller
     public function search(Request $request){
 
         $keyword = $request->input("keyword");
+        $user_id = $request->input("user_id");
         if(empty($keyword)){
             
             $res = array(

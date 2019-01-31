@@ -22,7 +22,7 @@ Class PayPhoneController extends Controller
 		$aop->alipayrsaPublicKey = 'MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjHrWWgUm0nmDbxf/0zobPwRFWZaEpWPo1OqxAa5RhwgAfnvZn+AdFIUIXFEUjsV0PfoOrNSyFuM2zSusMtJWer1xX6rUDbhrRpnaxuibyCJUPWr4zZ4WChRGpgIYp3+7NJeRHkWM24cbkKvdPl4432kpmlh29A0armcKEke5PwzTaV+T+r2VduVGAIezHL0w0APdJFOgsqG+JnO+7rS08y86OOFTYZ2V3xJma5qg4E1UmtCmCQBqC9+MFKgrMzVeQqySw4I6WAFCfe7z5SoioeeFXCuFTekLC8XPmcTZH6wByWzF1nDBzlW2oEEUy5bGhj19d91LaCls5TOTEVJ7SwIDAQAB';
 		$requests = new \AlipayTradeAppPayRequest();
         $order_id = $request->input("order_id");//支付金额
-		$requests->setNotifyUrl("http://api.mithrilgaming.com:7777/PayPhone/notify?order_id=".$order_id);
+		$requests->setNotifyUrl("https://api.mithrilgaming.com/PayPhone/notify?order_id=".$order_id);
 		$subject = '实锤APP';// 订单标题
 		$body = '这是主题'; // 订单详情
         $res = $this->selectorder($order_id);
@@ -36,9 +36,7 @@ Class PayPhoneController extends Controller
                 . "\"total_amount\": \"".$total_amount."\","
                 . "\"product_code\":\"QUICK_MSECURITY_PAY\""
                 . "}";
-		//实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-		//$requests = new AlipayTradeAppPayRequest();
-		//$requests->setNotifyUrl($notify_url);
+		
 		$requests->setBizContent($bizcontent);
 		$response = $aop->sdkExecute($requests);
 		$res = array(
@@ -89,36 +87,14 @@ Class PayPhoneController extends Controller
    
       
 	}
-    // public function iiii(Request $request)
-    // {
-       //  $a = json_encode($data);
- 
-       // $str = trim($data,"{}");
-       // $string = explode(',',$str);
-
-       // $a = substr($string[21],15);
-       // $s = trim($a,'""');
-       // $aa = substr($string[23],12);
-       // $st = trim($aa,'"');
-       // $new = array();
-       // $new['out_trade_no'] = $s;
-       // $new['trade_no'] = $st;
-       //  $this->updateDB($new);
-    // }
    public function updateDB($data)
     {
-        // $a = json_encode($data);
-
-        $namafile = "updateDB.txt"; 
-        $fh = fopen($namafile,"w");      
-        fwrite($fh,"updateDB");
-        fclose($fh);
+   
         $out_trade_no = $data['out_trade_no'];
         $trade_no =  $data['trade_no'];  
 
         $paid_at = date('Y-m-d H:i:s'); 
-        // if (!session_id()) session_start();
-        // $order_id = session('order_id') ;
+       
         $ret = DB::table('g_orders')
             ->where('id', 30)
             ->update(['out_trade_no' => $out_trade_no,'payment_no' => $trade_no,'payment_method' => '支付宝','paid_at' => $paid_at,'paid_status' => '已支付','ship_status' => '待发货']);
@@ -171,6 +147,7 @@ Class PayPhoneController extends Controller
         $data['out_trade_no'] = $out_trade_no;
         $data['total_amount'] = $total_amount;
         $data['payment_method'] = $payment_method;
+        $data['order_id'] = $order_id;
           if(!empty($resultCode)&&$resultCode == 10000){
             $res = array(
                 "errNo" => "success",

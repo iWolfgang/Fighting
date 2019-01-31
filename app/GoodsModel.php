@@ -160,11 +160,7 @@ class GoodsModel extends Model{
  */
     public function cut_sku($item)
     {
-     // $item =  json_decode($arr,true);
-      // explode(',',$arr);
-// print_r($item);
-//       if(is_array($item)){
-        // echo 1;die;
+
         foreach ($item as $k => $v) {
           $sku =   DB::select('select stock from g_productSkus where id = '.$v['id'].'');
           $objects = json_decode(json_encode($sku), true);
@@ -188,7 +184,7 @@ class GoodsModel extends Model{
  * @param  string $value [description]
  * @return [type]        [description]
  */
-    public function plus_sku($value='')
+    public function plus_sku($item)
     {
        foreach ($item as $k => $v) {
           $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');

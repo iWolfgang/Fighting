@@ -63,6 +63,7 @@ class GameModel extends Model{
  */
     public function game_correlation($ids)
     { 
+        // print_r($ids);die;
         // echo $ids;die;
         $arr =array();
         foreach ($ids as $k => $v) {
@@ -72,7 +73,6 @@ class GameModel extends Model{
                 ->where( 'id',$v)
                 ->first();
         }
-    	// 
         $data = json_decode(json_encode($arr), true);
         // print_r($data);die;
 		return empty($data) ? false : $data;
