@@ -67,6 +67,7 @@ Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 新
 Route::get('/Game/discounts', 'GameController@discounts');//游戏列表 优惠 页展示
 Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 页展示
 Route::get('/Lpush/push', 'LpushController@push');//推送
+
 // ===========================================电商=========电商================================================================
 Route::get('/Goods/goods_full', 'GoodsController@goods_full');//商品页合成接口
 Route::get('/Goods/slideshow', 'GoodsController@slideshow');//商品页的轮播图
@@ -80,9 +81,11 @@ Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
+Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@adel_buycar');//添加购物车
 Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
+
 //=====================================订单状态=======================================================================
 //
 Route::get('/Order/all_orderlist', 'OrderController@all_orderlist');//全部订单列表页
@@ -112,11 +115,13 @@ Route::delete('/User/del_user_address', 'UserController@del_user_address');//添
 //===================================支付宝支付====================
 
 Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
-Route::get('/PayPhone/index', 'PayPhoneController@index')->middleware('notify');//APP支付宝支付
-Route::post('/PayPhone/notify', 'PayPhoneController@notify')->middleware('notify');//APP支付宝回调
+Route::get('/PayPhone/index', 'PayPhoneController@index');//APP支付宝支付->middleware('notify')
+Route::post('/PayPhone/notify', 'PayPhoneController@notify');//APP支付宝回调->middleware('notify')
 Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay');//APP支付宝查询订单
 Route::post('/PayPhone/iiii', 'PayPhoneController@iiii');//修改订单状态
-Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB')->middleware('notify');//修改订单状态
+Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态->middleware('notify')
+Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney')->middleware('notify');//支付宝退款
+Route::get('/PayPhone/apply_refund', 'PayPhoneController@apply_refund');//申请退款
 
 // ==================================微信支付======================================
 
