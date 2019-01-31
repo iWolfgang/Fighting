@@ -23,16 +23,13 @@ class OrderController extends Controller
  */
    public function creat_orders(Request $request)
    { 
-      // dump($request);die;
         $order = array();
         $items = array();
         $user_id = $order['user_id'] = $request->input("user_id");//用户id
-	      // $items = $request->input("items");//前端传过来的购买参数
         $items = json_decode( $request->input("items"),JSON_FORCE_OBJECT);//前端传过来的购买参数
         $order['address'] = $request->input("address");//收货地址
         $order['remark'] = $request->input("remark");//留言
         $orders['total_amount_one'] = $request->input("total_amount");//前端传过来的购买总金额
-        // $goods_postage = $request->input("goods_postage");//前端传过来的购买总金额
         //=============================以上是需要前端传过来的===============================
         
         $order['total_amount'] = 0;//后端判断的总金额
@@ -53,8 +50,7 @@ class OrderController extends Controller
         }
      /**
      * 判断前后端接收的价格是否一致
-     */
-    
+     */    
         $item = array();
         foreach ($items as $key => $value) {
             $item[$key]['price']  = $value['pricenow'];
@@ -64,7 +60,6 @@ class OrderController extends Controller
             $order['total_amount'] +=  $item[$key]['amout'] * $item[$key]['price']+$item[$key]['goods_postage'];
 
         }
-        // $order['total_amount'] = $goods_amount + $goods_postage;
         if($orders['total_amount_one'] != $order['total_amount']){
             $res = array(
                 "errNo" => "7002",
@@ -98,7 +93,6 @@ class OrderController extends Controller
      
         $order_id = $this->orderstore($order);
         $itemnew = array();
-        // $itemss =  json_decode($items,true);
         foreach ($items as $key => $value) {
             $itemnew[$key]['goods_id'] = $value['id'];
             $itemnew[$key]['price']  = $value['pricenow'];
@@ -109,7 +103,6 @@ class OrderController extends Controller
         $OrdersModel = new OrderModel();
         $res = $OrdersModel->store_items($itemnew);
         $arr = array('order_id'=>$order_id, 'total_amount'=>$order['total_amount']);
-        // dd($arr);die;
         if($res){
          $res = array(
                 "errNo" => "success",
@@ -181,7 +174,6 @@ class OrderController extends Controller
 
     public function all_orderlist(Request $request)
     {
-      // echo 1;die;
       $user_id = $request->input('user_id');
       $orderModel = new orderModel();
       // $data['wait_paylist'] = $orderModel->wait_paylist($user_id);
@@ -214,13 +206,14 @@ class OrderController extends Controller
    */
     public function cancel_order(Request $request)
     {
-      $order_id = $request->input('order_id');
-      $orderModel = new orderModel();
-      $ret = $orderModel->cancel_order($order_id);
+      $order_id = $request->input($items);
+      $GoodsModel = new GoodsModel();
+      $cut_sku = $GoodsModel->plus_sku($items);
+      // items里包括 order_items表中除了主键id的的其它所有字段
       if($ret){
          $res = array(
                 "errNo" => "success",
-                "data" => $ret,
+                "errMsg" => "取消订单成功"
             );
           $this->_response($res);
          }else{

@@ -45,6 +45,7 @@ class GoodsController extends Controller
     {
         $Tapmodel = new TapgetModel();
         $taps = $Tapmodel->TapAndGoods();//里边是标签的基本信息
+        // print_r($taps);die;
         $res = array(
             "errNo" => 0,
             'errMsg' => 'success',

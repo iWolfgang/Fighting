@@ -27,6 +27,7 @@ class tapgetModel extends Model{
               ->get();
           
         $goods_tagid = json_decode(json_encode($tap), true);
+        // dd($goods_tagid);die;
         $goods = DB::table('g_product')
                ->select('id','goods_name','price','goods_thumb','tapid')
                ->where('g_product.on_sale',1)
@@ -43,12 +44,16 @@ class tapgetModel extends Model{
             $goodsinfo[$key]['tapid'] =  json_decode($value['tapid']);
 
         }
-        // dd($goodsinfo);die;
+       // print_r($goods_tagid);
+       // print_r($goodsinfo);die;
         $arr = array();
         foreach ($goods_tagid as $key => $value) {
           foreach ($goodsinfo as $k => $v) {
+           
             foreach ($v['tapid'] as $ke => $va) {
-                if($value['id'] == $va){
+              // echo $va ;die;
+                if( $value['id'] ==$va){
+                  // echo "开始".$arr[$key]['tap_id']."======".$value['id']."<br>";[$key]
                   $arr[$key]['tap_name'] = $value['tap_name'];
                   $arr[$key]['tap_img'] = $value['tap_img'];
                   $arr[$key]['tap_id'] =  $value['id'];
@@ -58,67 +63,49 @@ class tapgetModel extends Model{
                   $arr[$k]['goods_id'] = $v['id'];
                   $arr[$k]['goods_thumb'] = $v['goods_thumb'];
                   $arr[$k]['price'] = $v['price'];
+                    // dd($arr);die;
                 }
             }
           }         
         }
-        // dd($arr);die;
-              
+              // print_r($arr);
         $liu = array();
         foreach ($arr as $key => $value) {
           if(!empty($value['tap_name'])){
              $liu[] = $value;
           }
         }
+        // print_r($liu);
         $wei = array();
         foreach ($arr as $key => $value) {
           if(!isset($value['tap_name'])){
              $wei[] = $value;
           }
         }
-        // dd($wei);die;
+        // print_r($wei);
 
-        $ran = array();
-        foreach ($liu as $key => $value) {
-          $ran[$key]['tap_name'] = $value['tap_name'];
-          $ran[$key]['tap_img'] = $value['tap_img'];
-          $ran[$key]['tap_id'] = $value['tap_id'];     
-          $ran[$key]['tap_desc'] = $value['tap_desc'];     
-          $ran[$key]['tap_logo'] = $value['tap_logo'];     
-        }
-       foreach ($ran as $key => $value) {
-          foreach ($wei as $k => $v) {
-            if($value['tap_id'] == $v['tap_id']){
-                $ran[$key]['goods_info'][] = $v;
+        // $ran = array();
+        // foreach ($liu as $key => $value) {
+        //   $ran[$key]['tap_name'] = $value['tap_name'];
+        //   $ran[$key]['tap_img'] = $value['tap_img'];
+        //   $ran[$key]['tap_id'] = $value['tap_id'];     
+        //   $ran[$key]['tap_desc'] = $value['tap_desc'];     
+        //   $ran[$key]['tap_logo'] = $value['tap_logo'];     
+        // }
+       foreach ($liu as $key => $value) {
+          foreach ($goodsinfo as $k => $v) {
+            // dd($v['tapid']);die;
+            foreach ($v as $ke => $va) {
+              // echo $va['tap_id'];die;
+              if($value['tap_id'] == $va[0]){
+                $liu[$key]['goods_info'][] = $v;
             }
+            }
+            
           }
         }
-        
-// print_r($ran);
-
-
-        // $ra = array();
-        
-        // foreach ($arr as $k => $v) {
-        //   echo $v['goods_id'];
-        //  // $ra[$k]['goods_id'] = $v['goods_id'];
-        //  // // dd($v);die;
-      
-        //  // $ra[$k]['goods_thumb'] = $v['goods_thumb'];
-        //  // $ra[$k]['price'] = $v['price'];     
-        //  // $ra[$k]['tap_id'] = $v['tap_id'];     
-        //  //    // print_r($ra[$key]['tap_id']);
-        //  // print_r($v['tap_id']);die;
-         
-        // }
-        // // print_r($ra);
-        // die;
-        
-
-   
-
-     // dd($ran);die;
-        return $ran;
+        // print_r($liu);die;
+        return $liu;
       
   }
 

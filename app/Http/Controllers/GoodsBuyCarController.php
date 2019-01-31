@@ -81,6 +81,7 @@ class GoodsBuyCarController extends Controller
 
         $res = $GoodsBuyCarModel->add_buycar($user_id,$goods_id,$buy_num);
 
+
         if($res == FALSE){
             $res = array(
                 "errNo" => "0003",
@@ -154,5 +155,28 @@ class GoodsBuyCarController extends Controller
 
         $this->_response($res);
 
+    }
+
+    public function del_buycar(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $productSku_id = $request->input('id');
+
+        $GoodsModel = new GoodsBuyCarModel();
+
+        $res = $GoodsModel->del_buycar($user_id,$productSku_id);
+        if($res == FALSE){
+            $res = array(
+                "errNo" => "8004",
+                "errMsg" => "删除失败"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "删除成功"
+        );
+
+        $this->_response($res);
     }
 }

@@ -244,7 +244,6 @@ class HomePageController extends Controller
  */
     public function video_info(Request $request)
     {
-     //  $user_id = $request->input("user_id");$user_id,
         $article_id = $request->input("article_id");
         if($article_id <= 0){
             $res = array(
@@ -274,9 +273,7 @@ class HomePageController extends Controller
             "video_like" => $video_like,
             "formArticleComment" => $formArticleComment
         );
-
-        // $this->_response($data);
-
+    
          $res = array(
             "errNo" => 0,
             'errMsg' => 'success',

@@ -22,10 +22,39 @@ class GoodsBuyCarModel extends Model{
     */
     public function add_buycar($user_id,$goods_id,$buy_num)
     {
+        $isset = $this->check($user_id,$goods_id);
+
+       
+            if($isset['buy_num'] > 0){
+                    $num = $isset['buy_num'];
+                     $bool = DB::table('g_buycar')
+                    ->where('user_id',$user_id)
+                    ->where('productSku_id',$goods_id)
+                    ->update(
+                      ['buy_num'=>  $buy_num]
+                    );
+               return $bool;
+            }else{
+                // $num = 0;
+                 $bool = DB::table('g_buycar')
+                    ->insert(['user_id'=>$user_id,'productSku_id'=>$goods_id,'buy_num'=>$buy_num]);
+                  return $bool;    
+            }
+          
+           
+     
+
+    }
+    public function cut_buycar($user_id,$goods_id,$buy_num)
+    {
     	$isset = $this->check($user_id,$goods_id);
+
     	if($isset){
-    		$bool = DB::table('g_buycar')->insert(
- 				['user_id'=>$user_id,'productSku_id'=>$goods_id,'buy_num'=>$buy_num]
+    		$bool = DB::table('g_buycar')
+                ->where('user_id',$user_id)
+                ->where('productSku_id',$goods_id)
+                    ->update(
+ 				['buy_num'=> $isset['buy_num'] - $buy_num]
  			);
     	    return $bool;
     	}else{
@@ -33,8 +62,9 @@ class GoodsBuyCarModel extends Model{
     	}
 
     }
+
 /**
- * 查看购物车此商品是否存在  如果存在 就删除
+ * 查看购物车此商品是否存在  如果存在 就累计！！！
  * Author Amber
  * Date 2018-07-24
  * Params [params]
@@ -46,20 +76,21 @@ class GoodsBuyCarModel extends Model{
     public function check($user_id,$goods_id)
     {
     	$isset = DB::table($this->_tabName)
-    	   	->select('id')
+    	   	->select('buy_num')
             ->where("productSku_id", $goods_id)
             ->where("user_id", $user_id)
             ->first();
         $iss =  $isset ? get_object_vars($isset) : False;
-        $ids = $iss['id'];
-        if($ids > 0){
-        $num = DB::table($this->_tabName)->where('id', '=', $ids)->delete();
+        return $iss;
+      //   $ids = $iss['id'];
+      //   if($ids > 0){
+      //   $num = DB::table($this->_tabName)->where('id', '=', $ids)->delete();
 
-        	return $num ? true : False;
-	     }else{
+      //   	return $num ? true : False;
+	     // }else{
 	     	
-	     	return true;
-	     }
+	     // 	return true;
+	     // }
     }
 /**
  * 展示购物车
@@ -75,7 +106,7 @@ class GoodsBuyCarModel extends Model{
         $objects = DB::table('g_productSkus')
                 ->join('g_buycar','g_productSkus.id','=','g_buycar.productSku_id')
                 ->join('g_product','g_productSkus.product_id','=','g_product.id')
-                ->select('g_product.goods_name','g_product.goods_postage','g_productSkus.sku_thumb','g_productSkus.title','g_productSkus.pricenow','g_buycar.buy_num','g_productSkus.stock','g_buycar.user_id','g_buycar.id')
+                ->select('g_buycar.productSku_id as id','g_product.goods_name','g_product.goods_postage','g_productSkus.sku_thumb','g_productSkus.title','g_productSkus.pricenow','g_buycar.buy_num','g_productSkus.stock','g_buycar.user_id')
                 ->where('g_buycar.user_id',$user_id)
                 ->get();
          $objects = json_decode(json_encode($objects), true);
@@ -97,6 +128,18 @@ class GoodsBuyCarModel extends Model{
         $objectss = implode($objects,',');
         $del_goods =  DB::delete('delete from g_buycar where user_id = '.$user_id.' and goods_id in ('.$objectss.')');
         return $del_goods;
+    }
+
+    public function del_buycar($user_id,$productSku_id)
+    {
+      
+        // $objectss = implode($productSku_id,',');
+        $res =  DB::table('g_buycar')
+                        ->where('user_id',$user_id)
+                        ->where('productSku_id',$productSku_id)
+                        ->delete();
+             // echo $res;die;             
+        return $res;
     }
 
  }

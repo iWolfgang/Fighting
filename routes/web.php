@@ -83,6 +83,8 @@ Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buyc
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
 Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@adel_buycar');//添加购物车
 Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
+
+Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//删除购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 
@@ -118,16 +120,17 @@ Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
 Route::get('/PayPhone/index', 'PayPhoneController@index');//APP支付宝支付->middleware('notify')
 Route::post('/PayPhone/notify', 'PayPhoneController@notify');//APP支付宝回调->middleware('notify')
 Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay');//APP支付宝查询订单
-Route::post('/PayPhone/iiii', 'PayPhoneController@iiii');//修改订单状态
-Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态->middleware('notify')
-Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney')->middleware('notify');//支付宝退款
+Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
+Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney');//支付宝退款
 Route::get('/PayPhone/apply_refund', 'PayPhoneController@apply_refund');//申请退款
+Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
 
 // ==================================微信支付======================================
 
 Route::get('/WePay/index', 'WePayController@index');//微信支付
 Route::get('/WePay/rollback', 'WePayController@rollback');//微信回调
-Route::get('/WePay/getkeys', 'WePayController@getkeys');//==================================中台======================================
+Route::get('/WePay/getkeys', 'WePayController@getkeys');
+//==================================中台======================================
 Route::post('/Rbac/login', 'RbacController@login');//管理登陆模块
 Route::get('/Rbac/main', 'RbacController@main');//管理主模块
 Route::get('/Rbac/regist', 'RbacController@regist');//管理注册模块

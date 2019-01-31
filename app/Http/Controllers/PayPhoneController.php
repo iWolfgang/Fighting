@@ -36,9 +36,7 @@ Class PayPhoneController extends Controller
                 . "\"total_amount\": \"".$total_amount."\","
                 . "\"product_code\":\"QUICK_MSECURITY_PAY\""
                 . "}";
-		//实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.trade.app.pay
-		//$requests = new AlipayTradeAppPayRequest();
-		//$requests->setNotifyUrl($notify_url);
+		
 		$requests->setBizContent($bizcontent);
 		$response = $aop->sdkExecute($requests);
 		$res = array(
@@ -91,22 +89,6 @@ Class PayPhoneController extends Controller
    
       
 	}
-    // public function iiii(Request $request)
-    // {
-       //  $a = json_encode($data);
- 
-       // $str = trim($data,"{}");
-       // $string = explode(',',$str);
-
-       // $a = substr($string[21],15);
-       // $s = trim($a,'""');
-       // $aa = substr($string[23],12);
-       // $st = trim($aa,'"');
-       // $new = array();
-       // $new['out_trade_no'] = $s;
-       // $new['trade_no'] = $st;
-       //  $this->updateDB($new);
-    // }
    public function updateDB($data)
     {
         $out_trade_no = $data['out_trade_no'];
@@ -165,6 +147,7 @@ Class PayPhoneController extends Controller
         $data['out_trade_no'] = $out_trade_no;
         $data['total_amount'] = $total_amount;
         $data['payment_method'] = $payment_method;
+        $data['order_id'] = $order_id;
           if(!empty($resultCode)&&$resultCode == 10000){
             $res = array(
                 "errNo" => "success",
