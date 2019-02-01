@@ -99,7 +99,7 @@ class GoodsBuyCarController extends Controller
 
 	}
 
-        public function homepagetwo_list(Request $request)
+    public function homepagetwo_list(Request $request)
     {
         
         $cat_id = $request->input("cat_id");
@@ -125,7 +125,7 @@ class GoodsBuyCarController extends Controller
     }
 
 /**
- * 购物车展示·
+ * 购物车展示
  * Author Amber
  * Date 2018-07-24
  * Params [params]
@@ -139,7 +139,6 @@ class GoodsBuyCarController extends Controller
         $GoodsModel = new GoodsBuyCarModel();
 
         $res = $GoodsModel->show_buycar($user_id);
-// print_r($res);die;
         if($res == FALSE){
             $res = array(
                 "errNo" => "0",
@@ -156,14 +155,19 @@ class GoodsBuyCarController extends Controller
         $this->_response($res);
 
     }
-
+/**
+ * 删除购物车 
+ * Author Amber
+ * Date 2019-02-01
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
     public function del_buycar(Request $request)
     {
         $user_id = $request->input('user_id');
-        $productSku_id = $request->input('id');
-
+        $productSku_id = $request->input('productSku_id');
         $GoodsModel = new GoodsBuyCarModel();
-
         $res = $GoodsModel->del_buycar($user_id,$productSku_id);
         if($res == FALSE){
             $res = array(
@@ -176,7 +180,6 @@ class GoodsBuyCarController extends Controller
             "errNo" => 0,
             "errMsg" => "删除成功"
         );
-
         $this->_response($res);
     }
 }

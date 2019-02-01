@@ -111,10 +111,9 @@ class GoodsBuyCarModel extends Model{
                 ->get();
          $objects = json_decode(json_encode($objects), true);
          return $objects;
-         // print_r($objects);die;
     }
 /**
- * 删除购物车已经下单的商品 
+ * 已经下单的商品 ---> 删除购物车
  * Author Amber
  * Date 2018-07-31
  * Params [params]
@@ -129,16 +128,23 @@ class GoodsBuyCarModel extends Model{
         $del_goods =  DB::delete('delete from g_buycar where user_id = '.$user_id.' and goods_id in ('.$objectss.')');
         return $del_goods;
     }
-
+/**
+ *  删除购物车 
+ * Author Amber
+ * Date 2019-02-01
+ * Params [params]
+ * @param  [type] $user_id       [description]
+ * @param  [type] $productSku_id [description]
+ */
     public function del_buycar($user_id,$productSku_id)
     {
-      
-        // $objectss = implode($productSku_id,',');
-        $res =  DB::table('g_buycar')
-                        ->where('user_id',$user_id)
-                        ->where('productSku_id',$productSku_id)
-                        ->delete();
-             // echo $res;die;             
+        $ids = explode(',',$productSku_id);
+        foreach ($ids as $key => $value) {
+            $res =  DB::table('g_buycar')
+                ->where('user_id',$user_id)
+                ->where('productSku_id',$value)
+                ->delete();
+        }         
         return $res;
     }
 

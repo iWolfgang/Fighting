@@ -24,7 +24,7 @@ Class PayPhoneController extends Controller
     }
 	public function index(Request $request)
 	{
-		$this->alicof();
+		$aop = $this->alicof();
 		$requests = new \AlipayTradeAppPayRequest();
         $order_id = $request->input("order_id");//支付金额
 		$requests->setNotifyUrl("https://api.mithrilgaming.com/PayPhone/notify?order_id=".$order_id);
@@ -87,15 +87,12 @@ Class PayPhoneController extends Controller
             "errNo" => 0,
             "errMsg" => "支付成功"
         );
-        // $this->_response($res);
-   
-      
+        // $this->_response($res);         
 	}
    public function updateDB($data)
-    {
+   {
         $out_trade_no = $data['out_trade_no'];
         $trade_no =  $data['trade_no'];  
-
         $paid_at = date('Y-m-d H:i:s'); 
         $ret = DB::table('g_orders')
             ->where('id', 30)
@@ -122,7 +119,7 @@ Class PayPhoneController extends Controller
  */
     public function SelectPay(Request $reques)
     {
-        $this->alicof();
+        $aop = $this->alicof();
         $request = new \AlipayTradeQueryRequest ();
         $order_id = $reques->input('order_id');
         // $order_id =27;
@@ -142,7 +139,7 @@ Class PayPhoneController extends Controller
         $data['total_amount'] = $total_amount;
         $data['payment_method'] = $payment_method;
         $data['order_id'] = $order_id;
-          if(!empty($resultCode)&&$resultCode == 10000){
+        if(!empty($resultCode)&&$resultCode == 10000){
             $res = array(
                 "errNo" => "success",
                 "errMsg" => "成功", 
@@ -160,9 +157,9 @@ Class PayPhoneController extends Controller
         public function returnmoney(REQUEST $requests)
     {
         
-        $this->alicof();
+        $aop = $this->alicof();
         $order_id = $requests->input('order_id');
-         $data = $this->selectorder($order_id);
+        $data = $this->selectorder($order_id);
         $out_trade_no = $data['out_trade_no'];
         $trade_no =  $data['payment_no']; 
         $total_amount =  $data['total_amount']; 
@@ -174,7 +171,6 @@ Class PayPhoneController extends Controller
         "  }");
         $result = $aop->execute ($request); 
         $results = json_decode(json_encode($result), true);
-        // print_r($results);die;
         $res = $this->upreturn($results,$order_id);
         if($res == FALSE){
             return "退款失败";
@@ -185,7 +181,7 @@ Class PayPhoneController extends Controller
         if(!empty($resultCode)&&$resultCode == 10000){
             echo "成功";
         } else {
-        echo "失败";
+            echo "失败";
         }
     }
 
@@ -203,8 +199,8 @@ Class PayPhoneController extends Controller
             ->where('order_id',$order_id)
             ->update($data);
         $res = DB::table('g_orders')
-          ->where('id',$order_id)
-          ->update(['refund_status'=>"退款成功",'ship_status'=>"已退款",'refund_no'=>$refund_no]);
+            ->where('id',$order_id)
+            ->update(['refund_status'=>"退款成功",'ship_status'=>"已退款",'refund_no'=>$refund_no]);
         return $ret ? true :FALSE;
     }
 /**
@@ -226,7 +222,7 @@ Class PayPhoneController extends Controller
         $PayModel = new PayModel();
         $res = $PayModel->apply_refund($data);
         if($res){
-               $res = array(
+            $res = array(
                 "errNo" => "success",
                 "errMsg" => "提交成功"
             );

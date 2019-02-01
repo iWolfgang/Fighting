@@ -11,24 +11,19 @@ class GameModel extends Model{
 
     public $_tabName = 't_game_main';
 
-    //$user_id,$user_id,
     public function game_info($game_id)
     {
-        // echo $game_id;die;
-        // $game_info = $this->game_info_msg($game_id);
-        // $likeid = $game_info['likeid'];
-        // $ids = explode(',',$likeid);
-        // $game_correlation = $this->game_correlation($ids);
+        
+        $game_info = $this->game_info_msg($game_id);
+        $likeid = $game_info['likeid'];
+        $ids = explode(',',$likeid);
+        $game_correlation = $this->game_correlation($ids);
         $longa_correlation = $this->longa_correlation($game_id);
         $shorta_correlation = $this->shorta_correlation($game_id);//相关的短资讯
         $appraisala_correlation = $this->appraisala_correlation($game_id);//相关的测评
         $video_correlation = $this->video_correlation($game_id);//相关的视频
-
-
-//liuran        
         $data = array(
-            // "game_info" => $game_info,
-            // "game_correlation" => $game_correlation,
+            "game_correlation" => $game_correlation,
             "longa_correlation" => $longa_correlation,
             "shorta_correlation" => $shorta_correlation,
             "appraisala_correlation" => $appraisala_correlation,
@@ -44,12 +39,13 @@ class GameModel extends Model{
  * @param  [type] $user_id [description]
  * @param  [type] $game_id [description]$user_id,
  */
-   public function game_info_msg($game_id)
+    public function game_info_msg($game_id)
     {
-        // echo $game_id;die;
-        $users = DB::table('t_game_main')->select('id','g_cover','imageurl','g_name','g_price','g_content','likeid')->where('id',$game_id)->first();
-
-         return $users ? get_object_vars($users) : False;
+        $users = DB::table('g_product')
+        ->select('id','goods_thumb','goods_name','goods_desc','likeid')  
+        ->where('id',$game_id)
+        ->first();
+        return $users ? get_object_vars($users) : False;
     }
 
 
@@ -58,23 +54,22 @@ class GameModel extends Model{
  * Author Amber
  * Date 2018-06-19
  * Params [params]
- * @param  [type] $game_name [description]' . $game_name.'
+ * @param  [type] $game_name [description]
  * @param  [type] $game_type [description]
  */
     public function game_correlation($ids)
     { 
-        // print_r($ids);die;
-        // echo $ids;die;
+
         $arr =array();
         foreach ($ids as $k => $v) {
-            $arr[] = DB::table($this->_tabName) 
-                ->select('id','g_thumb','g_name','g_content')
-                // ->where('id','!=',1)
+
+            $arr[] = DB::table('g_product') 
+                ->select('id','goods_thumb as g_thumb','goods_name as g_name','goods_desc as g_content')
                 ->where( 'id',$v)
                 ->first();
+                   
         }
         $data = json_decode(json_encode($arr), true);
-        // print_r($data);die;
 		return empty($data) ? false : $data;
     }
 /**
@@ -86,13 +81,11 @@ class GameModel extends Model{
  */
     public function longa_correlation($game_id)
     {
-        // echo $game_id;
         $objects = DB::table('t_article')  
                 ->select('id','article_thumb','article_title','article_type','created_at')
                 ->where('its_type',1)
                 ->where('fk_game_id', 'like', '%'.$game_id.'%')
                 ->get();
-                // print_r($objects);die;
         return empty($objects) ? false : $objects;
     }
 
@@ -105,7 +98,6 @@ class GameModel extends Model{
  */
     public function appraisala_correlation($game_id)
     {
-        // echo $game_id;
         $objects = DB::table('t_article')  
                 ->select('id','article_thumb','article_title','article_type','created_at')
                 ->where('its_type',2)
@@ -124,7 +116,6 @@ class GameModel extends Model{
  */
     public function video_correlation($game_id)
     {
-        // echo $game_id;die;
          $objects = DB::table('t_video')  
             ->select('id','source_img','source','video_text','video_url','created_at')
             ->where('fk_game_id', 'like', '%'.$game_id.'%')
@@ -140,10 +131,7 @@ class GameModel extends Model{
  */
     public function videotap_correlation($ids)
     {
-        // var_dump($ids);die;
-        $a = explode( ',',$ids);
-        
-        // print_r($a);                           
+        $a = explode( ',',$ids);                       
         $arr =array();$result =array();
         foreach ($a as $k => $v) {
             $arr[] = DB::table('t_video')  
@@ -153,16 +141,13 @@ class GameModel extends Model{
             ->get();
         }
        $data = json_decode(json_encode($arr), true);
-     // print_r($arr);
        foreach($data as $value){  
             foreach($value as $v){  
                 $result[]=$v;
             }  
         }
        $res = array_unique($result, SORT_REGULAR);
-       // print_r($res);
        $re=array_splice($res,1);
-       // print_r($re);die;
        return empty($re) ? false : $re;
     }
 
@@ -181,19 +166,16 @@ class GameModel extends Model{
         ->where('fk_game_id', 'like', '%'.$game_id.'%')
         ->get();
        $data = json_decode(json_encode($objects), true);
-      
-        $imgArr = array();
-        foreach ($data as $key => $value) {
-          $imgArr[$value['id']][] = $value['imageurl'];
-          
-        }
-        $res = array();
-        foreach ($data as $key => $value) {
+       $res = array();
+       $imgArr = array();
+       foreach ($data as $key => $value) {
+          $imgArr[$value['id']][] = $value['imageurl'];         
+       }
+       foreach ($data as $key => $value) {
           $res[$value['id']] = $value;
-
           $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
         }
-         return empty($res) ? false : $res;
+        return empty($res) ? false : $res;
     }
 
 
@@ -227,13 +209,7 @@ class GameModel extends Model{
         ->where('game_goods',0)
         ->where('is_sift',1)
         ->get();
-        // $rate = DB::table('g_product') 
-        // ->select('id','g_slideshow')
-        // ->where('is_sift',1)
-        // ->get();
-
         $data = json_decode(json_encode($rate), true);
-        // dd($data);die;
         return empty($data) ? false : $data;
     }
 //上新品
@@ -246,14 +222,12 @@ class GameModel extends Model{
         ->orderBy('created_at', 'desc')
         ->get();
         $data = json_decode(json_encode($rate), true);
-         // print_r($data);die;*-
         return empty($data) ? false : $data;
     }
 
 //优惠
     public function discounts()
     {
-        // echo 1;die;
        $rate = DB::table('g_product') 
         ->select('id','goods_horizontal')
         ->where('game_coupon',1)

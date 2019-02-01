@@ -42,7 +42,6 @@ Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment')
 Route::get('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//一级评论列表
 Route::get('/ArticleComment/ArticleComment_twoList', 'ArticleCommnetController@ArticleCommnet_twoList');//二级评论列表
 Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//二级评论列表
-// ======
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');//删除文章
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
@@ -75,7 +74,6 @@ Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
 Route::get('/Goods/all_goodslist', 'GoodsController@all_goodslist');//电商列表----全部列表
 Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//专栏商品列表
 Route::get('/Goods/subject_goodsitem', 'GoodsController@subject_goodsitem');//惟一专栏商品列表
-
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
@@ -83,39 +81,29 @@ Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buyc
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
 Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@adel_buycar');//添加购物车
 Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
-
 Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//删除购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
 
 //=====================================订单状态=======================================================================
-//
 Route::get('/Order/all_orderlist', 'OrderController@all_orderlist');//全部订单列表页
-
 Route::get('/Order/goods_orderitem', 'OrderController@goods_orderitem');//订单详情页
 Route::get('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::get('/Order/wait_pay', 'OrderController@wait_pay');//订单详情页
-
 Route::get('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
 Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
-
 Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
 Route::get('/Order/ReceiptList', 'OrderController@ReceiptList');//待收货列表页
 Route::get('/Order/Receiptitem', 'OrderController@Receiptitem');//待收货详情页
-
 Route::get('/Order/Confirm_Order', 'OrderController@Confirm_Order');//待收货详情页
-
 Route::get('/Order/Overlist', 'OrderController@Overlist');//已完成列表页
 Route::get('/Order/Overitem', 'OrderController@Overitem');//已完成详情页
 Route::get('/Order/cancel_order', 'OrderController@cancel_order');//取消订单
-
 //==================================================收货地址============================================================
 Route::get('/User/select_user_address', 'UserController@select_user_address');//收货地址列表
 Route::post('/User/add_user_address', 'UserController@add_user_address')->middleware('notify');//添加收货地址
 Route::delete('/User/del_user_address', 'UserController@del_user_address');//添加收货地址
-
 //===================================支付宝支付====================
-
 Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
 Route::get('/PayPhone/index', 'PayPhoneController@index');//APP支付宝支付->middleware('notify')
 Route::post('/PayPhone/notify', 'PayPhoneController@notify');//APP支付宝回调->middleware('notify')
