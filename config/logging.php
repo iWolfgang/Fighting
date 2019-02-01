@@ -31,8 +31,17 @@ return [
 
     'channels' => [
         'stack' => [
-            'driver' => 'stack',
-            'channels' => ['single'],
+           'driver' => 'stack',
+           'channels' => ['single','daily', 'sentry'],
+           'name' => 'ran-channel'
+       ],
+
+  // 其他自带配置项
+        'sentry' => [
+           'driver' => 'sentry',
+           'level'  => \Monolog\Logger::NOTICE, // The minimum monolog logging level at which this handler will be triggered
+            // For example: `\Monolog\Logger::ERROR`
+           'bubble' => true, // Whether the messages that are handled can bubble up the stack or not
         ],
 
         'single' => [

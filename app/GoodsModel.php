@@ -45,7 +45,7 @@ class GoodsModel extends Model{
         $goodslist = DB::table($this->_tabName)
             ->select('id','goods_name','goods_thumb','price')
             ->where("goods_cat", $classify_id)
-            ->where("game_goods", 0)
+            ->where("game_goods", 1)
             ->get();
         $data = json_decode(json_encode($goodslist), true);
         return $data ? $data : False;        
