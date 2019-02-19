@@ -44,7 +44,13 @@ class GoodsBuyCarController extends Controller
         
         $user_id = $request->input("user_id");
         $goods_id = $request->input("goods_id");
-		$buy_num = $request->input("buy_num");
+        $buy_num = $request->input("buy_num");
+		$buycar_type = $request->input("buyCar_type");
+        $type = intval($buycar_type);
+        if($type == 1){
+            $type == 0;
+        }
+        // gettype($buycar_type);
         if (empty($user_id) || is_numeric($user_id) == FALSE) {
             $res = array(
                 "errNo" => "0002",
@@ -66,6 +72,13 @@ class GoodsBuyCarController extends Controller
             );
             $this->_response($res);
         }
+        if ($type > 1) {
+            $res = array(
+                "errNo" => "0002",
+                "errMsg" => "购物车类型只能是0或1"
+            );
+            $this->_response($res);
+        }
         $GoodsModel = new GoodsModel();
 
         $ret = $GoodsModel->check_sku($goods_id,$buy_num);
@@ -79,23 +92,23 @@ class GoodsBuyCarController extends Controller
 
         $GoodsBuyCarModel = new GoodsBuyCarModel();
 
-        $res = $GoodsBuyCarModel->add_buycar($user_id,$goods_id,$buy_num);
+        $res = $GoodsBuyCarModel->add_buycar($user_id,$goods_id,$buy_num,$type);
 
 
         if($res == FALSE){
-            $res = array(
+            $ret = array(
                 "errNo" => "0003",
                 "errMsg" => "系统错误"
             );
-            $this->_response($res);
+            $this->_response($ret);
         }
-        $res = array(
+        $ret = array(
             "errNo" => 0,
             "errMsg" => "success",
             "data" => "添加购物车成功"
         );
 
-        $this->_response($res);
+        $this->_response($ret);
 
 	}
 
@@ -135,10 +148,11 @@ class GoodsBuyCarController extends Controller
     public function show_buycar(Request $request)
     {
         $user_id = $request->input('user_id');
+        $buyCar_type = $request->input('buyCar_type');
 
         $GoodsModel = new GoodsBuyCarModel();
 
-        $res = $GoodsModel->show_buycar($user_id);
+        $res = $GoodsModel->show_buycar($user_id,$buyCar_type);
         if($res == FALSE){
             $res = array(
                 "errNo" => "0",

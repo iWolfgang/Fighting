@@ -206,9 +206,12 @@ class OrderController extends Controller
    */
     public function cancel_order(Request $request)
     {
-      $order_id = $request->input($items);
+      // dd($request);die;
+      // $request->input('order_id');
+      $order_id = $request->input("order_id");//收货地址
+      // echo $order_id;die;
       $GoodsModel = new GoodsModel();
-      $cut_sku = $GoodsModel->plus_sku($items);
+      $ret = $GoodsModel->plus_sku($order_id);
       // items里包括 order_items表中除了主键id的的其它所有字段
       if($ret){
          $res = array(
@@ -254,6 +257,30 @@ class OrderController extends Controller
         
        }
    }
+
+   //   public function goods_orderitem(Request $request)
+   // {
+   //  // echo 1;die;
+   //    $user_id = $request->input('user_id');
+   //    $order_id = $request->input('order_id');
+   //    $orderModel = new orderModel();
+   //    $ret = $orderModel->goods_orderitem($user_id,$order_id);
+   //    if($ret){
+   //       $res = array(
+   //              "errNo" => "success",
+   //              "data" => $ret,
+   //          );
+   //          $this->_response($res);
+   //    }else{
+          
+   //         $res = array(
+   //              "errNo" => "success",
+   //              "errMsg" => "您还没有相关的订单"
+   //          );
+   //          $this->_response($res);
+        
+   //     }
+   // }
 /**
  * 未支付订单列表
  * Author Amber
@@ -495,27 +522,6 @@ class OrderController extends Controller
        }
    }
 
-   public function goods_orderitem(Request $request)
-   {
-      $user_id = $request->input('user_id');
-      $order_id = $request->input('order_id');
-      $orderModel = new orderModel();
-      $ret = $orderModel->goods_orderitem($user_id,$order_id);
-      if($ret){
-         $res = array(
-                "errNo" => "success",
-                "data" => $ret,
-            );
-            $this->_response($res);
-      }else{
-          
-           $res = array(
-                "errNo" => "success",
-                "errMsg" => "您还没有相关的订单"
-            );
-            $this->_response($res);
-        
-       }
-   }
+
 
 }

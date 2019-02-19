@@ -5,7 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use Monolog\Logger;
 use Yansongda\Pay\Pay;
-
+use DB;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -15,7 +15,17 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        DB::listen(function ($query) {//监控sql语句的log文件
+            $sql = $query->sql;
+            $bindings = $query->bindings;
+            $time = $query->time;
+             //写入sql
+         if ($bindings) {
+            file_put_contents('.sqls', "[" . date("Y-m-d H:i:s") . "]" . $sql . "\r\nparmars:" . json_encode($bindings, 320) . "\r\n\r\n", FILE_APPEND);
+          } else {
+            file_put_contents('.sqls', "[" . date("Y-m-d H:i:s") . "]" . $sql . "\r\n\r\n", FILE_APPEND);
+            }
+         });
     }
 
     /**
@@ -25,29 +35,6 @@ class AppServiceProvider extends ServiceProvider
      */
    public function register()
     {
-        // 往服务容器中注入一个名为 alipay 的单例对象
-        $this->app->singleton('alipay', function () {
-            $config = config('pay.alipay');
-            // 判断当前项目运行环境是否为线上环境
-            if (app()->environment() !== 'production') {
-                $config['mode']         = 'dev';
-                $config['log']['level'] = Logger::DEBUG;
-            } else {
-                $config['log']['level'] = Logger::WARNING;
-            }
-            // 调用 Yansongda\Pay 来创建一个支付宝支付对象
-            return Pay::alipay($config);
-        });
-
-        $this->app->singleton('wechat_pay', function () {
-            $config = config('pay.wechat');
-            if (app()->environment() !== 'production') {
-                $config['log']['level'] = Logger::DEBUG;
-            } else {
-                $config['log']['level'] = Logger::WARNING;
-            }
-            // 调用 Yansongda\Pay 来创建一个微信支付对象
-            return Pay::wechat($config);
-        });
+       
     }
 }

@@ -20,7 +20,7 @@ class notify
           $ret = DB::table('test')
             ->insert([
             'respsone' => json_encode($request->all()),
-            'time' => time(),
+            'time' => date("Y-m-d H:i:s"),
             'url' => $request->path(),
         ]);
          return $next($request);      

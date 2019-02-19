@@ -14,7 +14,13 @@ class PayModel extends Model
 
 	public function apply_refund($data)
 	{
-	  if(!empty($data['refund_imgs'])){
+     $res = DB::table('g_orders')
+            ->where('id',$data['order_id'])
+            ->update(['refund_status'=>"退款待处理",'ship_status'=>"发起退款"]);
+            if($res == False){
+              return False;
+            }
+	  // if(!empty($data['refund_imgs'])){
             // echo 1;die;
            // $file = $head_img;
            //      if($file -> isValid()){//检验一下上传的文件是否有效  
@@ -28,12 +34,11 @@ class PayModel extends Model
            //      }
            //  $dat = OSS::publicUpload('mithril-capsule',$newName, $path,['ContentType' => $mimeTye]);
 
-           //  $img = OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
-            $img = "https://mithril-capsule.oss-cn-beijing.aliyuncs.com/8f738d2ea188a7fb937f349a440e77e9.jpg";
-            $bool = DB::table('g_order_refund')
-                    ->insert($data);
-            return $bool;
-		}
+           // $data['refund_imgs']= OSS::getPublicObjectURL('mithril-capsule',$newName); // 打印出某个文件的外网链接
+      $bool = DB::table('g_order_refund')
+              ->insert($data);
+      return $bool;
+		// }
 
 
 	}	

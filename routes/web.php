@@ -79,7 +79,7 @@ Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
-Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@adel_buycar');//添加购物车
+Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//添加购物车
 Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
 Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//删除购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
@@ -105,11 +105,11 @@ Route::post('/User/add_user_address', 'UserController@add_user_address')->middle
 Route::delete('/User/del_user_address', 'UserController@del_user_address');//添加收货地址
 //===================================支付宝支付====================
 Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
-Route::get('/PayPhone/index', 'PayPhoneController@index');//APP支付宝支付->middleware('notify')
-Route::post('/PayPhone/notify', 'PayPhoneController@notify');//APP支付宝回调->middleware('notify')
-Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay');//APP支付宝查询订单
+Route::get('/PayPhone/index', 'PayPhoneController@index')->middleware('notify');//APP支付宝支付
+Route::post('/PayPhone/notify', 'PayPhoneController@notify')->middleware('notify');//APP支付宝回调
+Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay')->middleware('notify');//APP支付宝查询订单
 Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
-Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney');//支付宝退款
+Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney')->middleware('notify');//支付宝退款
 Route::get('/PayPhone/apply_refund', 'PayPhoneController@apply_refund');//申请退款
 Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
 
