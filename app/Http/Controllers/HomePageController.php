@@ -248,7 +248,7 @@ class HomePageController extends Controller
         if($article_id <= 0){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "文章不存在"
+                "errMsg" => "视频不存在"
             );
             $this->_response($res);
         }

@@ -23,9 +23,8 @@ class HomePageModel extends Model
             ->where('slideshow_type','article')
             ->orderBy('created_at', 'desc')
             ->get(['slideshow','slideshow_url','type']);
-          $data = json_decode(json_encode($data), true);
-
-          return $data;
+      $data = json_decode(json_encode($data), true);
+      return $data;
     }
 /**
  * 长资讯列表
@@ -43,7 +42,6 @@ class HomePageModel extends Model
           ->where('article_status','1')
           ->orderBy('created_at', 'desc')
           ->get();
-            
           $data = json_decode(json_encode($objects), true);
           
           return empty($data) ? false : $data;
@@ -94,128 +92,63 @@ class HomePageModel extends Model
 /**
  * 短资讯列表页$more,$page
  */
- public function short_articlelist($more)
+    public function short_articlelist($more)
     {
+        if($more == 1){
+          $objects = DB::table('t_shorts_article')
+                ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+                ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+                ->orderBy('created_at', 'desc')
+                ->get();
 
-      if($more == 1){
-        $objects = DB::table('t_shorts_article')
-        ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-        ->orderBy('created_at', 'desc')
-        ->get();
-         $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
-         // $imgArr = array();
-        // foreach ($data as $key => $value) {
-        //    $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
-        //    }
-        // $res = array();
-        // foreach ($data as $key => $value) {
-        //   $res[$value['id']] = $value;
-
-        // $data = json_decode(json_encode($data), true);
-        $res = array();
-         foreach ($data as $key => $value){
-             $value['imageurl'] = $this->getImageurlAttribute($value['imageurl']);
-             $res[] = $value;
-        }
-        return empty($res) ? false : $res;
-      }else{
-         $data = DB::table('t_shorts_article')
-        ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-        ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-        ->orderBy('created_at', 'desc')
-        ->limit(5)
-        ->get();
-
-        $data = json_decode(json_encode($data), true);
-        $res = array();
-         foreach ($data as $key => $value){
-             $value['imageurl'] = $this->getImageurlAttribute($value['imageurl']);
-             $res[] = $value;
-        }
-
+          $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
+          $res = array();
+          foreach ($data as $key => $value){
+               $value['imageurl'] = $this->getImageurlAttribute($value['imageurl']);
+               $res[] = $value;
+          }
           return empty($res) ? false : $res;
-       
-     }
-     // else{
-     //  // echo 2;die;
-     //      $objects = DB::table('t_shorts_article')  
-     //      ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
-     //      ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
-     //      ->orderBy('created_at', 'desc')
-     //      ->limit(5)
-     //      ->get();
-     //      $data = json_decode(json_encode($objects), true);//全部的短资讯新闻
-     //       $imgArr = array();
-     //      foreach ($data as $key => $value) {
-     //         $imgArr[$value['id']] =  $this->getImageurlAttribute($value['imageurl']);  
-     //         }
-     //      $res = array();
-     //      foreach ($data as $key => $value) {
-     //        $res[$value['id']] = $value;
+        }else{
+           $data = DB::table('t_shorts_article')
+                ->select('t_shorts_article.id','t_shorts_article.title','source_img','source','all_type','content','t_shorts_article.created_at','imageurl','videourl')
+                ->join('t_shorts_img','t_shorts_article.id','=','t_shorts_img.shorts_article_id')
+                ->orderBy('created_at', 'desc')
+                ->limit(5)
+                ->get();
 
-     //        $res[$value['id']]['imageurl'] = $imgArr[$value['id']];
-     //      }
-     //      foreach ($data as $key=>$value)
-     //      {
-     //          if ($key === 'data')
-     //              unset($data[$key]);
-     //      }
-     //        return empty($res) ? false : $res;
-     //   }
+          $data = json_decode(json_encode($data), true);
+          $res = array();
+          foreach ($data as $key => $value){
+               $value['imageurl'] = $this->getImageurlAttribute($value['imageurl']);
+               $res[] = $value;
+          }
+
+         return empty($res) ? false : $res;
+         
+       }
      }
+
   public function getImageurlAttribute($cover)
     {
         return json_decode($cover, true);
-    }  
+    }
 
   public function videolist($more)
     {
-      
           if($more){
-
             $object = DB::table('t_video')  
               ->select('id','video_type','video_desc','source_img','video_cover','source','video_text','video_url','created_at')
               ->orderBy('created_at', 'desc')
               ->get();
                $objects = json_decode(json_encode($object), true);
-              foreach ($objects as $key => $value) {
-                if($value['video_type'] == 'prepve'){
-                  $objects[$key]['video_type'] = '预告片';
-                }if ($value['video_type'] == 'appraisal') {
-                   $objects[$key]['video_type'] = '测评片';
-                }if ($value['video_type'] == 'funny') {
-                   $objects[$key]['video_type'] = '欢乐集锦';
-                } else {
-                  $objects[$key]['video_type'] = '其它';
-                }
-                
-              }
-
           }else{
             $object = DB::table('t_video')
               ->select('id','video_type','video_desc','source_img','video_cover','source','video_text','video_url','created_at')
               ->limit(5)
               ->orderBy('created_at', 'desc')
               ->get();
-              // print_r((array)$objects);die;
                $objects = json_decode(json_encode($object), true);
-                  foreach ($objects as $key => $value) {
-                if($value['video_type'] == 'prepve'){
-                  $objects[$key]['video_type'] = '预告片';
-                }if ($value['video_type'] == 'appraisal') {
-                   $objects[$key]['video_type'] = '测评片';
-                }if ($value['video_type'] == 'funny') {
-                   $objects[$key]['video_type'] = '欢乐集锦';
-                } else {
-                  $objects[$key]['video_type'] = '视频新闻';
-                }
-                
-              }
-
           }
-          // $data = json_decode(json_encode($objects), true);
-          // print_r($objects);die;
           return empty($objects) ? false : $objects;
     }
 
@@ -225,11 +158,11 @@ class HomePageModel extends Model
    * Date 2018-06-22
    * Params [params]
    * @param  string $value [description]
-   * @return [type]        [description],'fk_game_id'
+   * @return [type]        [description]
    */
     public function video_info($article_id)
     {
-              $objects = DB::table('t_video')  
+          $objects = DB::table('t_video')  
                 ->select('id','source_img','source','video_cover','video_url','video_text','video_desc','created_at','fk_game_id','tapid')
                 ->where('id',$article_id)
                 ->first();
@@ -238,13 +171,14 @@ class HomePageModel extends Model
           return empty($data) ? false : $data;
     }
 
-  public function q_question(){
+    public function q_question(){
         $objects = DB::table('t_issue')  
         ->select('id','issue','describe')
         ->get();
        $data = json_decode(json_encode($objects), true);
        return empty($data) ? false : $data;
     }
+    
     public function q_ask($id)
     {
         $objects = DB::table('t_answer')  

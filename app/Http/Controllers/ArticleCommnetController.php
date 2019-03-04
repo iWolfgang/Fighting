@@ -56,7 +56,6 @@ class ArticleCommnetController extends Controller
     public function DeleteComment(Request $request)
     {
         $fk_comment_id = $request->input('comment_id');//评论id
-        // echo $fk_comment_id;die;
         $ArticleComment = new ArticleCommentModel();
         $ret = $ArticleComment->deleteComment($fk_comment_id);
         if($ret == false){

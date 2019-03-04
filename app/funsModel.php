@@ -19,9 +19,13 @@ class funsModel extends Model{
 
         // Redis::SADD($key,$keyword);
 
-    	$sql = "select id,g_thumb,g_name from t_game_main where g_name like '%".$keyword."%'";
+    	$sql = "select id,article_thumb as g_thumb,article_title as g_name from t_article where article_content like '%".$keyword."%' or article_title like  '%".$keyword."%' ";
+        $sqltwo = "select id,video_text,video_cover from t_video where video_desc like '%".$keyword."%' or video_text like  '%".$keyword."%' ";
+        $sqlthree = "select id,goods_name,goods_thumb from g_product where goods_name like '%".$keyword."%' ";
  //or goods_en_name like '".$keyword."%'
- 		$productInfo = DB::select($sql);
+        $productInfo['article'] = DB::select($sql);
+        $productInfo['video'] = DB::select($sqltwo);
+ 		$productInfo['goods'] = DB::select($sqlthree);
  		$res = array();
         $product =  json_decode(json_encode($productInfo), true);
        // print_r($product);die;

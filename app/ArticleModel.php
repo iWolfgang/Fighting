@@ -26,14 +26,10 @@ class ArticleModel extends Model{
         $gongneng = 1;
         $isset = $this->Like_zan_isset($page,$user_id,$type,$gongneng);
         if($isset){
-            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type,$gongneng);
-            
+            $Like_zan_reduce = $this->Like_zan_reduce($page,$user_id,$type,$gongneng);           
         }else{
-
-            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type,$gongneng);
-        
+            $Like_zan_add = $this->Like_zan_add($page,$user_id,$type,$gongneng);      
         }
-
         $action = $isset ? false : true;
         $count = $this->Like_zan_count($page,$user_id,$type,$gongneng);//点赞数量
         $types = $type;
@@ -55,6 +51,7 @@ class ArticleModel extends Model{
      */
     public function PageViews($page_id,$user_ip,$type)
     {       
+        // echo $page_id;die;
        //判断这个IP是否浏览过，第一次浏览+1，第二次就不要加一了
         $gongneng = 0;
         $isset = $this->Like_zan_isset($page_id,$user_ip,$type,$gongneng);
@@ -67,7 +64,7 @@ class ArticleModel extends Model{
             $Like_zan_add = $this->Like_zan_add($page_id,$user_ip,$type,$gongneng);
         }
 
-        $action = $isset ? "刚来过" : "浏览+1";
+        $action = $isset ? "已来过" : "浏览+1";
         $count = $this->Like_zan_count($page_id,$user_ip,$type,$gongneng);
         
         $data = array(
@@ -112,6 +109,8 @@ class ArticleModel extends Model{
         if($gongneng == 1 ){
             $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
             $Like_zan = Redis::SADD($key,$user_id);
+   
+        return $article ? get_object_vars($article) : False;
             return $Like_zan;
         }else{
             $key = sprintf(self::Look_NUM_COUNT,$page,$type);
@@ -134,8 +133,7 @@ class ArticleModel extends Model{
             $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
             $Like_zan = Redis::SREM($key,$user_id);
             return $Like_zan;
-        }else{
-           
+        }else{           
             return true;  
         }
     }
@@ -149,12 +147,26 @@ class ArticleModel extends Model{
     public function Like_zan_count($page,$user_id,$type,$gongneng)
     {
         if($gongneng == 1){
+            
           $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
-           $Like_zan = count(Redis::SMEMBERS($key));
+          $Like_zan = count(Redis::SMEMBERS($key));
            return $Like_zan; 
         }else{
            $key = sprintf(self::Look_NUM_COUNT,$page,$type);
            $Like_zan = count(Redis::SMEMBERS($key));
+            if($type == 'long'){
+                $article = DB::table($this->_tabName)
+                ->where("id", $page)
+                ->update(['article_reading'=>$Like_zan]);
+            }else if($type == 'short'){
+                $article = DB::table('t_shorts_article')
+                ->where("id", $page)
+                ->update(['article_reading'=>$Like_zan]);
+            }else{
+                $article = DB::table('t_video')
+                ->where("id", $page)
+                ->update(['article_reading'=>$Like_zan]);
+            }      
            return $Like_zan; 
         }
        
@@ -353,16 +365,13 @@ class ArticleModel extends Model{
     {
 
       $query =   DB::update('UPDATE `t_article` SET `article_content`=replace (`article_content`,\'contenteditable="true"\',\'contenteditable="false"\') WHERE id = ?;',[$article_id]);
-
-
-        $objects = DB::table('t_article')  
-                ->select('id','article_title','article_content','fk_game_id','created_at')
+      $objects = DB::table('t_article')  
+                ->select('id','article_title','article_content','article_desc','article_author','fk_game_id','created_at')
                 ->orderBy('created_at', 'desc')
                 ->where('id',$article_id)
                 ->first();
                 $obj = get_object_vars($objects);
-                // print_r($obj);die;
-        return empty($obj) ? false : $obj;
+      return empty($obj) ? false : $obj;
     }
 
     /**
@@ -377,8 +386,8 @@ class ArticleModel extends Model{
         $ids = explode(',',$g_id);
         $arr =array();
         foreach ($ids as $k => $v) {
-            $arr[] = DB::table('t_game_main') 
-                ->select('id','g_thumb','g_name','g_content')
+            $arr[] = DB::table('g_product') 
+                ->select('id','goods_thumb as g_thumb','goods_name as g_name','goods_desc as g_content','goods_text as g_text')
                 ->where( 'id',$v)
                 ->first();
         }

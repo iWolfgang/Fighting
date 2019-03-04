@@ -41,7 +41,7 @@ Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addComme
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
 Route::get('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//一级评论列表
 Route::get('/ArticleComment/ArticleComment_twoList', 'ArticleCommnetController@ArticleCommnet_twoList');//二级评论列表
-Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//二级评论列表
+Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//删除评论
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');//删除文章
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
@@ -92,19 +92,22 @@ Route::get('/Order/wait_paylist','OrderController@wait_paylist');//待付款订�
 Route::get('/Order/wait_pay', 'OrderController@wait_pay');//订单详情页
 Route::get('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
 Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
-Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
 Route::get('/Order/ReceiptList', 'OrderController@ReceiptList');//待收货列表页
 Route::get('/Order/Receiptitem', 'OrderController@Receiptitem');//待收货详情页
 Route::get('/Order/Confirm_Order', 'OrderController@Confirm_Order');//待收货详情页
 Route::get('/Order/Overlist', 'OrderController@Overlist');//已完成列表页
 Route::get('/Order/Overitem', 'OrderController@Overitem');//已完成详情页
 Route::get('/Order/cancel_order', 'OrderController@cancel_order');//取消订单
+//=====================================快递=======================================================================
+Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
+Route::get('/Logistics/faceLog', 'LogisticsController@faceLog');//快递面单
 //==================================================收货地址============================================================
 Route::get('/User/select_user_address', 'UserController@select_user_address');//收货地址列表
 Route::post('/User/add_user_address', 'UserController@add_user_address')->middleware('notify');//添加收货地址
-Route::delete('/User/del_user_address', 'UserController@del_user_address');//添加收货地址
+Route::delete('/User/del_user_address', 'UserController@del_user_address');//删除收货地址
+Route::put('/User/update_user_address', 'UserController@up_user_address');//修改收货地址
 //===================================支付宝支付====================
-Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
+Route::post('/Pay/index', 'PayController@index');//网站支付宝支付
 Route::get('/PayPhone/index', 'PayPhoneController@index')->middleware('notify');//APP支付宝支付
 Route::post('/PayPhone/notify', 'PayPhoneController@notify')->middleware('notify');//APP支付宝回调
 Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay')->middleware('notify');//APP支付宝查询订单

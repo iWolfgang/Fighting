@@ -147,6 +147,7 @@ class GoodsBuyCarController extends Controller
  */
     public function show_buycar(Request $request)
     {
+        // echo 1;die;
         $user_id = $request->input('user_id');
         $buyCar_type = $request->input('buyCar_type');
 

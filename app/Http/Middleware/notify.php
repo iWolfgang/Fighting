@@ -21,6 +21,7 @@ class notify
             ->insert([
             'respsone' => json_encode($request->all()),
             'time' => date("Y-m-d H:i:s"),
+            // 'time' => time("Y-m-d H:i:s"),
             'url' => $request->path(),
         ]);
          return $next($request);      

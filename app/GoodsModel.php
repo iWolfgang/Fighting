@@ -61,6 +61,7 @@ class GoodsModel extends Model{
     public function detail_page($goods_id='')
     {
         //根据商品
+         $query =   DB::update('UPDATE `g_product` SET `goods_desc`=replace (`goods_desc`,\'contenteditable="true"\',\'contenteditable="false"\') WHERE id = ?;',[$goods_id]);
         $data = DB::table('g_product')
             ->select('goods_name','goods_thumb','goods_img','goods_cat','goods_desc','sold_count','price','goods_postage','created_at')
             ->where("id", $goods_id)
