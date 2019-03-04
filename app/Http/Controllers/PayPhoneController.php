@@ -6,10 +6,9 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Redirect;
 use DB;
 use app\Packages\alipay;
-// require ('AopSdk.php');
 Class PayPhoneController extends Controller
 {
-    const ORDER_ID_KEY = 'ORDER_ID_%d'; //评论点赞的redis key
+    const ORDER_ID_KEY = 'ORDER_ID_%d'; //
 	public function index(Request $request)
 	{
 		$aop = new \AopClient();
