@@ -64,7 +64,7 @@ class GameModel extends Model{
         foreach ($ids as $k => $v) {
 
             $arr[] = DB::table('g_product') 
-                ->select('id','goods_thumb as g_thumb','goods_name as g_name','goods_desc as g_content')
+                ->select('id','goods_thumb as g_thumb','goods_name as g_name','goods_desc as g_content','goods_text as g_text')
                 ->where( 'id',$v)
                 ->first();
                    

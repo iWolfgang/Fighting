@@ -30871,3 +30871,708 @@ parmars:["无"]
 [2019-03-04 11:10:35]update `t_article` set `article_reading` = ? where `id` = ?
 parmars:[1,93]
 
+[2019-03-04 11:11:14]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:11:14]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:11:14]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:11:14]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:11:17]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:11:17]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:11:17]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:11:17]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:11:17]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:11:17]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:11:46]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:11:46]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:11:46]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:11:46]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:11:50]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:11:50]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:11:50]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:11:50]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:11:50]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:11:50]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:12:05]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:12:05]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:12:05]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:12:05]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:12:05]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:12:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:12:29]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:12:29]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:12:29]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:12:29]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:12:32]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:12:32]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:12:32]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:12:32]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:12:32]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:12:32]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:13:34]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:13:34]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:13:34]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:13:34]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:13:37]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:13:37]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:13:37]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:13:37]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:13:37]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:13:37]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:13:59]select `t_shorts_article`.`id`, `title`, `content`, `t_shorts_article`.`created_at`, `source`, `source_img`, `videourl`, `imageurl`, `fk_game_id` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` where `t_shorts_article`.`id` = ? limit 1
+parmars:[143]
+
+[2019-03-04 11:13:59]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:13:59]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["shorta",143,0]
+
+[2019-03-04 11:13:59]update `t_shorts_article` set `article_reading` = ? where `id` = ?
+parmars:[1,143]
+
+[2019-03-04 11:13:59]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[143,0,"short"]
+
+[2019-03-04 11:14:16]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:14:16]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:14:16]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:14:16]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:14:16]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:14:16]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:17:01]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:17:01]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:17:01]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:17:01]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:17:05]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:17:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:17:05]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:17:05]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:17:05]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:17:05]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:17:45]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:17:46]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:17:46]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:17:46]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:17:50]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:17:50]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:17:50]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:17:50]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:17:50]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:17:50]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:18:45]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:18:45]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:18:45]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:18:46]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:18:49]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:18:49]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:18:49]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:18:49]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:18:49]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:18:49]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:20:01]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:20:01]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:20:01]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:20:01]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:20:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:20:05]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:20:05]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:20:05]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:20:05]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:20:05]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:21:14]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:21:14]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:21:14]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:21:14]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:21:18]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:21:18]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:21:18]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:21:18]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:21:18]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:21:18]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:21:42]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:21:42]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:21:42]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:21:42]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:21:46]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:21:46]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:21:46]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:21:46]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:21:46]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:21:46]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:24:02]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:24:02]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:24:02]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:24:02]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:24:07]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:24:07]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:24:07]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:24:07]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:24:07]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:24:08]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:25:48]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:25:48]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:25:48]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:25:48]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:25:58]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:25:58]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:25:58]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:25:58]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:25:58]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:25:58]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:32:21]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc
+parmars:["2","1"]
+
+[2019-03-04 11:32:21]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc
+
+[2019-03-04 11:32:36]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[79,0,"long"]
+
+[2019-03-04 11:32:36]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? order by `create_time` desc
+parmars:[79,3]
+
+[2019-03-04 11:32:36]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? order by `create_time` desc
+parmars:[79,2]
+
+[2019-03-04 11:32:36]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[79]
+
+[2019-03-04 11:32:36]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[79]
+
+[2019-03-04 11:32:36]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",79,0]
+
+[2019-03-04 11:32:36]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:32:36]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,79]
+
+[2019-03-04 11:33:24]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,78]
+
+[2019-03-04 11:33:24]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[78,0,"long"]
+
+[2019-03-04 11:33:24]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[78]
+
+[2019-03-04 11:33:24]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[78]
+
+[2019-03-04 11:33:24]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",78,0]
+
+[2019-03-04 11:33:24]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:33:47]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[36,0,"long"]
+
+[2019-03-04 11:33:47]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[36]
+
+[2019-03-04 11:33:47]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[36]
+
+[2019-03-04 11:33:47]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",36,0]
+
+[2019-03-04 11:33:47]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["4"]
+
+[2019-03-04 11:33:47]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,36]
+
+[2019-03-04 11:35:38]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:35:38]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:35:38]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:35:38]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:35:42]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:35:42]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:35:42]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:35:42]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:35:42]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:35:42]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:35:52]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc
+parmars:["2","1"]
+
+[2019-03-04 11:35:52]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc
+
+[2019-03-04 11:36:02]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[85]
+
+[2019-03-04 11:36:02]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[85]
+
+[2019-03-04 11:36:02]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",85,0]
+
+[2019-03-04 11:36:02]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:36:02]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[85,0,"long"]
+
+[2019-03-04 11:36:02]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,85]
+
+[2019-03-04 11:36:33]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[60,0,"long"]
+
+[2019-03-04 11:36:33]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,60]
+
+[2019-03-04 11:36:33]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[60]
+
+[2019-03-04 11:36:33]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[60]
+
+[2019-03-04 11:36:33]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",60,0]
+
+[2019-03-04 11:36:33]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:36:59]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[18,0,"long"]
+
+[2019-03-04 11:36:59]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,18]
+
+[2019-03-04 11:36:59]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[18]
+
+[2019-03-04 11:36:59]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[18]
+
+[2019-03-04 11:36:59]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",18,0]
+
+[2019-03-04 11:36:59]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["14"]
+
+[2019-03-04 11:36:59]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["15"]
+
+[2019-03-04 11:36:59]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["16"]
+
+[2019-03-04 11:38:03]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[2,0,"long"]
+
+[2019-03-04 11:38:03]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,2]
+
+[2019-03-04 11:38:03]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[2]
+
+[2019-03-04 11:38:03]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[2]
+
+[2019-03-04 11:38:03]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",2,0]
+
+[2019-03-04 11:38:03]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["2"]
+
+[2019-03-04 11:38:03]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["3"]
+
+[2019-03-04 11:38:03]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["4"]
+
+[2019-03-04 11:38:03]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["5"]
+
+[2019-03-04 11:39:49]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:39:49]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:39:49]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:39:49]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:39:53]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:39:53]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:39:53]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:39:53]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:39:53]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:39:53]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:39:57]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc
+parmars:["2","1"]
+
+[2019-03-04 11:39:57]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc
+
+[2019-03-04 11:40:05]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,79]
+
+[2019-03-04 11:40:05]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[79]
+
+[2019-03-04 11:40:05]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[79]
+
+[2019-03-04 11:40:05]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",79,0]
+
+[2019-03-04 11:40:05]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:40:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[79,0,"long"]
+
+[2019-03-04 11:40:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? order by `create_time` desc
+parmars:[79,3]
+
+[2019-03-04 11:40:05]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? order by `create_time` desc
+parmars:[79,2]
+
+[2019-03-04 11:40:27]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,76]
+
+[2019-03-04 11:40:27]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[76]
+
+[2019-03-04 11:40:27]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[76]
+
+[2019-03-04 11:40:27]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",76,0]
+
+[2019-03-04 11:40:27]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:40:27]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[76,0,"long"]
+
+[2019-03-04 11:44:16]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[93,0,"long"]
+
+[2019-03-04 11:44:16]update `t_article` set `article_reading` = ? where `id` = ?
+parmars:[1,93]
+
+[2019-03-04 11:44:16]UPDATE `t_article` SET `article_content`=replace (`article_content`,'contenteditable="true"','contenteditable="false"') WHERE id = ?;
+parmars:[93]
+
+[2019-03-04 11:44:17]select `id`, `article_title`, `article_content`, `article_desc`, `article_author`, `fk_game_id`, `created_at` from `t_article` where `id` = ? order by `created_at` desc limit 1
+parmars:[93]
+
+[2019-03-04 11:44:17]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["longa",93,0]
+
+[2019-03-04 11:44:17]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["无"]
+
+[2019-03-04 11:46:37]select `slideshow`, `slideshow_url`, `type` from `t_slideshow` where `slideshow_type` = ? order by `created_at` desc
+parmars:["article"]
+
+[2019-03-04 11:46:37]select `t_shorts_article`.`id`, `t_shorts_article`.`title`, `source_img`, `source`, `all_type`, `content`, `t_shorts_article`.`created_at`, `imageurl`, `videourl` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` order by `created_at` desc limit 5
+
+[2019-03-04 11:46:37]select `id`, `all_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["2","1"]
+
+[2019-03-04 11:46:37]select `id`, `ceping_type`, `article_thumb`, `article_title`, `article_type`, `created_at` from `t_article` where `its_type` = ? and `article_status` = ? order by `created_at` desc limit 9
+parmars:["1","1"]
+
+[2019-03-04 11:46:39]select `comment_id`, `comment_content`, `fk_comment_pid`, `fk_comment_puid`, `fk_comment_pusername`, `create_time`, `t_user_infos`.`user_id`, `t_user_infos`.`user_name`, `t_user_infos`.`head_portrait` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_id` = ? and `fk_comment_pid` = ? and `fk_article_type` = ? order by `create_time` desc
+parmars:[144,0,"short"]
+
+[2019-03-04 11:46:39]select `t_shorts_article`.`id`, `title`, `content`, `t_shorts_article`.`created_at`, `source`, `source_img`, `videourl`, `imageurl`, `fk_game_id` from `t_shorts_article` inner join `t_shorts_img` on `t_shorts_article`.`id` = `t_shorts_img`.`shorts_article_id` where `t_shorts_article`.`id` = ? limit 1
+parmars:[144]
+
+[2019-03-04 11:46:39]select `id`, `goods_thumb` as `g_thumb`, `goods_name` as `g_name`, `goods_desc` as `g_content`, `goods_text` as `g_text` from `g_product` where `id` = ? limit 1
+parmars:["65"]
+
+[2019-03-04 11:46:39]select `comment_id`, `fk_comment_pid`, `fk_user_id`, `t_user_infos`.`head_portrait`, `t_user_infos`.`user_name`, `comment_content`, `create_time` from `t_article_comment` inner join `t_user_infos` on `t_article_comment`.`fk_user_id` = `t_user_infos`.`user_id` where `fk_article_type` = ? and `fk_article_id` = ? and `fk_comment_pid` = ?
+parmars:["shorta",144,0]
+
+[2019-03-04 11:46:39]update `t_shorts_article` set `article_reading` = ? where `id` = ?
+parmars:[1,144]
+
