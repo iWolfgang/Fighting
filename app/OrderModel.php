@@ -109,7 +109,9 @@ class OrderModel extends Model{
 //全部订单列表
     public function all_orderlist($user_id)
     {
+      // echo 1;die;
       $bool = DB::table('g_orders')
+            // ->select('id','no','total_amount','remark','paid_status','creatorder_at','expiration_at')
             ->select('id','no','total_amount','remark','ship_status','creatorder_at','expiration_at')
             ->where('user_id',$user_id)
             ->get();
@@ -181,6 +183,7 @@ class OrderModel extends Model{
      */
     public function goods_orderlist($user_id='',$paid_status='')
     {
+      // echo 1;die;
        $bool = DB::table('g_orders')
             ->select('g_order_items.id','g_order_items.goods_id','g_order_items.order_id','g_order_items.amout','g_order_items.price','no','g_orders.total_amount','g_orders.address','g_orders.creatorder_at')
             ->join('g_order_items','g_orders.id','=','g_order_items.order_id')
@@ -188,15 +191,16 @@ class OrderModel extends Model{
             ->where('ship_status',$paid_status)
             ->get();
         $objects = json_decode(json_encode($bool), true);
-        // dd($objects);die;
+        
         $goods_item = array();
         foreach ($objects as $key => $value) {
-          $bool = DB::table('g_productSkus')
+          $bools = DB::table('g_productSkus')
             ->select('g_productSkus.id','g_productSkus.sku_thumb','g_product.goods_name','g_productSkus.sku_name')
             ->join('g_product','g_productSkus.product_id','=','g_product.id')
             ->where('g_productSkus.id',$value['goods_id'])
             ->first();
-          $goods_item[$key]['goods'] = json_decode(json_encode($bool), true);//未发货列表
+            // dd($bools);die;
+          $goods_item[$key]['goods'] = json_decode(json_encode($bools), true);//未发货列表
           $goods_item[$key]['order_id'] = $value['order_id'];
           $goods_item[$key]['price'] = $value['price'];
           // $goods_item[$key]['order_itemid'] = $value['id'];
@@ -290,7 +294,10 @@ class OrderModel extends Model{
  * @param  [type] $paid_status [description]
  * @return [type]              [description]
  */
+
+
      public function goods_orderitem($user_id,$order_id)
+
     {
 
         $bool = DB::table('g_orders')

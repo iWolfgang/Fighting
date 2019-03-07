@@ -102,7 +102,9 @@ class GoodsController extends Controller
  */
 	public function goods_list(Request $request)
 	{
+       // echo 1;die;
 		$classify_id = $request->input("classify_id");
+         // echo $classify_id;die;
 
         $GoodsModel = new GoodsModel();
 

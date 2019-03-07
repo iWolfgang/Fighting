@@ -37,6 +37,7 @@ class GoodsModel extends Model{
  */   
     public function GoodsList($classify_id)
     {
+        // echo $classify_id;die;
         $isset = $this->only_this_goodslist($classify_id);
         return $isset;
     }
@@ -45,7 +46,7 @@ class GoodsModel extends Model{
         $goodslist = DB::table($this->_tabName)
             ->select('id','goods_name','goods_thumb','price')
             ->where("goods_cat", $classify_id)
-            ->where("game_goods", 0)
+            ->where("game_goods", 1)
             ->get();
         $data = json_decode(json_encode($goodslist), true);
         return $data ? $data : False;        
@@ -61,6 +62,7 @@ class GoodsModel extends Model{
     public function detail_page($goods_id='')
     {
         //根据商品
+         $query =   DB::update('UPDATE `g_product` SET `goods_desc`=replace (`goods_desc`,\'contenteditable="true"\',\'contenteditable="false"\') WHERE id = ?;',[$goods_id]);
         $data = DB::table('g_product')
             ->select('goods_name','goods_thumb','goods_img','goods_cat','goods_desc','sold_count','price','goods_postage','created_at')
             ->where("id", $goods_id)
@@ -89,12 +91,13 @@ class GoodsModel extends Model{
     {
         //根据商品
        
-        $dataa = DB::table('g_productSkus')
+        $item = DB::table('g_productSkus')
            ->select('id','title','sku_name','sku_thumb','pricenow','stock','product_id')
             ->where("id", $goods_id)
             ->first();
-        $datas = get_object_vars($dataa); 
-        return $datas;
+            // var_dump($item);die;
+        $data = get_object_vars($item); 
+        return $data;
     }
 /**
  * 查询SKu商品  
@@ -184,19 +187,32 @@ class GoodsModel extends Model{
  * @param  string $value [description]
  * @return [type]        [description]
  */
-    public function plus_sku($item)
+    public function plus_sku($order_id)
     {
-       foreach ($item as $k => $v) {
-          $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');
-          $objects = json_decode(json_encode($sku), true);
-          if($objects[0]['stock'] < 0){
-            return False;
-          }
-        } 
-        foreach ($item as $key => $value) {
-           $plus_sku =  DB::update('update g_productSkus set stock = stock+ '.$value['amout'].' where id = '.$value['goods_id'].'');
-        }
-        return $plus_sku;
+      // echo $order_id;die;
+        $small_order = DB::table('g_order_items')
+                 ->where('order_id',$order_id)
+                 ->get();
+                 $small = json_decode(json_encode($small_order), true);
+                 // print_r($small);die;
+       // foreach ($item as $k => $v) {
+       //    $sku =   DB::select('select stock from g_productSkus where id = '.$v['goods_id'].'');
+       //    $objects = json_decode(json_encode($sku), true);
+       //    if($objects[0]['stock'] < 0){
+       //      return False;
+       //    }
+       //    SQLSTATE[42S22]: Column not found: 1054 Unknown column 'order_id' in 'where clause' (SQL: delete from `g_orders` where `order_id` is null)
+
+       //  } 
+        foreach ($small as $k => $v) {
+                     $del_item =  DB::update('update  g_productSkus set stock = stock + '.$v['amout'].' where id = '.$v['goods_id'].'');
+             }
+        $del_order =  DB::update("update  g_orders set ship_status = '交易关闭' where id = $order_id");   
+        $del_orderitem = DB::table('g_order_items')
+                 ->where('order_id',$order_id)
+                 ->delete();     
+                 // echo $del_orderitem;die;         
+        return $del_orderitem ? true :FALSE;
     }
 /**
  * 电商列表----全部列表

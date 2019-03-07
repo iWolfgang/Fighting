@@ -248,7 +248,7 @@ class HomePageController extends Controller
         if($article_id <= 0){
             $res = array(
                 "errNo" => "0003",
-                "errMsg" => "文章不存在"
+                "errMsg" => "视频不存在"
             );
             $this->_response($res);
         }
@@ -261,7 +261,7 @@ class HomePageController extends Controller
         $game_info = $GameModel->game_correlation($ids);//相关游戏产品
 
         $tapids = substr($video_info['tapid'],1,-1);
-        $video_like = $GameModel->videotap_correlation($tapids);//相关视频详情
+        $video_like = $GameModel->videotap_correlation($tapids,$article_id);//相关视频详情
 
         $ArticleModel = new ArticleModel();
         $pinglun_type = "video";

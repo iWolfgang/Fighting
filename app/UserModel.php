@@ -476,4 +476,11 @@ class UserModel extends Model
                 ->delete();
         return $res;
     }
+    public function up_user_address($id,$info)
+    {
+         $res = DB::table('g_user_address')
+                ->where('id',$id)
+                ->update($info);
+        return $res;
+    }
 }

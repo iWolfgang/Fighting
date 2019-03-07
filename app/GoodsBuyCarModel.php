@@ -20,28 +20,27 @@ class GoodsBuyCarModel extends Model{
     * @param [type] $goods_id [description]
     * @param [type] $buy_num  [description]
     */
-    public function add_buycar($user_id,$goods_id,$buy_num)
+    public function add_buycar($user_id,$goods_id,$buy_num,$buycar_type)
     {
-        $isset = $this->check($user_id,$goods_id);
-
        
+        $isset = $this->check($user_id,$goods_id);
             if($isset['buy_num'] > 0){
-                    $num = $isset['buy_num'];
+ // echo 1;die;
+                    $num = $isset['buy_num'] + $buy_num;
                      $bool = DB::table('g_buycar')
                     ->where('user_id',$user_id)
                     ->where('productSku_id',$goods_id)
                     ->update(
-                      ['buy_num'=>  $buy_num]
+                      ['buy_num'=>  $num]
                     );
-               return $bool;
             }else{
-                // $num = 0;
+                 // echo 2;die;
                  $bool = DB::table('g_buycar')
-                    ->insert(['user_id'=>$user_id,'productSku_id'=>$goods_id,'buy_num'=>$buy_num]);
-                  return $bool;    
+                    ->insert(['user_id'=>$user_id,'productSku_id'=>$goods_id,'buy_num'=>$buy_num,'buycar_type'=>$buycar_type]);
+                 
             }
-          
-           
+          // echo $bool;die;
+            return $bool;    
      
 
     }
@@ -100,21 +99,26 @@ class GoodsBuyCarModel extends Model{
  * @param  string $user_id [description]
  * @return [type]          [description]
  */
-    public function show_buycar($user_id='')
+    public function show_buycar($user_id='',$buyCar_type)
     {
+        // echo $user_id;die;
+        if(empty($buyCar_type)){
+            $buyCar_type = 0;
+        }
         
         $objects = DB::table('g_productSkus')
                 ->join('g_buycar','g_productSkus.id','=','g_buycar.productSku_id')
-                ->join('g_product','g_productSkus.product_id','=','g_product.id')
-                ->select('g_buycar.productSku_id as id','g_product.goods_name','g_product.goods_postage','g_productSkus.sku_thumb','g_productSkus.title','g_productSkus.pricenow','g_buycar.buy_num','g_productSkus.stock','g_buycar.user_id')
+                ->leftjoin('g_product','g_productSkus.product_id','=','g_product.id')
+                ->select('g_buycar.productSku_id as id','g_productSkus.sku_thumb','g_productSkus.title','g_productSkus.pricenow','g_buycar.buy_num','g_productSkus.stock','g_buycar.user_id','g_product.goods_name','g_product.goods_postage')
                 ->where('g_buycar.user_id',$user_id)
+                ->where('g_buycar.buycar_type',$buyCar_type)
                 ->get();
+                // dd($objects);die;
          $objects = json_decode(json_encode($objects), true);
          return $objects;
-         // print_r($objects);die;
     }
 /**
- * 删除购物车已经下单的商品 
+ * 已经下单的商品 ---> 删除购物车
  * Author Amber
  * Date 2018-07-31
  * Params [params]
@@ -129,16 +133,23 @@ class GoodsBuyCarModel extends Model{
         $del_goods =  DB::delete('delete from g_buycar where user_id = '.$user_id.' and goods_id in ('.$objectss.')');
         return $del_goods;
     }
-
+/**
+ *  删除购物车 
+ * Author Amber
+ * Date 2019-02-01
+ * Params [params]
+ * @param  [type] $user_id       [description]
+ * @param  [type] $productSku_id [description]
+ */
     public function del_buycar($user_id,$productSku_id)
     {
-      
-        // $objectss = implode($productSku_id,',');
-        $res =  DB::table('g_buycar')
-                        ->where('user_id',$user_id)
-                        ->where('productSku_id',$productSku_id)
-                        ->delete();
-             // echo $res;die;             
+        $ids = explode(',',$productSku_id);
+        foreach ($ids as $key => $value) {
+            $res =  DB::table('g_buycar')
+                ->where('user_id',$user_id)
+                ->where('productSku_id',$value)
+                ->delete();
+        }         
         return $res;
     }
 

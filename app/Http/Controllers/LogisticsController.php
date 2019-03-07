@@ -72,5 +72,17 @@ class LogisticsController extends Controller
         
        }
   }
+/**
+ * 快递鸟面单 
+ * Author Amber
+ * Date 2019-03-01
+ * Params [params]
+ * @param  string $value [description]
+ * @return [type]        [description]
+ */
+  public function faceLog($value='')
+  {
+
+  }
 
 }

@@ -23,11 +23,10 @@ class GameController extends Controller
         $GameModel = new GameModel();
 
         $ret = $GameModel->game_info($game_id);
-        // $ret['id'] = intval($game_id);
         $GoodsModel = new GoodsModel();
 
         $ret['game_info'] = $GoodsModel->detail_page($game_id);
-        $ret['game_correlation'] = [];
+        // $ret['game_correlation'] = [];
         if($ret == FALSE){
             $res = array(
                 "errNo" => "0003",

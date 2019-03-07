@@ -281,7 +281,14 @@ class UserController extends Controller
         $this->_response($res);
 
     }
-
+/**
+ * 用户地址查询 
+ * Author Amber
+ * Date 2019-02-20
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
     public function select_user_address(Request $request)
     {
         $user_id = $request->input("user_id"); 
@@ -304,6 +311,14 @@ class UserController extends Controller
         $this->_response($res);    
 
     }
+/**
+ * 删除收货地址 
+ * Author Amber
+ * Date 2019-02-20
+ * Params [params]
+ * @param  Request $request [description]
+ * @return [type]           [description]
+ */
     public function del_user_address(Request $request)
     {
         $user_id = $request->input("user_id"); 
@@ -325,6 +340,13 @@ class UserController extends Controller
         $this->_response($res);   
 
     }
+/**
+ * 添加收货地址 
+ * Author Amber
+ * Date 2019-02-20
+ * Params [params]
+ * @param Request $request [description]
+ */
     public function add_user_address(Request $request)
     {
        $order['user_id'] = $request->input("user_id");
@@ -353,5 +375,40 @@ class UserController extends Controller
         );
         $this->_response($res);    
 
+    }
+/**
+ * 修改用户收货地址 
+ * Author Amber
+ * Date 2019-02-20
+ * Params [params]
+ * @param string $value [description]
+ */
+    public function up_user_address(Request $request)
+    {
+       $order['user_id'] = $request->input("user_id");
+       $id = $request->input("id");
+       $order['contact_name'] = $request->input("contact_name");//收件人
+       $order['contact_phone'] = $request->input("contact_phone");//收件人
+       $order['province'] = $request->input("province");//收件人号码
+       $order['city'] = $request->input("city");//收件人号码
+       $order['district'] = $request->input("district");//收件人号码
+       $order['address'] = $request->input("address");//收件人号码
+       $order['last_used_at'] = date('Y-m-d H:i:s');//最后下单时间
+       $order['zip'] = $request->input("zip");//收货地址
+       $UserModel = new UserModel();
+
+        $bool = $UserModel->up_user_address($id,$order);
+        if($bool == FALSE){
+            $res = array(
+                "errNo" => '0003',
+                "errMsg" => "修改失败"
+            );
+            $this->_response($res);
+        }
+        $res = array(
+            "errNo" => 0,
+            "errMsg" => "修改成功"
+        );
+        $this->_response($res);   
     }
 }

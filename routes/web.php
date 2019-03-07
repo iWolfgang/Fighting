@@ -32,7 +32,7 @@ Route::get('/CheckCode/history_Search', 'ArticleController@history_Search');//�
 
 
 Route::get('/Article/getArticleInfo', 'ArticleController@getArticleInfo');//长文章详情页信息
-Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅读量
+Route::post('/Article/addArticleRead', 'ArticleController@addArticleRead');//文章阅
 Route::get('/Article/getD_ArtInfo', 'ArticleController@getD_ArtInfo');//短资讯文章详情页信息
 Route::get('/Game/game_Info', 'GameController@game_info');//游戏详情页
 Route::get('/HomePage/video_info', 'HomePageController@video_info');//视频资讯详情页信息
@@ -41,8 +41,7 @@ Route::post('/ArticleComment/addCommentLike', 'ArticleCommnetController@addComme
 Route::post('/ArticleComment/addComment', 'ArticleCommnetController@addComment');//添加评论
 Route::get('/ArticleComment/ArticleComment_list', 'ArticleCommnetController@articleCommnet_list');//一级评论列表
 Route::get('/ArticleComment/ArticleComment_twoList', 'ArticleCommnetController@ArticleCommnet_twoList');//二级评论列表
-Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//二级评论列表
-// ======
+Route::delete('/ArticleComment/DeleteComment', 'ArticleCommnetController@DeleteComment');//删除评论
 Route::post('/ArticleComment/ArticleDel', 'ArticleCommnetController@ArticleDel');//删除文章
 Route::post('/ArticleComment/Art_Com_reply', 'ArticleCommnetController@Art_Com_reply');//回复列表
 Route::post('/ArticleCollect/Art_col', 'ArticleCollectController@Art_col');//文章收藏
@@ -67,6 +66,7 @@ Route::get('/Game/new_Arrival', 'GameController@new_Arrival');//游戏列表 新
 Route::get('/Game/discounts', 'GameController@discounts');//游戏列表 优惠 页展示
 Route::get('/Game/sell_hot', 'GameController@sell_hot');//游戏列表 热销 页展示
 Route::get('/Lpush/push', 'LpushController@push');//推送
+
 // ===========================================电商=========电商================================================================
 Route::get('/Goods/goods_full', 'GoodsController@goods_full');//商品页合成接口
 Route::get('/Goods/slideshow', 'GoodsController@slideshow');//商品页的轮播图
@@ -74,49 +74,47 @@ Route::get('/Goods/goods_list', 'GoodsController@goods_list');//商品列表
 Route::get('/Goods/all_goodslist', 'GoodsController@all_goodslist');//电商列表----全部列表
 Route::get('/Goods/subject_goods', 'GoodsController@subject_goods');//专栏商品列表
 Route::get('/Goods/subject_goodsitem', 'GoodsController@subject_goodsitem');//惟一专栏商品列表
-
 Route::get('/GoodsCat/homepage_list', 'GoodsCatController@homepage_list');//电商一级分类列表列表
 Route::get('/GoodsCat/homepagetwo_list', 'GoodsCatController@homepagetwo_list');//电商二级分类列表列表
 Route::get('/Goods/detail_page', 'GoodsController@detail_page');//商品详情页
 Route::get('/GoodsBuyCar/willJoin_Buycart', 'GoodsBuyCarController@willJoin_Buycart');//添加购物车
 Route::post('/GoodsBuyCar/add_buycar', 'GoodsBuyCarController@add_buycar');//添加购物车
+Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//添加购物车
 Route::get('/GoodsBuyCar/show_buycar', 'GoodsBuyCarController@show_buycar');//展示购物车
-
 Route::post('/GoodsBuyCar/del_buycar', 'GoodsBuyCarController@del_buycar');//删除购物车
 Route::post('/Order/creat_orders', 'OrderController@creat_orders');//创建订单 
 Route::post('/Order/PlaceOrder', 'CreatOrderController@PlaceOrder');//创建订单
+
 //=====================================订单状态=======================================================================
-//
 Route::get('/Order/all_orderlist', 'OrderController@all_orderlist');//全部订单列表页
 Route::get('/Order/goods_orderitem', 'OrderController@goods_orderitem');//订单详情页
 Route::get('/Order/wait_paylist','OrderController@wait_paylist');//待付款订单列表
 Route::get('/Order/wait_pay', 'OrderController@wait_pay');//订单详情页
-
 Route::get('/Order/wait_sendlist', 'OrderController@wait_sendlist');//待发货列表
 Route::get('/Order/wait_senditem', 'OrderController@wait_senditem');//待发货详情页
-
-Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
 Route::get('/Order/ReceiptList', 'OrderController@ReceiptList');//待收货列表页
 Route::get('/Order/Receiptitem', 'OrderController@Receiptitem');//待收货详情页
-
 Route::get('/Order/Confirm_Order', 'OrderController@Confirm_Order');//待收货详情页
-
 Route::get('/Order/Overlist', 'OrderController@Overlist');//已完成列表页
 Route::get('/Order/Overitem', 'OrderController@Overitem');//已完成详情页
 Route::get('/Order/cancel_order', 'OrderController@cancel_order');//取消订单
-
+//=====================================快递=======================================================================
+Route::get('/Logistics/selectLog', 'LogisticsController@selectLog');//查看物流
+Route::get('/Logistics/faceLog', 'LogisticsController@faceLog');//快递面单
 //==================================================收货地址============================================================
 Route::get('/User/select_user_address', 'UserController@select_user_address');//收货地址列表
 Route::post('/User/add_user_address', 'UserController@add_user_address')->middleware('notify');//添加收货地址
-Route::delete('/User/del_user_address', 'UserController@del_user_address');//添加收货地址
-
+Route::delete('/User/del_user_address', 'UserController@del_user_address');//删除收货地址
+Route::put('/User/update_user_address', 'UserController@up_user_address');//修改收货地址
 //===================================支付宝支付====================
-
-Route::get('/Pay/index', 'PayController@index');//网站支付宝支付
+Route::post('/Pay/index', 'PayController@index');//网站支付宝支付
 Route::get('/PayPhone/index', 'PayPhoneController@index')->middleware('notify');//APP支付宝支付
 Route::post('/PayPhone/notify', 'PayPhoneController@notify')->middleware('notify');//APP支付宝回调
-Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay');//APP支付宝查询订单
-Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB')->middleware('notify');//修改订单状态
+Route::get('/PayPhone/SelectPay', 'PayPhoneController@SelectPay')->middleware('notify');//APP支付宝查询订单
+Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
+Route::get('/PayPhone/returnmoney', 'PayPhoneController@returnmoney')->middleware('notify');//支付宝退款
+Route::get('/PayPhone/apply_refund', 'PayPhoneController@apply_refund');//申请退款
+Route::get('/PayPhone/updateDB', 'PayPhoneController@updateDB');//修改订单状态
 
 // ==================================微信支付======================================
 

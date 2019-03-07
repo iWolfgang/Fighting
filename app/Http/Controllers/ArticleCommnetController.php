@@ -56,7 +56,6 @@ class ArticleCommnetController extends Controller
     public function DeleteComment(Request $request)
     {
         $fk_comment_id = $request->input('comment_id');//评论id
-        // echo $fk_comment_id;die;
         $ArticleComment = new ArticleCommentModel();
         $ret = $ArticleComment->deleteComment($fk_comment_id);
         if($ret == false){
@@ -133,7 +132,6 @@ class ArticleCommnetController extends Controller
      */
     public function ArticleCommnet_list(Request $request)
     {
-        // echo 1;die;
         
         $article_id = intval($request->input("article_id"));//文章id
         $article_type = $request->input("article_type");//文章类型

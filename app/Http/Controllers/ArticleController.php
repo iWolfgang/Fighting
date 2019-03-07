@@ -40,7 +40,7 @@ class ArticleController extends Controller
     }
 
     /**
-     * 浏览量
+     * 浏览量和浏览记录可以一起存
      * Author Amber
      * Date 2018-11-08
      * Params [params]
@@ -51,7 +51,6 @@ class ArticleController extends Controller
         $page_id = $request->input("page_id");//文章id
         $user_ip = $request->input("user_ip");//用户ip
         $type = $request->input("type");//文章类型
-
         $sear = new ArticleModel();
         $ret = $sear->PageViews($page_id,$user_ip,$type);
         if($ret == FALSE){
@@ -63,23 +62,19 @@ class ArticleController extends Controller
         }elseif(isset($ret['errNo'])){
             $this->_response($ret);
         }
-
         $res = array(
             "errNo" => 0,
             "data" => $ret
-        );
-
-        
+        );        
         $this->_response($res);
     }
     /**
      * 搜索关键字
      * Author Liuran
-     * Date 2018-04-09
+     * Date 2018-04-09gettype($code);
      * Route::post('/CheckCode/search', 'CheckCodeController@search');
      */
     public function search(Request $request){
-
         $keyword = $request->input("keyword");
         $user_id = $request->input("user_id");
         if(empty($keyword)){
