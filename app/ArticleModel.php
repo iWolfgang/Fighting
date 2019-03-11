@@ -11,7 +11,7 @@ class ArticleModel extends Model{
 
     public $_tabName = 't_article';
     const LIKE_ZAN_COUNT = 'Like_zan_%d_%s';//点赞功能
-    const Look_NUM_COUNT = 'Look_num_%d_%s';//浏览量功能
+    const Look_NUM_COUNT = 'Look_num_%d_%s_%s';//浏览量功能
     /**
      * 用户点赞 功能
      * Author Amber
@@ -50,7 +50,8 @@ class ArticleModel extends Model{
      * @param string $value [description]
      */
     public function PageViews($page_id,$user_ip,$type)
-    {       
+    {     
+       // echo $user_ip;die;
         // echo $page_id;die;
        //判断这个IP是否浏览过，第一次浏览+1，第二次就不要加一了
         $gongneng = 0;
@@ -90,7 +91,9 @@ class ArticleModel extends Model{
             $isset = Redis::SISMEMBER($key,$user_id);
             return $isset;
         }else{
-            $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+            // echo $user_id;
+            $key = sprintf(self::Look_NUM_COUNT,$page,$type,$user_id);
+            // echo $key;die;
             $isset = Redis::SISMEMBER($key,$user_id);
             return $isset;
         }
@@ -110,10 +113,13 @@ class ArticleModel extends Model{
             $key = sprintf(self::LIKE_ZAN_COUNT,$page,$type);
             $Like_zan = Redis::SADD($key,$user_id);
    
-        return $article ? get_object_vars($article) : False;
+        // return $article ? get_object_vars($article) : False;
             return $Like_zan;
         }else{
-            $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+            // $user_id = '123';
+           
+            $key = sprintf(self::Look_NUM_COUNT,$page,$type,$user_id);
+            // echo $key;die;
             $Like_zan = Redis::SADD($key,$user_id);
             return $Like_zan;
         }
@@ -152,8 +158,9 @@ class ArticleModel extends Model{
           $Like_zan = count(Redis::SMEMBERS($key));
            return $Like_zan; 
         }else{
-           $key = sprintf(self::Look_NUM_COUNT,$page,$type);
+           $key = sprintf(self::Look_NUM_COUNT,$page,$type,$user_id);
            $Like_zan = count(Redis::SMEMBERS($key));
+           // echo $Like_zan;die;
             if($type == 'long'){
                 $article = DB::table($this->_tabName)
                 ->where("id", $page)

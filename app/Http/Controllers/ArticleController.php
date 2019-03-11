@@ -38,7 +38,40 @@ class ArticleController extends Controller
         
         $this->_response($res);
     }
+public function PageViewsd(Request $request)
+{
+    
+    $user_ips = $request->getClientIp();
 
+
+    // echo $user_ips;
+    // $clientIps = array();
+    // $ip = $this->server->get('REMOTE_ADDR');
+    // $ip = $_SERVER['REMOTE_ADDR'];
+    // if (!$this->isFromTrustedProxy()) {
+    //     return array($ip);
+    // }
+    // if (self::$trustedHeaders[self::HEADER_FORWARDED] && $this->headers->has(self::$trustedHeaders[self::HEADER_FORWARDED])) {
+    //     $forwardedHeader = $this->headers->get(self::$trustedHeaders[self::HEADER_FORWARDED]);
+    //     preg_match_all('{(for)=("?\[?)([a-z0-9\.:_\-/]*)}', $forwardedHeader, $matches);
+    //     $clientIps = $matches[3];
+    // } elseif (self::$trustedHeaders[self::HEADER_CLIENT_IP] && $this->headers->has(self::$trustedHeaders[self::HEADER_CLIENT_IP])) {
+    //     $clientIps = array_map('trim', explode(',', $this->headers->get(self::$trustedHeaders[self::HEADER_CLIENT_IP])));
+    // }
+    // $clientIps[] = $ip; // Complete the IP chain with the IP the request actually came from
+    // $ip = $clientIps[0]; // Fallback to this when the client IP falls into the range of trusted proxies
+    // foreach ($clientIps as $key => $clientIp) {
+    //     // Remove port (unfortunately, it does happen)
+    //     if (preg_match('{((?:\d+\.){3}\d+)\:\d+}', $clientIp, $match)) {
+    //         $clientIps[$key] = $clientIp = $match[1];
+    //     }
+    //     if (IpUtils::checkIp($clientIp, self::$trustedProxies)) {
+    //         unset($clientIps[$key]);
+    //     }
+    // }
+    // // Now the IP chain contains only untrusted proxies and the client IP
+    // return $clientIps ? array_reverse($clientIps) : array($ip);
+}
     /**
      * 浏览量和浏览记录可以一起存
      * Author Amber
@@ -47,9 +80,9 @@ class ArticleController extends Controller
      * @param Request $Request [description]
      */
     public function PageViews(Request $request)
-    {
+    {  
+        $user_ip = $request->getClientIp(); 
         $page_id = $request->input("page_id");//文章id
-        $user_ip = $request->input("user_ip");//用户ip
         $type = $request->input("type");//文章类型
         $sear = new ArticleModel();
         $ret = $sear->PageViews($page_id,$user_ip,$type);
